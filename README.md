@@ -19,3 +19,15 @@ This file is used to display information about your add-on in places such as the
 # Installation
 
 Install into the app by installing a plugin from a url. The url is: http://mediabrowser.github.io/emby-web-defaulttheme/package.json
+
+# Local Testing
+
+To test locally, install NodeJS, then install the http server module using:
+
+npm install http-server -g
+
+To start the server, enter
+
+http-server -p 8088 --cors
+
+Now you can install into Emby Theater using the http://localhost:8088/package.json
