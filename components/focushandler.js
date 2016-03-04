@@ -8,7 +8,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
         var focusedElement;
         var zoomElement;
         var currentAnimation;
-        var isHorizontal = options.slyFrame ? options.slyFrame.options.horizontal : options.horizontal;
+        var isHorizontal = options.scroller ? options.scroller.options.horizontal : options.horizontal;
         var zoomScale = options.zoomScale || (isHorizontal ? '1.16' : '1.12');
         var zoomInEase = 'ease-out-sine';
         var zoomOutEase = 'ease-in-cubic';
@@ -51,11 +51,11 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     }
                 }
 
-                if (options.slyFrame) {
+                if (options.scroller) {
                     var now = new Date().getTime();
 
                     var animate = (now - lastFocus) > 50;
-                    options.slyFrame.toCenter(focused, !animate);
+                    options.scroller.toCenter(focused, !animate);
                     lastFocus = now;
                 } else if (options.scrollElement) {
                     scrollHelper.toCenter(options.scrollElement, focused, options.horizontal);

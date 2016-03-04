@@ -100,26 +100,26 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
 
                     case 'movies':
                         showAlphaPicker = true;
-                        renderMovies(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderMovies(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'unwatched':
                         showAlphaPicker = true;
-                        renderUnwatchedMovies(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderUnwatchedMovies(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'years':
-                        renderYears(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderYears(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'toprated':
-                        renderTopRated(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderTopRated(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'collections':
-                        renderCollections(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderCollections(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'favorites':
-                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'genres':
-                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     default:
                         break;
@@ -132,7 +132,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             });
         }
 
-        function renderGenres(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderGenres(page, pageParams, autoFocus, scroller, resolve) {
 
             Emby.Models.genres({
                 ParentId: pageParams.parentid,
@@ -159,7 +159,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                     autoFocus: autoFocus,
                     selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                     selectedIndexElement: page.querySelector('.selectedIndex'),
-                    slyFrame: slyFrame,
+                    scroller: scroller,
                     onRender: function () {
                         if (resolve) {
                             resolve();
@@ -178,7 +178,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             });
         }
 
-        function renderFavorites(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderFavorites(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -199,7 +199,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -211,7 +211,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             self.listController.render();
         }
 
-        function renderMovies(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderMovies(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -232,7 +232,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -244,7 +244,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             self.listController.render();
         }
 
-        function renderUnwatchedMovies(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderUnwatchedMovies(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -266,7 +266,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -278,7 +278,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             self.listController.render();
         }
 
-        function renderCollections(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderCollections(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -295,7 +295,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -307,7 +307,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             self.listController.render();
         }
 
-        function renderYears(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderYears(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -331,7 +331,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -343,7 +343,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             self.listController.render();
         }
 
-        function renderTopRated(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderTopRated(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -367,7 +367,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();

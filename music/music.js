@@ -1,4 +1,4 @@
-define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', './../components/horizontallist', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager'], function (loading, themeInfo, alphaPicker, cardBuilder, horizontalList, focusHandler, tabbedPage, backdrop, focusManager) {
+define(['loading', './../skininfo', 'alphapicker', './../cards/cardbuilder', './../components/horizontallist', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager'], function (loading, skinInfo, alphaPicker, cardBuilder, horizontalList, focusHandler, tabbedPage, backdrop, focusManager) {
 
     return function (view, params) {
 
@@ -112,28 +112,28 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
 
                     case 'albumartists':
                         showAlphaPicker = true;
-                        renderAlbumArtists(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderAlbumArtists(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'artists':
                         showAlphaPicker = true;
-                        renderArtists(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderArtists(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'albums':
                         showAlphaPicker = true;
-                        renderAlbums(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderAlbums(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'playlists':
-                        renderPlaylists(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderPlaylists(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'songs':
-                        renderSongs(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderSongs(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'genres':
-                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         contentScrollSlider.addEventListener('click', onMusicGenresContainerClick);
                         break;
                     case 'favorites':
-                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     default:
                         break;
@@ -146,7 +146,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
             });
         }
 
-        function renderGenres(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderGenres(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -170,7 +170,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -207,13 +207,13 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 e.preventDefault();
                 e.stopPropagation();
 
-                Emby.Page.show(Emby.PluginManager.mapRoute(themeInfo.id, 'list/list.html') + '?parentid=' + parentid + '&genreId=' + value);
+                Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'list/list.html') + '?parentid=' + parentid + '&genreId=' + value);
 
                 return false;
             }
         }
 
-        function renderPlaylists(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderPlaylists(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -232,7 +232,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -247,7 +247,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
             self.listController.render();
         }
 
-        function renderAlbums(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderAlbums(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -271,7 +271,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -283,7 +283,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
             self.listController.render();
         }
 
-        function renderSongs(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderSongs(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -306,7 +306,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -318,7 +318,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
             self.listController.render();
         }
 
-        function renderArtists(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderArtists(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -340,7 +340,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -352,7 +352,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
             self.listController.render();
         }
 
-        function renderAlbumArtists(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderAlbumArtists(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -374,7 +374,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -386,21 +386,21 @@ define(['loading', './../themeinfo', 'alphapicker', './../cards/cardbuilder', '.
             self.listController.render();
         }
 
-        function renderFavorites(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderFavorites(page, pageParams, autoFocus, scroller, resolve) {
 
-            fetch(Emby.PluginManager.mapPath(themeInfo.id, 'music/views.favorites.html'), { mode: 'no-cors' }, true).then(function (response) {
+            fetch(Emby.PluginManager.mapPath(skinInfo.id, 'music/views.favorites.html'), { mode: 'no-cors' }, true).then(function (response) {
                 return response.text();
             }).then(function (html) {
 
                 var parent = page.querySelector('.contentScrollSlider');
-                parent.innerHTML = Globalize.translateHtml(html, themeInfo.id);
+                parent.innerHTML = Globalize.translateHtml(html, skinInfo.id);
                 loadFavoriteArtists(parent, pageParams, autoFocus, resolve);
                 loadFavoriteAlbums(parent, pageParams);
             });
 
             self.focusHandler = new focusHandler({
                 parent: page.querySelector('.contentScrollSlider'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 selectedItemInfoInner: page.querySelector('.selectedItemInfoInner')
             });
         }

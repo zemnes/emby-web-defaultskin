@@ -1,4 +1,4 @@
-define(['loading', './../themeinfo', 'alphapicker', './../components/horizontallist', './../cards/cardbuilder', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager'], function (loading, themeInfo, alphaPicker, horizontalList, cardBuilder, focusHandler, tabbedPage, backdrop, focusManager) {
+define(['loading', './../skininfo', 'alphapicker', './../components/horizontallist', './../cards/cardbuilder', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager'], function (loading, skinInfo, alphaPicker, horizontalList, cardBuilder, focusHandler, tabbedPage, backdrop, focusManager) {
 
 	return function(view, params) {
 
@@ -96,16 +96,16 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
                     case 'series':
                         showAlphaPicker = true;
                         showListNumbers = true;
-                        renderSeries(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderSeries(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'genres':
-                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'upcoming':
-                        renderUpcoming(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderUpcoming(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'favorites':
-                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     default:
                         break;
@@ -124,7 +124,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
             });
         }
 
-        function renderUpcoming(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderUpcoming(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -146,7 +146,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
                     indexBy: 'PremiereDate'
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -158,7 +158,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
             self.listController.render();
         }
 
-        function renderSeries(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderSeries(page, pageParams, autoFocus, scroller, resolve) {
 
             self.listController = new horizontalList({
 
@@ -179,7 +179,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
                 autoFocus: autoFocus,
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 onRender: function () {
                     if (resolve) {
                         resolve();
@@ -191,7 +191,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
             self.listController.render();
         }
 
-        function renderGenres(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderGenres(page, pageParams, autoFocus, scroller, resolve) {
 
             Emby.Models.genres({
                 ParentId: pageParams.parentid,
@@ -214,7 +214,7 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
                         });
                     },
                     autoFocus: autoFocus,
-                    slyFrame: slyFrame,
+                    scroller: scroller,
                     onRender: function () {
                         if (resolve) {
                             resolve();
@@ -233,21 +233,21 @@ define(['loading', './../themeinfo', 'alphapicker', './../components/horizontall
             });
         }
 
-        function renderFavorites(page, pageParams, autoFocus, slyFrame, resolve) {
+        function renderFavorites(page, pageParams, autoFocus, scroller, resolve) {
 
-            fetch(Emby.PluginManager.mapPath(themeInfo.id, 'tv/views.favorites.html'), { mode: 'no-cors' }, true).then(function (response) {
+            fetch(Emby.PluginManager.mapPath(skinInfo.id, 'tv/views.favorites.html'), { mode: 'no-cors' }, true).then(function (response) {
                 return response.text();
             }).then(function (html) {
 
                 var parent = page.querySelector('.contentScrollSlider');
-                parent.innerHTML = Globalize.translateHtml(html, themeInfo.id);
+                parent.innerHTML = Globalize.translateHtml(html, skinInfo.id);
                 loadFavoriteSeries(parent, pageParams, autoFocus, resolve);
                 loadFavoriteEpisodes(parent, pageParams);
             });
 
             self.focusHandler = new focusHandler({
                 parent: page.querySelector('.contentScrollSlider'),
-                slyFrame: slyFrame,
+                scroller: scroller,
                 selectedItemInfoInner: page.querySelector('.selectedItemInfoInner')
             });
         }

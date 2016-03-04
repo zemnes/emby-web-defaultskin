@@ -13,7 +13,7 @@ define(['loading', './focushandler', 'focusManager', './../cards/cardbuilder'], 
                     parent: options.itemsContainer,
                     selectedItemInfoInner: options.selectedItemInfoElement,
                     selectedIndexElement: options.selectedIndexElement,
-                    slyFrame: options.slyFrame,
+                    scroller: options.scroller,
                     selectedItemMode: options.selectedItemMode
                 });
             }

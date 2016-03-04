@@ -1,4 +1,4 @@
-define(['playbackManager', 'slyScroller', 'loading', 'imageLoader', 'backdrop', './../components/listview', 'focusManager', 'itemShortcuts'], function (playbackManager, slyScroller, loading, imageLoader, backdrop, listview, focusManager, itemShortcuts) {
+define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', './../components/listview', 'focusManager', 'itemShortcuts'], function (playbackManager, scroller, loading, imageLoader, backdrop, listview, focusManager, itemShortcuts) {
 
     function createVerticalScroller(view, pageInstance) {
 
@@ -22,14 +22,12 @@ define(['playbackManager', 'slyScroller', 'loading', 'imageLoader', 'backdrop', 
             clickBar: 1
         };
 
-        slyScroller.create(scrollFrame, options).then(function (slyFrame) {
-            pageInstance.slyFrame = slyFrame;
-            slyFrame.init();
-            initFocusHandler(view, slyFrame);
-        });
+        pageInstance.verticalScroller = new scroller(scrollFrame, options);
+        pageInstance.verticalScroller.init();
+        initFocusHandler(view, pageInstance.verticalScroller);
     }
 
-    function initFocusHandler(view, slyFrame) {
+    function initFocusHandler(view, verticalScroller) {
 
         var scrollSlider = view.querySelector('.scrollSlider');
         scrollSlider.addEventListener('focus', function (e) {
@@ -37,7 +35,7 @@ define(['playbackManager', 'slyScroller', 'loading', 'imageLoader', 'backdrop', 
             var focused = focusManager.focusableParent(e.target);
 
             if (focused) {
-                slyFrame.toCenter(focused);
+                verticalScroller.toCenter(focused);
             }
 
         }, true);
@@ -135,8 +133,8 @@ define(['playbackManager', 'slyScroller', 'loading', 'imageLoader', 'backdrop', 
 
         view.addEventListener('viewdestroy', function () {
 
-            if (self.slyFrame) {
-                self.slyFrame.destroy();
+            if (self.verticalScroller) {
+                self.verticalScroller.destroy();
             }
         });
     }

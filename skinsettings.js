@@ -1,6 +1,6 @@
-define(['userSettings', './themeinfo'], function (userSettings, themeinfo) {
+define(['userSettings', './skininfo'], function (userSettings, skininfo) {
 
-    var settingsPrefix = themeinfo.id + '-';
+    var settingsPrefix = skininfo.id + '-';
     var obj = function () {
 
         var self = this;

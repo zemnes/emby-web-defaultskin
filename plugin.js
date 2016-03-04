@@ -1,4 +1,4 @@
-define(['playbackManager', 'pluginManager', './themeinfo.js'], function (playbackManager, pluginManager, themeInfo) {
+define(['playbackManager', 'pluginManager', './skininfo.js'], function (playbackManager, pluginManager, skinInfo) {
 
     function updateClock() {
 
@@ -31,9 +31,9 @@ define(['playbackManager', 'pluginManager', './themeinfo.js'], function (playbac
 
         var self = this;
 
-        self.name = themeInfo.name;
-        self.type = 'theme';
-        self.id = themeInfo.id;
+        self.name = skinInfo.name;
+        self.type = 'skin';
+        self.id = skinInfo.id;
         var settingsObjectName = self.id + 'Settings';
 
         var dependencyPrefix = self.id;
@@ -77,8 +77,8 @@ define(['playbackManager', 'pluginManager', './themeinfo.js'], function (playbac
             });
         };
 
-        define(settingsObjectName, [dependencyPrefix + '/themesettings'], function (themesettings) {
-            return themesettings;
+        define(settingsObjectName, [dependencyPrefix + '/skinsettings'], function (skinsettings) {
+            return skinsettings;
         });
 
         self.getRoutes = function () {
@@ -221,9 +221,9 @@ define(['playbackManager', 'pluginManager', './themeinfo.js'], function (playbac
 
             return new Promise(function (resolve, reject) {
 
-                require([settingsObjectName], function (themeSettings) {
+                require([settingsObjectName], function (skinSettings) {
 
-                    themeSettings.unload();
+                    skinSettings.unload();
                     resolve();
                 });
             });
@@ -367,17 +367,17 @@ define(['playbackManager', 'pluginManager', './themeinfo.js'], function (playbac
 
             document.querySelector('.headerUserButton').classList.remove('hide');
 
-            require([settingsObjectName], function (themeSettings) {
+            require([settingsObjectName], function (skinSettings) {
 
-                themeSettings.apply();
+                skinSettings.apply();
             });
         }
 
         function onLocalUserSignedOut(e) {
 
-            require([settingsObjectName], function (themeSettings) {
+            require([settingsObjectName], function (skinSettings) {
 
-                themeSettings.unload();
+                skinSettings.unload();
             });
 
             // Put the logo back in the page title
@@ -401,7 +401,7 @@ define(['playbackManager', 'pluginManager', './themeinfo.js'], function (playbac
         }
 
         function setSubduedBackdrop(isSubdued) {
-            var elem = document.querySelector('.themeContainer');
+            var elem = document.querySelector('.skinContainer');
             if (isSubdued) {
 
                 elem.classList.remove('detailBackdrop');

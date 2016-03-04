@@ -1,10 +1,10 @@
-# emby-web-defaulttheme
+# emby-web-defaultskin
 
-This default theme for Emby Theater. To create your own theme, follow these steps:
+This default skin for Emby Theater. To create your own skin, follow these steps:
 
 * Fork this repository. After forking, you'll probably want to rename it.
 * Update package.json (see below). 
-* Update themeinfo.js with your unique names.
+* Update skininfo.js with your unique names.
 * Update the installation url below.
 
 # package.json
@@ -18,7 +18,7 @@ This file is used to display information about your add-on in places such as the
 
 # Installation
 
-Install into the app by installing a plugin from a url. The url is: http://mediabrowser.github.io/emby-web-defaulttheme/package.json
+Install into the app by installing a plugin from a url. The url is: http://mediabrowser.github.io/emby-web-defaultskin/package.json
 
 # Local Testing
 

@@ -1,4 +1,4 @@
-define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../components/horizontallist'], function (loading, slyScroller, playbackManager, alphaPicker, horizontalList) {
+define(['loading', 'scroller', 'playbackManager', 'alphapicker', './../components/horizontallist'], function (loading, scroller, playbackManager, alphaPicker, horizontalList) {
 
     function createHorizontalScroller(instance, view, item, loading) {
 
@@ -27,11 +27,9 @@ define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../compon
             enableAutoNativeScroll: true
         };
 
-        slyScroller.create(scrollFrame, options).then(function (slyFrame) {
-            slyFrame.init();
-            instance.slyFrame = slyFrame;
-            loadChildren(instance, view, item, loading);
-        });
+        instance.scroller = new scroller(scrollFrame, options);
+        instance.scroller.init();
+        loadChildren(instance, view, item, loading);
     }
 
     function getItems(params, item, startIndex, limit) {
@@ -94,7 +92,7 @@ define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../compon
             listNumbersElement: view.querySelector('.listNumbers'),
             selectedItemInfoElement: view.querySelector('.selectedItemInfoInner'),
             selectedIndexElement: view.querySelector('.selectedIndex'),
-            slyFrame: instance.slyFrame,
+            scroller: instance.scroller,
             cardOptions: {
                 coverImage: true
             }
@@ -195,7 +193,7 @@ define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../compon
                 card = contentScrollSlider.querySelector('.card');
 
                 if (card) {
-                    self.slyFrame.toCenter(card, false);
+                    self.scroller.toCenter(card, false);
                     return;
                 }
             }
@@ -203,7 +201,7 @@ define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../compon
             card = contentScrollSlider.querySelector('.card[data-prefix^=\'' + value + '\']');
 
             if (card) {
-                self.slyFrame.toCenter(card, false);
+                self.scroller.toCenter(card, false);
                 return;
             }
 
@@ -218,7 +216,7 @@ define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../compon
                 card = all.length ? all[all.length - 1] : null;
 
                 if (card) {
-                    self.slyFrame.toCenter(card, false);
+                    self.scroller.toCenter(card, false);
                 }
             }
         }
@@ -258,8 +256,8 @@ define(['loading', 'slyScroller', 'playbackManager', 'alphapicker', './../compon
 
         view.addEventListener('viewdestroy', function () {
 
-            if (self.slyFrame) {
-                self.slyFrame.destroy();
+            if (self.scroller) {
+                self.scroller.destroy();
             }
             if (self.listController) {
                 self.listController.destroy();

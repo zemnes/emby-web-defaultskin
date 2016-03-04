@@ -1,4 +1,4 @@
-define(['loading', 'alphapicker', 'slyScroller', './../components/focushandler', './../cards/cardbuilder'], function (loading, alphaPicker, slyScroller, focusHandler, cardBuilder) {
+define(['loading', 'alphapicker', 'scroller', './../components/focushandler', './../cards/cardbuilder'], function (loading, alphaPicker, scroller, focusHandler, cardBuilder) {
 
     function createVerticalScroller(view, pageInstance) {
 
@@ -20,20 +20,18 @@ define(['loading', 'alphapicker', 'slyScroller', './../components/focushandler',
             scrollWidth: 10000
         };
 
-        slyScroller.create(scrollFrame, options).then(function (slyFrame) {
-            pageInstance.verticalSlyFrame = slyFrame;
-            slyFrame.init();
-            initFocusHandler(view, slyFrame);
-        });
+        pageInstance.verticalScroller = new scroller(scrollFrame, options);
+        pageInstance.verticalScroller.init();
+        initFocusHandler(view, pageInstance.verticalScroller);
     }
 
-    function initFocusHandler(view, slyFrame) {
+    function initFocusHandler(view, scroller) {
 
         var searchResults = view.querySelector('.searchResults');
 
         self.focusHandler = new focusHandler({
             parent: searchResults,
-            slyFrame: slyFrame
+            scroller: scroller
         });
     }
 
@@ -203,7 +201,7 @@ define(['loading', 'alphapicker', 'slyScroller', './../components/focushandler',
         }
 
         function getHeaderElement() {
-            return document.querySelector('.themeHeader');
+            return document.querySelector('.skinHeader');
         }
 
         view.addEventListener('viewshow', function (e) {
@@ -240,8 +238,8 @@ define(['loading', 'alphapicker', 'slyScroller', './../components/focushandler',
             if (self.alphaPicker) {
                 self.alphaPicker.destroy();
             }
-            if (self.verticalSlyFrame) {
-                self.verticalSlyFrame.destroy();
+            if (self.verticalScroller) {
+                self.verticalScroller.destroy();
             }
         });
     }

@@ -1,4 +1,4 @@
-define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelper'], function (loading, slyScroller, focusHandler, focusManager, scrollHelper) {
+define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper'], function (loading, scroller, focusHandler, focusManager, scrollHelper) {
 
     function focusViewSlider() {
 
@@ -77,7 +77,7 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
 
         var btn = page.querySelector(".btnUserViewHeader[data-id='" + id + "']");
 
-        self.bodySlyFrame.slideTo(0, true);
+        self.bodyScroller.slideTo(0, true);
 
         page.querySelector('.contentScrollSlider').innerHTML = '';
         var promise = self.loadViewContent.call(self, page, id, btn.getAttribute('data-type'));
@@ -143,7 +143,7 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
                 card = contentScrollSlider.querySelector('.card');
 
                 if (card) {
-                    self.bodySlyFrame.toCenter(card, false);
+                    self.bodyScroller.toCenter(card, false);
                     return;
                 }
             }
@@ -151,7 +151,7 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
             card = contentScrollSlider.querySelector('.card[data-prefix^=\'' + value + '\']');
 
             if (card) {
-                self.bodySlyFrame.toCenter(card, false);
+                self.bodyScroller.toCenter(card, false);
                 return;
             }
 
@@ -166,7 +166,7 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
                 card = all.length ? all[all.length - 1] : null;
 
                 if (card) {
-                    self.bodySlyFrame.toCenter(card, false);
+                    self.bodyScroller.toCenter(card, false);
                 }
             }
         }
@@ -242,11 +242,9 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
                 enableAutoNativeScroll: true
             };
 
-            slyScroller.create(scrollFrame, options).then(function (slyFrame) {
-                self.bodySlyFrame = slyFrame;
-                self.bodySlyFrame.init();
-                initFocusHandler(view, self.bodySlyFrame);
-            });
+            self.bodyScroller = new scroller(scrollFrame, options);
+            self.bodyScroller.init();
+            initFocusHandler(view, self.bodyScroller);
         }
 
         function initFocusHandler(view) {
@@ -260,7 +258,7 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
                     selectedItemInfoInner: selectedItemInfoInner,
                     selectedIndexElement: selectedIndexElement,
                     animateFocus: pageOptions.animateFocus,
-                    slyFrame: self.bodySlyFrame
+                    scroller: self.bodyScroller
                 });
             }
         }
@@ -275,9 +273,9 @@ define(['loading', 'slyScroller', './focushandler', 'focusManager', 'scrollHelpe
                 self.focusHandler.destroy();
                 self.focusHandler = null
             }
-            if (self.bodySlyFrame) {
-                self.bodySlyFrame.destroy();
-                self.bodySlyFrame = null
+            if (self.bodyScroller) {
+                self.bodyScroller.destroy();
+                self.bodyScroller = null
             }
         };
     }

@@ -1,5 +1,5 @@
-define(['loading', './../themeinfo', 'datetime', 'playbackManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'focusManager', './../themesettings', './../cards/cardbuilder', 'indicators'],
-    function (loading, themeInfo, datetime, playbackManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, focusManager, themeSettings, cardBuilder, indicators) {
+define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
+    function (loading, skinInfo, datetime, playbackManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, focusManager, skinSettings, cardBuilder, indicators) {
 
 		function focusMainSection() {
 
@@ -27,7 +27,7 @@ define(['loading', './../themeinfo', 'datetime', 'playbackManager', 'imageLoader
 
         function createVerticalScroller(view, pageInstance) {
 
-            require(["slyScroller"], function (slyScroller) {
+            require(['scroller'], function (scroller) {
 
                 var scrollFrame = view.querySelector('.scrollFrame');
 
@@ -40,19 +40,17 @@ define(['loading', './../themeinfo', 'datetime', 'playbackManager', 'imageLoader
                     immediateSpeed: 100
                 };
 
-                slyScroller.create(scrollFrame, options).then(function (slyFrame) {
-                    pageInstance.slyFrame = slyFrame;
-                    slyFrame.init();
-                    initFocusHandler(view, slyFrame);
-                });
+                pageInstance.verticalScroller = new scroller(scrollFrame, options);
+                pageInstance.verticalScroller.init();
+                initFocusHandler(view, pageInstance.verticalScroller);
             });
         }
 
-        function initFocusHandler(view, slyFrame) {
+        function initFocusHandler(view, verticalScroller) {
 
             self.focusHandler = new focusHandler({
                 parent: view.querySelector('.scrollSlider'),
-                slyFrame: slyFrame,
+                scroller: verticalScroller,
                 zoomScale: '1.10',
                 enableBackdrops: false
             });
@@ -179,11 +177,11 @@ define(['loading', './../themeinfo', 'datetime', 'playbackManager', 'imageLoader
             })[0] || {};
 
             if (item.VideoType == 'Dvd') {
-                html += '<img class="mediaInfoIcon mediaInfoImageIcon" src="' + Emby.PluginManager.mapPath(themeInfo.id, 'css/mediaicons/S_Media_DVD_white.png') + '" />';
+                html += '<img class="mediaInfoIcon mediaInfoImageIcon" src="' + Emby.PluginManager.mapPath(skinInfo.id, 'css/mediaicons/S_Media_DVD_white.png') + '" />';
             }
 
             if (item.VideoType == 'BluRay') {
-                html += '<img class="mediaInfoIcon mediaInfoImageIcon" src="' + Emby.PluginManager.mapPath(themeInfo.id, 'css/mediaicons/S_Media_BlueRay_white.png') + '" />';
+                html += '<img class="mediaInfoIcon mediaInfoImageIcon" src="' + Emby.PluginManager.mapPath(skinInfo.id, 'css/mediaicons/S_Media_BlueRay_white.png') + '" />';
             }
 
             var resolutionText = getResolutionText(item);
@@ -757,7 +755,7 @@ define(['loading', './../themeinfo', 'datetime', 'playbackManager', 'imageLoader
 
                 section.classList.remove('hide');
 
-                if (themeSettings.enableAntiSpoliers()) {
+                if (skinSettings.enableAntiSpoliers()) {
 
                     var isFirstUnseen = true;
                     result.Items.forEach(function (item) {
@@ -1113,8 +1111,8 @@ define(['loading', './../themeinfo', 'datetime', 'playbackManager', 'imageLoader
                     self.focusHandler.destroy();
                     self.focusHandler = null
                 }
-                if (self.slyFrame) {
-                    self.slyFrame.destroy();
+                if (self.verticalScroller) {
+                    self.verticalScroller.destroy();
                 }
             });
 

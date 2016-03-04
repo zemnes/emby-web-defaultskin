@@ -1,13 +1,13 @@
-define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'playbackManager', './../themeinfo'], function (loading, tabbedPage, backdrop, focusManager, playbackManager, themeInfo) {
+define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'playbackManager', './../skininfo'], function (loading, tabbedPage, backdrop, focusManager, playbackManager, skinInfo) {
 
     function loadViewHtml(page, parentId, html, viewName, autoFocus, self) {
 
         var homeScrollContent = page.querySelector('.contentScrollSlider');
 
         html = html;
-        homeScrollContent.innerHTML = Globalize.translateHtml(html, themeInfo.id);
+        homeScrollContent.innerHTML = Globalize.translateHtml(html, skinInfo.id);
 
-        require([themeInfo.id + '/home/views.' + viewName], function (viewBuilder) {
+        require([skinInfo.id + '/home/views.' + viewName], function (viewBuilder) {
 
             var homePanel = homeScrollContent;
             var tabView = new viewBuilder(homePanel, parentId, autoFocus);
@@ -167,7 +167,7 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
                 }
 
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', Emby.PluginManager.mapPath(themeInfo.id, 'home/views.' + viewName + '.html'), true);
+                xhr.open('GET', Emby.PluginManager.mapPath(skinInfo.id, 'home/views.' + viewName + '.html'), true);
 
                 xhr.onload = function (e) {
 

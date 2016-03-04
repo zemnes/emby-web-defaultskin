@@ -47,10 +47,10 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             switch (id) {
 
                 case 'channels':
-                    renderChannels(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                    renderChannels(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                     break;
                 case 'recordings':
-                    renderRecordings(page, pageParams, autoFocus, tabbedPage.bodySlyFrame, resolve);
+                    renderRecordings(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                     break;
                 case 'scheduled':
                     break;
@@ -60,7 +60,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
         });
     }
 
-    function renderChannels(page, pageParams, autoFocus, slyFrame, resolve) {
+    function renderChannels(page, pageParams, autoFocus, scroller, resolve) {
 
         self.listController = new horizontalList({
 
@@ -78,19 +78,22 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             autoFocus: autoFocus,
             selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
             selectedIndexElement: page.querySelector('.selectedIndex'),
-            slyFrame: slyFrame,
+            scroller: scroller,
             onRender: function () {
                 if (resolve) {
                     resolve();
                     resolve = null;
                 }
+            },
+            cardOptions: {
+                action: 'play'
             }
         });
 
         self.listController.render();
     }
 
-    function renderRecordings(page, pageParams, autoFocus, slyFrame, resolve) {
+    function renderRecordings(page, pageParams, autoFocus, scroller, resolve) {
 
         self.listController = new horizontalList({
 
@@ -108,7 +111,7 @@ define(['loading', 'alphapicker', './../components/horizontallist', './../compon
             autoFocus: autoFocus,
             selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
             selectedIndexElement: page.querySelector('.selectedIndex'),
-            slyFrame: slyFrame,
+            scroller: scroller,
             onRender: function () {
                 if (resolve) {
                     resolve();

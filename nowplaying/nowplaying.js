@@ -1,4 +1,4 @@
-define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../cards/cardbuilder', 'pluginManager', './../themeinfo'], function (playbackManager, datetime, backdrop, userdataButtons, cardBuilder, pluginManager, themeInfo) {
+define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../cards/cardbuilder', 'pluginManager', './../skininfo'], function (playbackManager, datetime, backdrop, userdataButtons, cardBuilder, pluginManager, skinInfo) {
 
 	return function (view, params) {
 
@@ -253,7 +253,7 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../card
         }
 
         function getHeaderElement() {
-            return document.querySelector('.themeHeader');
+            return document.querySelector('.skinHeader');
         }
 
         view.addEventListener('viewshow', function (e) {
@@ -315,7 +315,7 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../card
 
         view.querySelector('.btnPlaylist').addEventListener('click', function () {
 
-            Emby.Page.show(pluginManager.mapRoute(themeInfo.id, 'nowplaying/playlist.html'));
+            Emby.Page.show(pluginManager.mapRoute(skinInfo.id, 'nowplaying/playlist.html'));
         });
 
         btnRepeat.addEventListener('click', function () {

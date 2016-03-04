@@ -1,5 +1,5 @@
-define(['datetime', './../themeinfo', 'imageLoader', 'connectionManager', 'pluginManager', 'itemHelper', 'mediaInfo', 'focusManager', 'connectionManager', 'indicators', 'itemShortcuts', 'paper-icon-item', 'paper-item-body'],
-    function (datetime, themeInfo, imageLoader, connectionManager, pluginManager, itemHelper, mediaInfo, focusManager, connectionManager, indicators, itemShortcuts) {
+define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'pluginManager', 'itemHelper', 'mediaInfo', 'focusManager', 'connectionManager', 'indicators', 'itemShortcuts', 'paper-icon-item', 'paper-item-body'],
+    function (datetime, skinInfo, imageLoader, connectionManager, pluginManager, itemHelper, mediaInfo, focusManager, connectionManager, indicators, itemShortcuts) {
 
         function setShapeHorizontal(items, options) {
 
@@ -701,7 +701,7 @@ define(['datetime', './../themeinfo', 'imageLoader', 'connectionManager', 'plugi
                 var value = listItemsMoreButton.getAttribute('data-indexvalue');
                 var parentid = listItemsMoreButton.getAttribute('data-parentid');
 
-                Emby.Page.show(pluginManager.mapRoute(themeInfo.id, 'list/list.html') + '?parentid=' + parentid + '&genreId=' + value);
+                Emby.Page.show(pluginManager.mapRoute(skinInfo.id, 'list/list.html') + '?parentid=' + parentid + '&genreId=' + value);
             }
         }
 
