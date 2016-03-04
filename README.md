@@ -32,7 +32,7 @@ http-server -p 8088 --cors
 
 Now you can install into Emby Theater using the http://localhost:8088/package.json
 
-# Easy Development
+# Develop with Chrome
 
 For rapid development, use the hosted version of Emby Theater:
 
