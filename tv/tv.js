@@ -240,7 +240,7 @@ define(['loading', './../skininfo', 'alphapicker', './../components/horizontalli
             }).then(function (html) {
 
                 var parent = page.querySelector('.contentScrollSlider');
-                parent.innerHTML = Globalize.translateHtml(html, skinInfo.id);
+                parent.innerHTML = Globalize.translateDocument(html, skinInfo.id);
                 loadFavoriteSeries(parent, pageParams, autoFocus, resolve);
                 loadFavoriteEpisodes(parent, pageParams);
             });

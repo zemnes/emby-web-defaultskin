@@ -5,7 +5,7 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
         var homeScrollContent = page.querySelector('.contentScrollSlider');
 
         html = html;
-        homeScrollContent.innerHTML = Globalize.translateHtml(html, skinInfo.id);
+        homeScrollContent.innerHTML = Globalize.translateDocument(html, skinInfo.id);
 
         require([skinInfo.id + '/home/views.' + viewName], function (viewBuilder) {
 

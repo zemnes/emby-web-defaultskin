@@ -125,6 +125,20 @@ define(['loading', 'alphapicker', 'scroller', './../components/focushandler', '.
                 IncludeItemTypes: "MusicAlbum"
 
             }, '.albumResults');
+
+            searchType(value, {
+
+                searchTerm: value,
+                IncludePeople: false,
+                IncludeMedia: true,
+                IncludeGenres: false,
+                IncludeStudios: false,
+                IncludeArtists: false,
+                IncludeItemTypes: "Audio"
+
+            }, '.songResults', {
+                action: 'play'
+            });
         }
 
         function searchType(value, query, section, cardOptions) {

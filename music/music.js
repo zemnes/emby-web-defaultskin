@@ -393,7 +393,7 @@ define(['loading', './../skininfo', 'alphapicker', './../cards/cardbuilder', './
             }).then(function (html) {
 
                 var parent = page.querySelector('.contentScrollSlider');
-                parent.innerHTML = Globalize.translateHtml(html, skinInfo.id);
+                parent.innerHTML = Globalize.translateDocument(html, skinInfo.id);
                 loadFavoriteArtists(parent, pageParams, autoFocus, resolve);
                 loadFavoriteAlbums(parent, pageParams);
             });
