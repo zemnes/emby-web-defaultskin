@@ -1,4 +1,4 @@
-define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper'], function (loading, scroller, focusHandler, focusManager, scrollHelper) {
+define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
 
     function focusViewSlider() {
 
@@ -30,7 +30,7 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper']
         }
 
         // In Edge the web components aren't always immediately accessible
-        setTimeout(function() {
+        setTimeout(function () {
             instance.setFocusDelay(view, initialTab);
         }, 0);
     }
@@ -82,7 +82,8 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper']
         page.querySelector('.contentScrollSlider').innerHTML = '';
         var promise = self.loadViewContent.call(self, page, id, btn.getAttribute('data-type'));
 
-        if (promise) {
+        // Only enable the fade if native WebAnimations are supported, or in Firefox, because the polyfill performs fairly well in it
+        if (promise && (browser.animate || browser.firefox)) {
             promise.then(function () {
                 fadeInRight(page.querySelector('.contentScrollSlider'));
             });
@@ -201,7 +202,7 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper']
                 clearTimeout(focusTimeout);
             }
 
-            var onTimeout = function() {
+            var onTimeout = function () {
 
                 selectUserView(view, viewId, self);
 
