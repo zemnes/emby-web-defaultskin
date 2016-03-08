@@ -1,4 +1,4 @@
-define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
+define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser', 'paper-button'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
 
     function focusViewSlider() {
 

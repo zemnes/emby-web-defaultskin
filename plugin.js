@@ -55,10 +55,11 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
 
             list.push('css!' + pluginManager.mapPath(self, 'css/fonts'));
 
-            // Pull these in because they're used in a lot of places
-            list.push('html!' + pluginManager.mapPath(self, 'icons.html'));
-            list.push('paper-button');
+            // Needed by the header
             list.push('paper-icon-button');
+
+            // Needed by the header, and elsewhere
+            list.push('html!' + pluginManager.mapPath(self, 'icons.html'));
 
             return list;
         };
@@ -99,7 +100,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 path: 'item/item.html',
                 transition: 'slide',
                 dependencies: [
-                    'css!' + pluginManager.mapPath(self, 'item/item.css')
+                    'css!' + pluginManager.mapPath(self, 'item/item.css'),
+                    'paper-button'
                 ],
                 controller: self.id + '/item/item'
             });
@@ -108,6 +110,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 path: 'list/list.html',
                 transition: 'slide',
                 controller: self.id + '/list/list',
+                dependencies: ['paper-button']
             });
 
             routes.push({
@@ -125,7 +128,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
             routes.push({
                 path: 'livetv/livetv.html',
                 transition: 'slide',
-                controller: self.id + '/livetv/livetv'
+                controller: self.id + '/livetv/livetv',
+                dependencies: []
             });
 
             routes.push({
@@ -159,7 +163,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 controller: self.id + '/nowplaying/nowplaying',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/nowplaying.css'),
-                    'paper-slider'
+                    'paper-slider',
+                    'paper-icon-button'
                 ],
                 supportsThemeMedia: true
             });
@@ -180,7 +185,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 controller: self.id + '/nowplaying/videoosd',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/videoosd.css'),
-                    'paper-slider'
+                    'paper-slider',
+                    'paper-icon-button'
                 ],
                 type: 'video-osd',
                 supportsThemeMedia: true

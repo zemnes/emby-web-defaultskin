@@ -4,7 +4,7 @@ define(['loading', './../skinsettings', 'focusManager'], function (loading, skin
 
         var self = this;
 
-        view.addEventListener('viewbeforeshow', function (e) {
+        view.addEventListener('viewshow', function (e) {
 
             var isRestored = e.detail.isRestored;
 

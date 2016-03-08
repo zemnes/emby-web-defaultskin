@@ -1,4 +1,4 @@
-define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'pluginManager', 'itemHelper', 'mediaInfo', 'focusManager', 'connectionManager', 'indicators', 'itemShortcuts', 'paper-icon-item', 'paper-item-body'],
+define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'pluginManager', 'itemHelper', 'mediaInfo', 'focusManager', 'connectionManager', 'indicators', 'itemShortcuts', 'paper-icon-item', 'paper-item-body', 'paper-button'],
     function (datetime, skinInfo, imageLoader, connectionManager, pluginManager, itemHelper, mediaInfo, focusManager, connectionManager, indicators, itemShortcuts) {
 
         function setShapeHorizontal(items, options) {
