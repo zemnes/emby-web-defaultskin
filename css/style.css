@@ -144,11 +144,14 @@ a {
 
 .itemScrollFrame.scrollFrameX {
     overflow: hidden;
-    padding-bottom: 3vh;
-    padding-top: 3vh;
 }
 
-    .itemScrollFrame.scrollFrameX.noTopPadding {
+    .itemScrollFrame.scrollFrameX .scrollSlider {
+        padding-bottom: 3vh;
+        padding-top: 3vh;
+    }
+
+    .itemScrollFrame.scrollFrameX.noTopPadding .scrollSlider {
         padding-top: 2.74vh;
     }
 
@@ -186,13 +189,9 @@ a {
     overflow: hidden;
 }
 
-.scrollFrameX {
+.scrollFrameX .scrollSlider {
     white-space: nowrap !important;
 }
-
-    .scrollFrameX .scrollSlider {
-        white-space: nowrap !important;
-    }
 
 .scrollX {
     overflow-y: hidden;
