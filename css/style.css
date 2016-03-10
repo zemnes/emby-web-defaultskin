@@ -111,20 +111,9 @@ a {
     justify-content: center;
 }
 
-.noflex .pageContainer {
-    display: block;
-}
-
 .centeredPageContent {
-    width: 80%;
+    width: 60%;
     margin: 14vh auto auto;
-}
-
-@media all and (min-width: 1280px) {
-
-    .centeredPageContent {
-        width: 50%;
-    }
 }
 
 .itemScrollFrame.scrollFrameX .scrollSlider {
@@ -470,6 +459,14 @@ paper-slider #progressContainer {
     height: .56vh !important;
 }
 
+.itemProgressBar {
+    height: .56vh;
+}
+
+.itemProgressBarForeground {
+    background-color: #52B54B !important;
+}
+
 paper-slider #sliderKnob {
     width: 44px !important;
     height: 44px !important;
@@ -514,7 +511,7 @@ paper-slider:hover #sliderKnob {
 }
 
 .listItemsMoreButtonContainer {
-    display: flex;
+    text-align: right;
 }
 
 .listItemsMoreButton {
@@ -578,4 +575,8 @@ paper-slider.noKnob:hover #sliderKnob {
     padding: .25em .6em .4em;
     font-size: 90%;
     text-transform: none;
+}
+
+.horizontalItemsContainer {
+    display: flex;
 }

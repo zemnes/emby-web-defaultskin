@@ -99,7 +99,7 @@
     line-height: 1;
 }
 
-    .detailImageContainer paper-progress {
+    .detailImageContainer .itemProgressBar {
         position: relative;
         /* Matches paper-progress height set in paperstyles */
         top: -.56vh;

@@ -1,0 +1,128 @@
+.skinHeader {
+    display: block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.headerLeft {
+    display: block;
+    vertical-align: middle;
+}
+
+.headerRight {
+    position: fixed;
+    top: 3vh;
+    right: 2.3vw;
+    display: block;
+    text-align: right;
+}
+
+.pageContainer {
+    display: block;
+}
+
+.tabbedPageContainer {
+    top: 15%;
+}
+
+.starRatingContainer {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.selectedItemMediaInfo {
+    display: block;
+    vertical-align: middle;
+}
+
+.cardImageContainer {
+    display: block;
+    align-items: initial;
+    justify-content: initial;
+}
+
+.horizontalItemsContainer {
+    white-space: nowrap;
+    display: block;
+    vertical-align: top;
+}
+
+    .horizontalItemsContainer .card {
+        display: inline-block;
+    }
+
+    .horizontalItemsContainer iron-icon {
+        display: block;
+        position: absolute;
+        top: 15%;
+        left: 25%;
+    }
+
+.verticalItemsContainer {
+    display: block;
+}
+
+    .verticalItemsContainer .card {
+        display: inline-block;
+    }
+
+.searchFieldsInner {
+    display: block;
+    vertical-align: middle;
+}
+
+.searchFieldsInner paper-input-container {
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+}
+
+/* 480p */
+.horizontalPageContent .squareCard .cardImageContainer, .homePageContent .squareCard .cardImageContainer, .listPageContent .squareCard .cardImageContainer {
+    width: 95px;
+    height: 95px;
+}
+
+.horizontalPageContent .backdropCard .cardImageContainer, .homePageContent .backdropCard .cardImageContainer, .listPageContent .backdropCard .cardImageContainer {
+    width: 169px;
+    height: 95px;
+}
+
+.horizontalPageContent .portraitCard .cardImageContainer, .homePageContent .portraitCard .cardImageContainer, .listPageContent .portraitCard .cardImageContainer {
+    width: 96px;
+    height: 145px;
+}
+
+.wideSpotlightCard .cardImageContainer {
+    height: 195px !important;
+}
+
+.largeIcon {
+    width: 36px;
+    height: 36px;
+}
+
+@media all and (min-height: 720px) {
+    .horizontalPageContent .squareCard .cardImageContainer, .homePageContent .squareCard .cardImageContainer, .listPageContent .squareCard .cardImageContainer {
+        width: 145px;
+        height: 145px;
+    }
+
+    .horizontalPageContent .backdropCard .cardImageContainer, .homePageContent .backdropCard .cardImageContainer, .listPageContent .backdropCard .cardImageContainer {
+        width: 258px;
+        height: 145px;
+    }
+
+    .horizontalPageContent .portraitCard .cardImageContainer, .homePageContent .portraitCard .cardImageContainer, .listPageContent .portraitCard .cardImageContainer {
+        width: 147px;
+        height: 220px;
+    }
+
+    .wideSpotlightCard .cardImageContainer {
+        height: 295px !important;
+    }
+
+    .largeIcon {
+        width: 42px;
+        height: 42px;
+    }
+}

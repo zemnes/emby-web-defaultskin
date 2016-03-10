@@ -1,4 +1,4 @@
-define(['visibleinviewport', 'itemShortcuts'], function (visibleinviewport, itemShortcuts) {
+define(['visibleinviewport', 'itemShortcuts', 'browser'], function (visibleinviewport, itemShortcuts, browser) {
 
     function loadItemIntoSpotlight(card, item, width) {
 
@@ -36,7 +36,8 @@ define(['visibleinviewport', 'itemShortcuts'], function (visibleinviewport, item
             }
         };
 
-        if (newCardImageContainer.animate) {
+        // Only use the fade animation if native support for WebAnimations is present
+        if (browser.animate /*&& cardImageContainer.style.backgroundImage*/) {
             var keyframes = [
                     { opacity: '0', offset: 0 },
                     { opacity: '1', offset: 1 }];
@@ -60,6 +61,8 @@ define(['visibleinviewport', 'itemShortcuts'], function (visibleinviewport, item
         }
 
         var index = 1;
+        // Use a higher interval for browsers that don't perform as well
+        var intervalMs = browser.animate ? 10000 : 30000;
 
         self.interval = setInterval(function () {
 
@@ -80,7 +83,7 @@ define(['visibleinviewport', 'itemShortcuts'], function (visibleinviewport, item
             loadItemIntoSpotlight(card, items[index], width);
             index++;
 
-        }, 10000);
+        }, intervalMs);
     }
 
     function spotlight(card, items, width) {

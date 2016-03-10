@@ -87,5 +87,6 @@
     "EnableEpisodeSpoilerProtection": "Anti-spoiler functies inschakelen",
     "EnableEpisodeSpoilerProtectionHelp": "Verberg details van niet bekeken hoofdstukken",
     "SkinName": "Default Skin",
-    "DimUnselectedPosters": "Niet geselecteerde posters donkerder maken"
+    "DimUnselectedPosters": "Niet geselecteerde posters donkerder maken",
+    "Songs": "Songs"
 }

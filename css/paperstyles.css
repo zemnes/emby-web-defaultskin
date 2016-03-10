@@ -32,6 +32,10 @@ paper-progress #secondaryProgress {
     background-color: #92B54B !important;
 }
 
+paper-input .focused-line {
+    background-color: #52B54B !important;
+}
+
 paper-icon-item {
     cursor: pointer;
 }
@@ -77,4 +81,9 @@ paper-icon-item.largeImage {
 
 paper-icon-item[focused] paper-item-body div {
     color: inherit !important;
+}
+
+/* Material design lite */
+.mdl-textfield__label:after {
+    background-color: #52B54B !important;
 }

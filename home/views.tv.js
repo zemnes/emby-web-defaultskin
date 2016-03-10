@@ -1,4 +1,4 @@
-define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo'], function (spotlight, focusManager, cardBuilder, skinInfo) {
+define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo', 'browser'], function (spotlight, focusManager, cardBuilder, skinInfo, browser) {
 
     function loadResume(element, parentId) {
 
@@ -126,7 +126,7 @@ define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo'
 
             var items = result.Items;
             var imgOptions = {
-                maxWidth: 240
+                maxWidth: 600
             };
 
             if (items.length > 0) {
@@ -175,8 +175,11 @@ define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo'
 
         };
 
-        bindFlipEvents(element.querySelector('.nextUpSection'));
-        bindFlipEvents(element.querySelector('.resumeSection'));
+        // Only use the flip animations if native support for WebAnimations is present
+        if (browser.animate) {
+            bindFlipEvents(element.querySelector('.nextUpSection'));
+            bindFlipEvents(element.querySelector('.resumeSection'));
+        }
     }
 
     function bindFlipEvents(element) {

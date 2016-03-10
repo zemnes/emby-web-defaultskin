@@ -1,4 +1,4 @@
-define(['playbackManager', 'pluginManager', './skininfo.js'], function (playbackManager, pluginManager, skinInfo) {
+define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], function (playbackManager, pluginManager, skinInfo, browser) {
 
     function updateClock() {
 
@@ -46,6 +46,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
 
             var list = [
                 'opensansFont',
+                'montserratFont',
                 'css!' + pluginManager.mapPath(self, 'css/style'),
                 'css!' + pluginManager.mapPath(self, 'cards/card'),
                 'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
@@ -53,12 +54,25 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')
             ];
 
-            list.push('css!' + pluginManager.mapPath(self, 'css/fonts'));
+            if (browser.tv) {
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts.device'));
+            } else if (browser.xboxOne) {
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts.xbox'));
+            } else {
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts'));
+            }
+
+            // The samsung and lg tv browsers don't quite support all of the flex techniques being used, so add a stylehsheet to degrade
+            if (browser.tv) {
+                list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
+            }
+
+            //list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
 
             // Needed by the header
             list.push('paper-icon-button');
 
-            // Needed by the header, and elsewhere
+            // Needed by the header
             list.push('html!' + pluginManager.mapPath(self, 'icons.html'));
 
             return list;
@@ -86,13 +100,16 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
 
             var routes = [];
 
+            var icons = 'html!' + pluginManager.mapPath(self, 'icons.html');
+
             routes.push({
                 path: 'home.html',
                 transition: 'slide',
                 type: 'home',
                 controller: self.id + '/home/home',
                 dependencies: [
-                    'css!' + pluginManager.mapPath(self, 'home/home.css')
+                    'css!' + pluginManager.mapPath(self, 'home/home.css'),
+                    icons
                 ]
             });
 
@@ -101,7 +118,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 transition: 'slide',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'item/item.css'),
-                    'paper-button'
+                    'paper-button',
+                    icons
                 ],
                 controller: self.id + '/item/item'
             });
@@ -110,7 +128,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 path: 'list/list.html',
                 transition: 'slide',
                 controller: self.id + '/list/list',
-                dependencies: ['paper-button']
+                dependencies: ['paper-button', icons]
             });
 
             routes.push({
@@ -137,7 +155,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 transition: 'slide',
                 controller: self.id + '/livetv/guide',
                 dependencies: [
-                    'css!' + pluginManager.mapPath(self, 'livetv/guide.css')
+                    'css!' + pluginManager.mapPath(self, 'livetv/guide.css'),
+                    icons
                 ]
             });
 
@@ -153,7 +172,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 controller: self.id + '/search/search',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'search/search.css'),
-					'paper-input'
+					'paper-input',
+                    icons
                 ]
             });
 
@@ -164,7 +184,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/nowplaying.css'),
                     'paper-slider',
-                    'paper-icon-button'
+                    'paper-icon-button',
+                    icons
                 ],
                 supportsThemeMedia: true
             });
@@ -186,7 +207,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js'], function (playback
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/videoosd.css'),
                     'paper-slider',
-                    'paper-icon-button'
+                    'paper-icon-button',
+                    icons
                 ],
                 type: 'video-osd',
                 supportsThemeMedia: true

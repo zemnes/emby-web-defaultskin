@@ -87,5 +87,6 @@
     "EnableEpisodeSpoilerProtection": "Activer les fonctionnalit\u00e9s anti-spoiler",
     "EnableEpisodeSpoilerProtectionHelp": "Cacher les d\u00e9tails pour les \u00e9pisodes au-del\u00e0 du premier non visionn\u00e9",
     "SkinName": "Default Skin",
-    "DimUnselectedPosters": "Dim les affiches non s\u00e9lectionn\u00e9s"
+    "DimUnselectedPosters": "Dim les affiches non s\u00e9lectionn\u00e9s",
+    "Songs": "Songs"
 }

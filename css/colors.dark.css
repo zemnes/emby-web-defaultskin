@@ -28,12 +28,20 @@ a {
     color: #aaa;
 }
 
+.mdl-textfield__input {
+    border-bottom-color: rgb(115, 115, 115) !important;
+}
+
 paper-input label, paper-checkbox label, emby-dropdown-menu label {
     color: #bbb !important;
 }
 
-paper-input .focused-line {
-    background-color: #52B54B !important;
+.mdl-textfield__label {
+    color: #bbb;
+}
+
+.mdl-textfield--floating-label.is-focused .mdl-textfield__label, .mdl-textfield--floating-label.is-dirty .mdl-textfield__label, .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label {
+    color: #52B54B !important;
 }
 
 .paperRaised, paper-button[raised] {

@@ -148,7 +148,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', './../cards/cardbuilder', 
 
             var items = result.Items;
             var imgOptions = {
-                maxWidth: 240
+                maxWidth: 600
             };
 
             if (items.length > 0) {

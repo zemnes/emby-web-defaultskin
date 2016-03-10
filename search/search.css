@@ -14,8 +14,14 @@
         margin-top: .7em;
     }
 
+.searchFieldsInner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
 .iconSearch {
-    vertical-align: middle;
+    vertical-align: bottom;
     opacity: .5;
 }
 
