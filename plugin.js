@@ -54,13 +54,17 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')
             ];
 
-            if (browser.tv && (!browser.chrome || browser.web0s)) {
+            if (browser.android) {
+                // on android we can't just use Roboto by name, it has to be sans-serif, which we don't want on other platforms
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts.android'));
+            } else if (browser.tv && (!browser.chrome || browser.web0s)) {
                 // Need to set our own font sizes on web0s
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.sized'));
             } else if (browser.tv && browser.chrome) {
                 // Designed to use system default fonts
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.device'));
             } else if (browser.xboxOne) {
+                // Xbox defines good default font sizes, so load a stylesheet that only applies the font family
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.xbox'));
             } else {
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts'));
