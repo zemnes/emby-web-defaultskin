@@ -5,28 +5,33 @@
 }
 
 .headerLeft {
+    position: fixed;
+    top: 3vh;
+    left: 0;
     display: block;
     vertical-align: middle;
+}
+
+.headerBackButton {
+    /* When this is visible it causes the header to jump around. Ideally we should fix that, but they should be able to use the remote back button */
+    display: none !important;
 }
 
 .headerRight {
     position: fixed;
     top: 3vh;
-    right: 2.3vw;
+    right: 0;
     display: block;
     text-align: right;
+    vertical-align: middle;
 }
 
 .pageContainer {
     display: block;
 }
 
-.tabbedPageContainer {
-    top: 15%;
-}
-
 .starRatingContainer {
-    display: inline-block;
+    display: inline-block !important;
     vertical-align: middle;
 }
 
@@ -51,12 +56,12 @@
         display: inline-block;
     }
 
-    .horizontalItemsContainer iron-icon {
-        display: block;
-        position: absolute;
-        top: 15%;
-        left: 25%;
-    }
+.cardImageIcon {
+    display: block !important;
+    position: absolute !important;
+    top: 15%;
+    left: 25%;
+}
 
 .verticalItemsContainer {
     display: block;
@@ -71,9 +76,39 @@
     vertical-align: middle;
 }
 
-.searchFieldsInner paper-input-container {
-    padding-top: 0!important;
-    padding-bottom: 0!important;
+    .searchFieldsInner paper-input-container {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+.mainSection {
+    display: block !important;
+}
+
+    .mainSection > * {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+.itemPageMain {
+    width: 50%;
+}
+
+.mediaInfo, .osdMediaInfo, .osdTextContainer {
+    display: block !important;
+}
+
+    .mediaInfo > *, .osdMediaInfo > *, .osdTextContainer > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+.mainSection .itemPageButtons, .mainSection .itemPageUserDataIcons {
+    display: inline-block !important;
+}
+
+.osdVolumeSlider {
+    display: inline-block !important;
 }
 
 /* 480p */
@@ -101,6 +136,11 @@
     height: 36px;
 }
 
+paper-icon-button.mediumSizeIcon, iron-icon.mediumSizeIcon {
+    width: 32px;
+    height: 32px;
+}
+
 @media all and (min-height: 720px) {
     .horizontalPageContent .squareCard .cardImageContainer, .homePageContent .squareCard .cardImageContainer, .listPageContent .squareCard .cardImageContainer {
         width: 145px;
@@ -124,5 +164,41 @@
     .largeIcon {
         width: 42px;
         height: 42px;
+    }
+
+    paper-icon-button.mediumSizeIcon, iron-icon.mediumSizeIcon {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media all and (min-height: 1080px) {
+    .horizontalPageContent .squareCard .cardImageContainer, .homePageContent .squareCard .cardImageContainer, .listPageContent .squareCard .cardImageContainer {
+        width: 225px;
+        height: 225px;
+    }
+
+    .horizontalPageContent .backdropCard .cardImageContainer, .homePageContent .backdropCard .cardImageContainer, .listPageContent .backdropCard .cardImageContainer {
+        width: 400px;
+        height: 225px;
+    }
+
+    .horizontalPageContent .portraitCard .cardImageContainer, .homePageContent .portraitCard .cardImageContainer, .listPageContent .portraitCard .cardImageContainer {
+        width: 227px;
+        height: 340px;
+    }
+
+    .wideSpotlightCard .cardImageContainer {
+        height: 456px !important;
+    }
+
+    .largeIcon {
+        width: 48px;
+        height: 48px;
+    }
+
+    paper-icon-button.mediumSizeIcon, iron-icon.mediumSizeIcon {
+        width: 40px;
+        height: 40px;
     }
 }

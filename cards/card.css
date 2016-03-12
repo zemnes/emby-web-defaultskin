@@ -66,6 +66,7 @@ button.card {
     transition: none !important;
     border-radius: 0 !important;
     border: 3px solid transparent;
+    will-change: transform;
 }
 
 .card[focused], .card:focus {

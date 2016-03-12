@@ -1,5 +1,5 @@
 .itemPageContainer {
-    top: 11.5%;
+    margin: auto;
     width: 94.5%;
 }
 
@@ -121,7 +121,7 @@
 
 .itemPageFixedLeft {
     position: absolute;
-    top: 0;
+    top: 10vh;
     left: 0;
     width: 25%;
     padding-top: 1.25em;

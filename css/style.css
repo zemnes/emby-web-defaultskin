@@ -57,26 +57,46 @@ a {
     border-radius: 1000px;
 }
 
-.skinHeader {
+.skinContainer {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    padding-left: 2.3%;
-    padding-right: 2.3%;
-    padding-top: 3vh;
+    bottom: 0;
+    /* Undo style applied by the core */
+    height: auto;
+}
+
+.skinHeader {
+    /* This will ensure it is on top of the main body */
+    z-index: 1;
+    /* padding-top: 3vh; */
+    /* padding-bottom: 2.4vh; */
     display: flex;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 11vh;
+}
+
+.skinBody {
+    height: 100%;
 }
 
 .headerLeft {
     margin-right: auto;
+    margin-left: 2.3%;
     display: flex;
     align-items: center;
 }
 
 .headerRight {
     margin-left: auto;
+    margin-right: 2.3%;
     display: flex;
     align-items: center;
 }
@@ -89,15 +109,16 @@ a {
 }
 
 .externalPageContainer {
+    padding-top: 0;
     position: absolute;
-    top: 12%;
+    top: 11vh;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: hidden;
 }
 
 .pageContainer {
+    padding-top: 11vh;
     position: absolute;
     top: 0;
     left: 0;
@@ -113,7 +134,7 @@ a {
 
 .centeredPageContent {
     width: 60%;
-    margin: 14vh auto auto;
+    margin: 5vh auto auto;
 }
 
 .itemScrollFrame.scrollFrameX .scrollSlider {
@@ -145,7 +166,6 @@ a {
     }
 
 .tabbedPageContainer {
-    top: 11%;
     align-items: initial;
     justify-content: initial;
 }
@@ -154,8 +174,6 @@ a {
     display: block;
     width: 97%;
     margin: auto;
-    bottom: 0;
-    top: 9%;
 }
 
 .itemScrollFrame.scrollFrameY {

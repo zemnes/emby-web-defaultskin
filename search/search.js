@@ -14,9 +14,6 @@ define(['loading', 'alphapicker', 'scroller', './../components/focushandler', '.
             smart: true,
             scrollBy: 200,
             speed: 270,
-            dragHandle: 1,
-            dynamicHandle: 1,
-            clickBar: 1,
             scrollWidth: 10000
         };
 

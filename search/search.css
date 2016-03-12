@@ -1,10 +1,6 @@
-.searchPageContainer {
-    position: absolute;
-    top: 4%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
+    .searchHeader .headerRight {
+        display: none;
+    }
 
 .searchFields {
     text-align: center;
@@ -41,8 +37,4 @@
 
 .searchResults .portraitCard {
     width: 16.66666666666666667%;
-}
-
-.searchHeader .headerRight {
-    display: none;
 }

@@ -54,7 +54,11 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')
             ];
 
-            if (browser.tv) {
+            if (browser.tv && (!browser.chrome || browser.web0s)) {
+                // Need to set our own font sizes on web0s
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts.sized'));
+            } else if (browser.tv && browser.chrome) {
+                // Designed to use system default fonts
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.device'));
             } else if (browser.xboxOne) {
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.xbox'));
@@ -63,7 +67,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
             }
 
             // The samsung and lg tv browsers don't quite support all of the flex techniques being used, so add a stylehsheet to degrade
-            if (browser.tv) {
+            if (browser.tv && !browser.chrome) {
                 list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
             }
 
