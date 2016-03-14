@@ -45,8 +45,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
         self.getDependencies = function () {
 
             var list = [
-                'opensansFont',
-                'montserratFont',
+                // Used for the mpaa rating
                 'css!' + pluginManager.mapPath(self, 'css/style'),
                 'css!' + pluginManager.mapPath(self, 'cards/card'),
                 'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
@@ -67,6 +66,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
                 // Xbox defines good default font sizes, so load a stylesheet that only applies the font family
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.xbox'));
             } else {
+                list.push('opensansFont');
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts'));
             }
 

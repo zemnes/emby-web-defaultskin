@@ -184,9 +184,17 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 html += '<img class="mediaInfoIcon mediaInfoImageIcon" src="' + Emby.PluginManager.mapPath(skinInfo.id, 'css/mediaicons/S_Media_BlueRay_white.png') + '" />';
             }
 
+            //if (mediaSource.Container) {
+            //    html += '<div class="mediaInfoIcon mediaInfoText">' + mediaSource.Container + '</div>';
+            //}
+
             var resolutionText = getResolutionText(item);
             if (resolutionText) {
                 html += '<div class="mediaInfoIcon mediaInfoText">' + resolutionText + '</div>';
+            }
+
+            if (videoStream.Codec) {
+                html += '<div class="mediaInfoIcon mediaInfoText">' + videoStream.Codec + '</div>';
             }
 
             var channels = getChannels(item);
@@ -211,14 +219,6 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
 
             if (channelText) {
                 html += '<div class="mediaInfoIcon mediaInfoText">' + channelText + '</div>';
-            }
-
-            if (mediaSource.Container) {
-                html += '<div class="mediaInfoIcon mediaInfoText">' + mediaSource.Container + '</div>';
-            }
-
-            if (videoStream.Codec) {
-                html += '<div class="mediaInfoIcon mediaInfoText">' + videoStream.Codec + '</div>';
             }
 
             if (audioStream.Codec == 'dca' && audioStream.Profile) {

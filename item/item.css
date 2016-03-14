@@ -145,7 +145,7 @@
 }
 
 .mediaInfoIcons {
-    margin-top: 1.5em;
+    margin-top: 1.3em;
     display: flex;
     align-items: center;
 }
@@ -164,27 +164,17 @@
 
 .mediaInfoText {
     display: inline-block;
-    padding: .2em .6em;
+    padding: .2em .5em;
     margin-top: 0;
     margin-bottom: 0;
     color: #000;
     background: #ddd;
     border-radius: .2em;
     font-weight: normal;
-    margin-right: 1em;
-    font-size: 84%;
+    margin-right: .8em;
+    font-size: 76%;
     height: auto;
     text-transform: uppercase;
-    /*display: inline-block;
-    margin-top: 0;
-    margin-bottom: 0;
-    font-weight: normal;
-    margin-right: .6em;
-    font-size: 150%;
-    height: auto;
-    text-transform: uppercase;
-    color: #eee;
-    font-weight: 400;*/
 }
 
 .paperIconItemRightButton {
