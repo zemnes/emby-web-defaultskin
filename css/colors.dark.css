@@ -89,8 +89,8 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label {
     opacity: 1;
 }
 
-paper-dialog {
-    background: rgba(28,28,28,.94) !important;
+.dialog {
+    background-color: rgba(28,28,28,.94) !important;
     color: #fff !important;
 }
 

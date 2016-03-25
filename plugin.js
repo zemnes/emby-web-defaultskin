@@ -1,4 +1,4 @@
-define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], function (playbackManager, pluginManager, skinInfo, browser) {
+define(['playbackManager', 'pluginManager', './skininfo.js', 'browser', 'connectionManager'], function (playbackManager, pluginManager, skinInfo, browser, connectionManager) {
 
     function updateClock() {
 
@@ -345,8 +345,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
                 self.showUserMenu();
             });
 
-            document.addEventListener('usersignedin', onLocalUserSignedIn);
-            document.addEventListener('usersignedout', onLocalUserSignedOut);
+            Events.on(connectionManager, 'localusersignedin', onLocalUserSignedIn);
+            Events.on(connectionManager, 'localusersignedout', onLocalUserSignedOut);
             document.addEventListener('viewshow', onViewShow);
 
             Events.on(playbackManager, 'playbackstart', onPlaybackStart);
@@ -355,8 +355,8 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
 
         function unbindEvents() {
 
-            document.removeEventListener('usersignedin', onLocalUserSignedIn);
-            document.removeEventListener('usersignedout', onLocalUserSignedOut);
+            Events.off(connectionManager, 'localusersignedin', onLocalUserSignedIn);
+            Events.off(connectionManager, 'localusersignedout', onLocalUserSignedOut);
             document.removeEventListener('viewshow', onViewShow);
 
             Events.off(playbackManager, 'playbackstart', onPlaybackStart);
@@ -379,9 +379,7 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser'], functio
             }
         }
 
-        function onLocalUserSignedIn(e) {
-
-            var user = e.detail.user;
+        function onLocalUserSignedIn(e, user) {
 
             document.querySelector('.headerLogo').classList.add('hide');
 

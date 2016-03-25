@@ -131,6 +131,10 @@
     height: 195px !important;
 }
 
+paper-icon-button iron-icon {
+    display: block !important;
+}
+
 .largeIcon {
     width: 36px;
     height: 36px;
