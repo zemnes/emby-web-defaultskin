@@ -5,6 +5,7 @@ This default skin for Emby Theater. To create your own skin, follow these steps:
 * Fork this repository. After forking, you'll probably want to rename it.
 * Update package.json (see below). 
 * Update skininfo.js with your unique names.
+* Update plugin.js to change the skin name and id, matching the values from skininfo.js
 * Update the installation url below.
 
 # package.json
