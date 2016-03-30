@@ -1,4 +1,4 @@
-define(['playbackManager', 'pluginManager', './skininfo.js', 'browser', 'connectionManager'], function (playbackManager, pluginManager, skinInfo, browser, connectionManager) {
+define(['playbackManager', 'pluginManager', 'browser', 'connectionManager'], function (playbackManager, pluginManager, browser, connectionManager) {
 
     function updateClock() {
 
@@ -31,12 +31,12 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser', 'connect
 
         var self = this;
 
-        self.name = skinInfo.name;
+        self.name = 'Default Skin';
         self.type = 'skin';
-        self.id = skinInfo.id;
-        var settingsObjectName = self.id + 'Settings';
+        self.id = 'defaultskin';
 
         var dependencyPrefix = self.id;
+        var settingsObjectName = dependencyPrefix + '/skinsettings';
 
         self.getHeaderTemplate = function () {
             return pluginManager.mapPath(self, 'header.html');
@@ -99,10 +99,6 @@ define(['playbackManager', 'pluginManager', './skininfo.js', 'browser', 'connect
                 };
             });
         };
-
-        define(settingsObjectName, [dependencyPrefix + '/skinsettings'], function (skinsettings) {
-            return skinsettings;
-        });
 
         self.getRoutes = function () {
 

@@ -18,13 +18,13 @@ define(['./../cards/cardbuilder'], function (cardBuilder) {
                 return;
             }
 
+            // If showTitle: true is ever specified, make sure to have an exception for photos
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
                 autoFocus: autoFocus,
-                coverImage: true,
-                showTitle: true
+                coverImage: true
             });
         });
     }
