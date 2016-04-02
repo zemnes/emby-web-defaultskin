@@ -676,7 +676,10 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
             }
 
             itemShortcuts.off(options.itemsContainer);
-            itemShortcuts.on(options.itemsContainer);
+
+            if (options.action !== 'none') {
+                itemShortcuts.on(options.itemsContainer);
+            }
         }
 
         function parentWithClass(elem, className) {

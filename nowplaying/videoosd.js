@@ -46,7 +46,8 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 view.querySelector('.osdMediaInfo').innerHTML = mediaInfo.getMediaInfoHtml(item, {
                     runtime: false,
                     subtitles: false,
-                    tomatoes: false
+                    tomatoes: false,
+                    endsAt: false
                 });
 
                 nowPlayingVolumeSlider.disabled = false;

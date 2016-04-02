@@ -129,8 +129,8 @@ define(['loading', './../skininfo', 'alphapicker', './../cards/cardbuilder', './
                         renderSongs(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'genres':
-                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         contentScrollSlider.addEventListener('click', onMusicGenresContainerClick);
+                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
                         break;
                     case 'favorites':
                         renderFavorites(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
@@ -163,7 +163,8 @@ define(['loading', './../skininfo', 'alphapicker', './../cards/cardbuilder', './
                 cardOptions: {
                     shape: 'backdropCard',
                     rows: 3,
-                    preferThumb: true
+                    preferThumb: true,
+                    action: 'none'
                 },
                 listCountElement: page.querySelector('.listCount'),
                 listNumbersElement: page.querySelector('.listNumbers'),

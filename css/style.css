@@ -299,6 +299,8 @@ iron-icon.mediaInfoItem {
 
 paper-item-body .paperIconItemMediaInfo {
     margin: .5em 0;
+    display: flex;
+    align-items: center;
 }
 
     paper-item-body .paperIconItemMediaInfo .starRatingContainer {
@@ -311,7 +313,7 @@ h2.listItemTitle {
 
 .starRatingContainer {
     display: inline-flex;
-    align-self: flex-start;
+    align-items: center;
     justify-content: center;
     vertical-align: middle;
     padding-top: 0;
