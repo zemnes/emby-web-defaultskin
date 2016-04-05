@@ -64,6 +64,7 @@ define(['loading', 'alphapicker', 'scroller', './../components/focushandler', '.
                 populateResults(emptyResult, '.movieResults');
                 populateResults(emptyResult, '.artistResults');
                 populateResults(emptyResult, '.albumResults');
+                populateResults(emptyResult, '.songResults');
                 return;
             }
 
