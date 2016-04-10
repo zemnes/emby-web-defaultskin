@@ -1,7 +1,7 @@
 define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
     function (loading, skinInfo, datetime, playbackManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, focusManager, skinSettings, cardBuilder, indicators) {
 
-		function focusMainSection() {
+        function focusMainSection() {
 
             focusManager.autoFocus(this);
         }
@@ -330,7 +330,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 overviewElem.classList.add('hide');
             }
 
-            if (item.LocalTrailerCount) {
+            if (Emby.Models.hasTrailer(item)) {
                 view.querySelector('.btnTrailer').classList.remove('hide');
             } else {
                 view.querySelector('.btnTrailer').classList.add('hide');
@@ -1117,7 +1117,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
             });
 
             function playTrailer() {
-                playbackManager.playTrailer(currentItem);
+                playbackManager.playTrailers(currentItem);
             }
 
             function play() {

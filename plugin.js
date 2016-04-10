@@ -81,6 +81,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager'], fun
             list.push('paper-icon-button');
 
             // Needed by the header
+            list.push('iron-icon-set');
             list.push('html!' + pluginManager.mapPath(self, 'icons.html'));
 
             return list;
@@ -90,7 +91,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager'], fun
 
             var files = [];
 
-            var languages = ['en-US', 'de', 'fr', 'nl', 'pt-BR', 'pt-PT', 'ru', 'sv'];
+            var languages = ['de', 'en-GB', 'en-US', 'fr', 'it', 'nl', 'pt-BR', 'pt-PT', 'ru', 'sv'];
 
             return languages.map(function (i) {
                 return {

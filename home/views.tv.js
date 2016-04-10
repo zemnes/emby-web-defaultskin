@@ -177,8 +177,8 @@ define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo'
 
         // Only use the flip animations if native support for WebAnimations is present
         if (browser.animate) {
-            bindFlipEvents(element.querySelector('.nextUpSection'));
-            bindFlipEvents(element.querySelector('.resumeSection'));
+            //bindFlipEvents(element.querySelector('.nextUpSection'));
+            //bindFlipEvents(element.querySelector('.resumeSection'));
         }
     }
 

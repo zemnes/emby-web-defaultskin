@@ -32,7 +32,7 @@ paper-progress #secondaryProgress {
     background-color: #92B54B !important;
 }
 
-paper-input .focused-line {
+paper-input .focused-line, paper-textarea .focused-line {
     background-color: #52B54B !important;
 }
 

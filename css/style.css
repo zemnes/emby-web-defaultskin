@@ -21,6 +21,7 @@ a {
     vertical-align: middle;
     margin: 0;
     height: 5.6vh;
+    text-transform: capitalize;
 }
 
 .pageTitleWithLogo {
@@ -490,10 +491,9 @@ paper-slider:hover #sliderKnob {
 
 .playlistPageContainer {
     display: block;
-    width: 66%;
-    margin: 1em auto 0;
+    width: 70%;
+    margin: 0 auto 0;
     bottom: 0;
-    top: 12%;
 }
 
 .playlistIndexIndicatorImage {
