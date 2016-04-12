@@ -180,7 +180,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', './../cards/cardbuilder', 
                 promises.push(loadRecommendations(element, parentId));
             }
 
-            return promises;
+            return Promise.all(promises);
         };
         loadSpotlight(element, parentId);
         loadImages(element, parentId);

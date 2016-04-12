@@ -1,4 +1,4 @@
-define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser', 'paper-button'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
+define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser', 'paper-button', 'scrollStyles'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
 
     function focusViewSlider() {
 
@@ -15,7 +15,7 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper',
 
         var userViewNames = view.querySelector('.userViewNames');
 
-        userViewNames.classList.add('hiddenScrollX');
+        userViewNames.classList.add('smoothScrollX');
         userViewNames.classList.add('focusable');
         userViewNames.classList.add('focuscontainer-x');
         userViewNames.style.scrollBehavior = 'smooth';

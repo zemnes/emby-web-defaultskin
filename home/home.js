@@ -41,37 +41,64 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
                 return;
             }
 
-            var activeElement = document.activeElement;
+            // view.activeElement gets set by viewManager during viewhide, so that it can be restored later
+            var activeElement = view.activeElement;
+
             var card = activeElement ? parentWithClass(activeElement, 'card') : null;
             var itemId = card ? card.getAttribute('data-id') : null;
+
             var parentItemsContainer = activeElement ? parentWithClass(activeElement, 'itemsContainer') : null;
 
-            tabView.loadData(true).then(function () {
+            return tabView.loadData(true).then(function () {
 
-                var tabView = self.tabView;
+                return Promise.resolve({
+                    activeElement: activeElement,
+                    itemId: itemId,
+                    parentItemsContainer: parentItemsContainer,
+                    tabView: tabView
+                });
+            });
+        }
 
-                if (!activeElement || !document.body.contains(activeElement)) {
+        function onTabReloaded(tabInfo) {
 
-                    // need to re-focus
-                    if (itemId) {
-                        card = tabView.element.querySelector('*[data-id=\'' + itemId + '\']');
+            var activeElement = tabInfo.activeElement;
+            var tabView = tabInfo.tabView;
+            var itemId = tabInfo.itemId;
 
-                        if (card) {
+            var parentItemsContainer = tabInfo.parentItemsContainer;
 
-                            var newParentItemsContainer = parentWithClass(card, 'itemsContainer');
+            if (activeElement && document.body.contains(activeElement) && focusManager.isCurrentlyFocusable(activeElement)) {
+                console.log('re-focusing activeElement');
+                focusManager.focus(activeElement);
+            }
+            else {
 
-                            if (newParentItemsContainer == parentItemsContainer) {
-                                focusManager.focus(card);
-                                return;
-                            }
-                        }
+                // need to re-focus
+                // see if there's a card with the same library item
+                if (itemId) {
+                    console.log('focusing by itemId');
+                    card = tabView.element.querySelector('*[data-id=\'' + itemId + '\']');
+
+                    if (card && document.body.contains(card) && focusManager.isCurrentlyFocusable(card)) {
+
+                        console.log('focusing card by itemId');
+                        focusManager.focus(card);
+                        return;
                     }
-
-                    var focusParent = parentItemsContainer && document.body.contains(parentItemsContainer) ? parentItemsContainer : tabView.element;
-                    focusManager.autoFocus(focusParent);
                 }
 
-            });
+                if (parentItemsContainer && document.body.contains(parentItemsContainer)) {
+                    console.log('focusing parentItemsContainer');
+                    if (focusManager.autoFocus(parentItemsContainer)) {
+                        console.log('focus parentItemsContainer succeeded');
+                        return;
+                    }
+                }
+
+                console.log('focusing tabview');
+                focusManager.autoFocus(tabView.element);
+            }
         }
 
         function onPlaybackStopped() {
@@ -80,6 +107,19 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
 
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
+        view.addEventListener('viewbeforeshow', function (e) {
+
+            self.reloadPromise = null;
+
+            var isRestored = e.detail.isRestored;
+
+            if (isRestored) {
+                if (self.tabView) {
+                    self.reloadPromise = reloadTabData(self.tabView);
+                }
+            }
+        });
+
         view.addEventListener('viewshow', function (e) {
 
             var isRestored = e.detail.isRestored;
@@ -87,8 +127,8 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
             Emby.Page.setTitle('');
 
             if (isRestored) {
-                if (self.tabView) {
-                    reloadTabData(self.tabView);
+                if (self.reloadPromise) {
+                    self.reloadPromise.then(onTabReloaded);
                 }
             } else {
                 loading.show();

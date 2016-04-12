@@ -352,14 +352,13 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 view.querySelector('.mainSection .itemPageButtons').classList.remove('hide');
             }
 
-            var mediaInfoHtml = item.Type == 'Season' || item.Type == 'BoxSet' ? '' : mediaInfo.getMediaInfoHtml(item);
             var mediaInfoElem = view.querySelector('.mediaInfo');
 
-            if (!mediaInfoHtml) {
+            if (item.Type == 'Season' || item.Type == 'BoxSet') {
                 mediaInfoElem.classList.add('hide');
             } else {
                 mediaInfoElem.classList.remove('hide');
-                mediaInfoElem.innerHTML = mediaInfoHtml;
+                mediaInfo.fill(mediaInfoElem, item);
             }
 
             var genres = item.Genres || [];

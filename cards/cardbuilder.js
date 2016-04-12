@@ -708,8 +708,89 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
             }
         }
 
+        function updateCardUserData(card, userData) {
+
+            var type = card.getAttribute('data-type');
+            var enableCountIndicator = type == 'Series' || type == 'BoxSet' || type == 'Season';
+
+            if (userData.Played) {
+
+                var playedIndicator = card.querySelector('.playedIndicator');
+
+                if (!playedIndicator) {
+
+                    playedIndicator = document.createElement('div');
+                    playedIndicator.classList.add('playedIndicator');
+                    card.querySelector('.cardImageContainer').appendChild(playedIndicator);
+                }
+                playedIndicator.innerHTML = '<iron-icon icon="check"></iron-icon>';
+            } else {
+
+                var playedIndicator = card.querySelector('.playedIndicator');
+                if (playedIndicator) {
+
+                    playedIndicator.parentNode.removeChild(playedIndicator);
+                }
+            }
+            if (userData.UnplayedItemCount) {
+
+                var countIndicator = card.querySelector('.countIndicator');
+
+                if (!countIndicator) {
+
+                    countIndicator = document.createElement('div');
+                    countIndicator.classList.add('countIndicator');
+                    card.querySelector('.cardImageContainer').appendChild(countIndicator);
+                }
+                countIndicator.innerHTML = userData.UnplayedItemCount;
+            } else if (enableCountIndicator) {
+
+                var countIndicator = card.querySelector('.countIndicator');
+                if (countIndicator) {
+
+                    countIndicator.parentNode.removeChild(countIndicator);
+                }
+            }
+
+            var progressHtml = '';//LibraryBrowser.getItemProgressBarHtml(userData);
+
+            if (progressHtml) {
+
+                var itemProgressBar = card.querySelector('.itemProgressBar');
+
+                if (!itemProgressBar) {
+                    itemProgressBar = document.createElement('div');
+                    itemProgressBar.classList.add('itemProgressBar');
+
+                    var innerCardFooter = card.querySelector('.innerCardFooter');
+                    if (innerCardFooter) {
+                        innerCardFooter.appendChild(itemProgressBar);
+                    }
+                }
+
+                itemProgressBar.innerHTML = progressHtml;
+            }
+            else {
+
+                var itemProgressBar = card.querySelector('.itemProgressBar');
+                if (itemProgressBar) {
+                    itemProgressBar.parentNode.removeChild(itemProgressBar);
+                }
+            }
+        }
+
+        function onUserDataChanged(userData) {
+
+            var card = document.querySelector('.card[data-id="' + userData.ItemId + '"]');
+
+            if (card) {
+                updateCardUserData(card, userData);
+            }
+        }
+
         return {
             buildCardsHtml: buildCardsHtml,
-            buildCards: buildCards
+            buildCards: buildCards,
+            onUserDataChanged: onUserDataChanged
         };
     });
