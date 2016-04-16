@@ -950,6 +950,8 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
         function renderScenes(view, item) {
 
             var section = view.querySelector('.scenesSection');
+            section.classList.add('hide');
+            return;
 
             Emby.Models.chapters(item, {
                 images: [

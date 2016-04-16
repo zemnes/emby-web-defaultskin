@@ -708,10 +708,11 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
             }
         }
 
-        function updateCardUserData(card, userData) {
+        function updateUserData(card, userData) {
 
             var type = card.getAttribute('data-type');
             var enableCountIndicator = type == 'Series' || type == 'BoxSet' || type == 'Season';
+            var cardImageContainer;
 
             if (userData.Played) {
 
@@ -721,7 +722,8 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
 
                     playedIndicator = document.createElement('div');
                     playedIndicator.classList.add('playedIndicator');
-                    card.querySelector('.cardImageContainer').appendChild(playedIndicator);
+                    cardImageContainer = cardImageContainer || card.querySelector('.cardImageContainer');
+                    cardImageContainer.appendChild(playedIndicator);
                 }
                 playedIndicator.innerHTML = '<iron-icon icon="check"></iron-icon>';
             } else {
@@ -740,7 +742,8 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
 
                     countIndicator = document.createElement('div');
                     countIndicator.classList.add('countIndicator');
-                    card.querySelector('.cardImageContainer').appendChild(countIndicator);
+                    cardImageContainer = cardImageContainer || card.querySelector('.cardImageContainer');
+                    cardImageContainer.appendChild(countIndicator);
                 }
                 countIndicator.innerHTML = userData.UnplayedItemCount;
             } else if (enableCountIndicator) {
@@ -752,7 +755,11 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                 }
             }
 
-            var progressHtml = '';//LibraryBrowser.getItemProgressBarHtml(userData);
+            var progressHtml = indicators.getProgressBarHtml({
+                Type: type,
+                UserData: userData,
+                MediaType: 'Video'
+            });
 
             if (progressHtml) {
 
@@ -763,9 +770,13 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                     itemProgressBar.classList.add('itemProgressBar');
 
                     var innerCardFooter = card.querySelector('.innerCardFooter');
-                    if (innerCardFooter) {
-                        innerCardFooter.appendChild(itemProgressBar);
+                    if (!innerCardFooter) {
+                        innerCardFooter = document.createElement('div');
+                        innerCardFooter.classList.add('innerCardFooter');
+                        cardImageContainer = cardImageContainer || card.querySelector('.cardImageContainer');
+                        cardImageContainer.appendChild(innerCardFooter);
                     }
+                    innerCardFooter.appendChild(itemProgressBar);
                 }
 
                 itemProgressBar.innerHTML = progressHtml;
@@ -781,10 +792,10 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
 
         function onUserDataChanged(userData) {
 
-            var card = document.querySelector('.card[data-id="' + userData.ItemId + '"]');
+            var cards = document.querySelectorAll('.card[data-id="' + userData.ItemId + '"]');
 
-            if (card) {
-                updateCardUserData(card, userData);
+            for (var i = 0, length = cards.length; i < length; i++) {
+                updateUserData(cards[i], userData);
             }
         }
 

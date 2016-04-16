@@ -32,7 +32,7 @@ a {
     border-bottom-color: rgb(115, 115, 115) !important;
 }
 
-paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textarea label {
+paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textarea label, paper-checkbox #checkboxLabel {
     color: #bbb !important;
 }
 
@@ -42,6 +42,22 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
 
 .mdl-textfield--floating-label.is-focused .mdl-textfield__label, .mdl-textfield--floating-label.is-dirty .mdl-textfield__label, .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label {
     color: #52B54B !important;
+}
+
+.paper-checkbox-0 #ink[checked].paper-checkbox {
+    color: #52B54B;
+}
+.paper-checkbox-0 #ink.paper-checkbox {
+    color: #52B54B;
+}
+
+.paper-checkbox-0 #checkbox.checked.paper-checkbox {
+    background-color: #52B54B;
+    border-color: #52B54B;
+}
+
+.paper-checkbox-0 #checkbox.paper-checkbox {
+    border-color: #bbb;
 }
 
 .paperRaised, paper-button[raised] {
@@ -90,7 +106,7 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
 }
 
 .dialog {
-    background-color: rgba(28,28,28,.94) !important;
+    background-color: rgba(28,28,28,1) !important;
     color: #fff !important;
 }
 

@@ -1,4 +1,5 @@
-define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser'], function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser) {
+define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager', './atvimg'],
+    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager, atvimg) {
 
     function focusHandler(options) {
 
@@ -14,18 +15,25 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
         var zoomOutEase = 'ease-in-cubic';
         var zoomDuration = 160;
         var lastFocus = 0;
+        var requireFocusForZoom = true;
+        var enableParallaxEffect = false;
 
-        parent.addEventListener('focus', onFocusIn, true);
-        parent.addEventListener('blur', onFocusOut, true);
+        if (layoutManager.tv) {
+            parent.addEventListener('focus', onFocusIn, true);
+            parent.addEventListener('blur', onFocusOut, true);
+        } else if (layoutManager.desktop) {
+            parent.addEventListener('mouseenter', onFocusIn, true);
+            parent.addEventListener('mouseleave', onFocusOut, true);
+            requireFocusForZoom = false;
+            enableParallaxEffect = true;
+        }
 
         var selectedItemInfoInner = options.selectedItemInfoInner;
         var selectedIndexElement = options.selectedIndexElement;
         var selectedItemPanel;
 
-        var enableSelectedItemPanel = options.selectedItemMode == 'panel';
+        var enableAnimations = function () {
 
-        var enableAnimations = function() {
-            
             if (browser.animate) {
                 return true;
             }
@@ -51,14 +59,16 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     }
                 }
 
-                if (options.scroller) {
-                    var now = new Date().getTime();
+                if (layoutManager.tv) {
+                    if (options.scroller) {
+                        var now = new Date().getTime();
 
-                    var animate = (now - lastFocus) > 50;
-                    options.scroller.toCenter(focused, !animate);
-                    lastFocus = now;
-                } else if (options.scrollElement) {
-                    scrollHelper.toCenter(options.scrollElement, focused, options.horizontal);
+                        var animate = (now - lastFocus) > 50;
+                        options.scroller.toCenter(focused, !animate);
+                        lastFocus = now;
+                    } else if (options.scrollElement) {
+                        scrollHelper.toCenter(options.scrollElement, focused, options.horizontal);
+                    }
                 }
                 startZoomTimer();
             }
@@ -94,20 +104,20 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             if (selectedMediaInfoTimeout) {
                 clearTimeout(selectedMediaInfoTimeout);
             }
-            var delay = enableSelectedItemPanel ? 2000 : 1200;
+            var delay = 1200;
             selectedMediaInfoTimeout = setTimeout(onSelectedMediaInfoTimeout, delay);
         }
 
         function onZoomTimeout() {
             var focused = focusedElement
-            if (focused && document.activeElement == focused) {
+            if (focused && (!requireFocusForZoom || document.activeElement == focused)) {
                 zoomIn(focused);
             }
         }
 
         function onSelectedMediaInfoTimeout() {
             var focused = focusedElement
-            if (focused && document.activeElement == focused) {
+            if (focused && (!requireFocusForZoom || document.activeElement == focused)) {
                 setSelectedItemInfo(focused);
             }
         }
@@ -124,7 +134,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
             var card = elem;
 
-            if (document.activeElement != card) {
+            if (requireFocusForZoom && document.activeElement != card) {
                 return;
             }
 
@@ -146,11 +156,16 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             }
 
             var onAnimationFinished = function () {
-                zoomElement = elem;
                 currentAnimation = null;
+
+                if (enableParallaxEffect) {
+                    atvimg.mouseEnter(card, elem, zoomScale);
+                } else {
+                    zoomElement = elem;
+                }
             };
 
-            if (elem.animate) {
+            if (elem.animate && !enableParallaxEffect) {
                 var timing = { duration: zoomDuration, iterations: 1, fill: 'both', easing: zoomInEase };
                 var animation = elem.animate(keyframes, timing);
 
@@ -181,16 +196,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
         }
 
         function setSelectedInfo(card, item) {
-
-            if (enableSelectedItemPanel) {
-                var div = document.createElement('div');
-                div.classList.add('selectedItemPanel');
-                document.body.appendChild(div);
-                selectedItemPanel = div;
-                fillSelectedItemPanel(div, item);
-                slideInLeft(div);
-                return;
-            }
 
             if (!selectedItemInfoInner) {
                 return;
@@ -275,39 +280,9 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
         function clearSelectedItemInfo() {
 
-            if (enableSelectedItemPanel) {
-                var panel = selectedItemPanel;
-                if (panel) {
-                    selectedItemPanel = null;
-                    slideOutRightAndRemove(panel);
-                }
-            } else if (selectedItemInfoInner) {
+            if (selectedItemInfoInner) {
                 selectedItemInfoInner.innerHTML = '';
             }
-        }
-
-        function slideInLeft(elem) {
-
-            var keyframes = [
-                { transform: 'translate3d(100%, 0, 0)', offset: 0 },
-                { transform: 'translate3d(0, 0, 0)', offset: 1 }
-            ];
-
-            var timing = { duration: 200, iterations: 1, fill: 'forwards', easing: 'ease-out' };
-            elem.animate(keyframes, timing);
-        }
-
-        function slideOutRightAndRemove(elem) {
-
-            var keyframes = [
-                { transform: 'translate3d(0, 0, 0)', offset: 0 },
-                { transform: 'translate3d(100%, 0, 0)', offset: 1 }
-            ];
-
-            var timing = { duration: 100, iterations: 1, fill: 'forwards', easing: 'ease-out' };
-            elem.animate(keyframes, timing).onfinish = function () {
-                elem.parentNode.removeChild(elem);
-            };
         }
 
         function zoomOut(elem) {
@@ -334,6 +309,8 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
         self.destroy = function () {
 
+            parent.removeEventListener('mouseenter', onFocusIn, true);
+            parent.removeEventListener('mouseleave', onFocusOut, true);
             parent.removeEventListener('focus', onFocusIn, true);
             parent.removeEventListener('blur', onFocusOut, true);
         };

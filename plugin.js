@@ -1,24 +1,9 @@
-define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'events'], function (playbackManager, pluginManager, browser, connectionManager, Events) {
+define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'events', 'datetime'], function (playbackManager, pluginManager, browser, connectionManager, Events, datetime) {
 
     function updateClock() {
 
         var date = new Date();
-        var time = date.toLocaleTimeString().toLowerCase();
-
-        if (time.indexOf('am') != -1 || time.indexOf('pm') != -1) {
-
-            var hour = date.getHours() % 12;
-            var suffix = date.getHours() > 11 ? 'pm' : 'am';
-            if (!hour) {
-                hour = 12;
-            }
-            var minutes = date.getMinutes();
-
-            if (minutes < 10) {
-                minutes = '0' + minutes;
-            }
-            time = hour + ':' + minutes + suffix;
-        }
+        var time = datetime.getDisplayTime(date).toLowerCase();
 
         var clock = document.querySelector('.headerClock');
 
@@ -48,6 +33,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 // Used for the mpaa rating
                 'css!' + pluginManager.mapPath(self, 'css/style'),
                 'css!' + pluginManager.mapPath(self, 'cards/card'),
+                'css!' + pluginManager.mapPath(self, 'components/atvimg'),
                 'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
                 'css!' + pluginManager.mapPath(self, 'css/paperstyles'),
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')

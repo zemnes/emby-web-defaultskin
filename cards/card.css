@@ -69,7 +69,7 @@ button.card {
     will-change: transform;
 }
 
-.card[focused], .card:focus {
+.card[focused], .card:focus, .visuallyFocusedCard {
     position: relative !important;
     z-index: 10 !important;
 }

@@ -87,3 +87,8 @@ paper-icon-item[focused] paper-item-body div {
 .mdl-textfield__label:after {
     background-color: #52B54B !important;
 }
+
+.paperCheckboxList paper-checkbox {
+    display: block;
+    margin: .5em 0;
+}

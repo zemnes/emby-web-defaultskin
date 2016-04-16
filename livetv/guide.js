@@ -33,24 +33,7 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop'], function (t
 
         function getTime(date) {
             
-            var time = date.toLocaleTimeString().toLowerCase();
-
-            if (time.indexOf('am') != -1 || time.indexOf('pm') != -1) {
-
-                var hour = date.getHours() % 12;
-                var suffix = date.getHours() > 11 ? 'pm' : 'am';
-                if (!hour) {
-                    hour = 12;
-                }
-                var minutes = date.getMinutes();
-
-                if (minutes < 10) {
-                    minutes = '0' + minutes;
-                }
-                time = hour + ':' + minutes + suffix;
-            }
-
-            return time;
+            return datetime.getDisplayTime(date).toLowerCase();
         }
 
         function setSelectedInfo(item) {
