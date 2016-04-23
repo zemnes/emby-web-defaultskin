@@ -1,15 +1,21 @@
-define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager'], function (playbackManager, inputManager, datetime, itemHelper, mediaInfo, focusManager) {
+define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'scrollStyles'], function (playbackManager, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper) {
 
     return function (view, params) {
 
         var self = this;
         var currentPlayer;
+        var currentItem;
+        var currentRuntimeTicks;
 
         var nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
         var nowPlayingPositionSlider = view.querySelector('.osdPositionSlider');
 
         var nowPlayingPositionText = view.querySelector('.osdPositionText');
         var nowPlayingDurationText = view.querySelector('.osdDurationText');
+        var endsAtText = view.querySelector('.endsAtText');
+
+        var scenePicker = view.querySelector('.scenePicker');
+        var isScenePickerRendered;
 
         function getHeaderElement() {
             return document.querySelector('.skinHeader');
@@ -37,7 +43,11 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
         function setCurrentItem(item, player) {
 
+            currentItem = item;
             setPoster(item);
+
+            scenePicker.innerHTML = '';
+            isScenePickerRendered = false;
 
             if (item) {
                 setTitle(item);
@@ -238,11 +248,13 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
                 case 'left':
                     if (!isOsdOpen()) {
+                        e.preventDefault();
                         playbackManager.previousChapter();
                     }
                     break;
                 case 'right':
                     if (!isOsdOpen()) {
+                        e.preventDefault();
                         playbackManager.nextChapter();
                     }
                     break;
@@ -256,6 +268,8 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 case 'pause':
                 case 'fastforward':
                 case 'rewind':
+                case 'next':
+                case 'previous':
                     showOsd();
                     break;
                 default:
@@ -415,6 +429,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
                 if (nowPlayingItem.RunTimeTicks) {
 
+                    currentRuntimeTicks = nowPlayingItem.RunTimeTicks;
                     var pct = playState.PositionTicks / nowPlayingItem.RunTimeTicks;
                     pct *= 100;
 
@@ -423,12 +438,19 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 } else {
 
                     nowPlayingPositionSlider.value = 0;
+                    currentRuntimeTicks = null;
                 }
 
                 updateTimeText(nowPlayingPositionText, playState.PositionTicks);
                 updateTimeText(nowPlayingDurationText, nowPlayingItem.RunTimeTicks, true);
 
                 nowPlayingPositionSlider.disabled = !playState.CanSeek;
+
+                if (nowPlayingItem.RunTimeTicks && playState.PositionTicks != null) {
+                    endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(nowPlayingItem.RunTimeTicks, playState.PositionTicks, false);
+                } else {
+                    endsAtText.innerHTML = '';
+                }
             }
         }
 
@@ -628,6 +650,79 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
         view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
         view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
 
+        function getChapterHtml(item, chapter, index) {
+
+            var html = '';
+
+            var src = chapter.images && chapter.images.primary ? (' src="' + chapter.images.primary + '"') : '';
+
+            if (chapter.images && chapter.images.primary) {
+
+                var pct = currentRuntimeTicks ? (chapter.StartPositionTicks / currentRuntimeTicks) : 0;
+                pct *= 100;
+                chapterPcts[index] = pct;
+
+                html += '<img data-index="' + index + '" class="chapterThumb"' + src + ' />';
+            }
+
+            return html;
+        }
+
+        function renderScenePicker(progressPct) {
+
+            chapterPcts = [];
+            var item = currentItem;
+            if (!item) {
+                return;
+            }
+
+            var chapters = Emby.Models.chapters(item, {
+                images: [
+                {
+                    type: 'Primary',
+                    width: 400
+                }]
+
+            }).then(function (chapters) {
+
+                var currentIndex = -1;
+
+                scenePicker.innerHTML = chapters.map(function (chapter) {
+                    currentIndex++;
+                    return getChapterHtml(item, chapter, currentIndex);
+                }).join('');
+
+                imageLoader.lazyChildren(scenePicker);
+                fadeIn(scenePicker, progressPct);
+            });
+        }
+
+        var hideScenePickerTimeout;
+        var chapterPcts = [];
+        function showScenePicker(progressPct) {
+
+            if (!isScenePickerRendered) {
+                isScenePickerRendered = true;
+                renderScenePicker();
+            } else {
+                fadeIn(scenePicker, progressPct);
+            }
+
+            if (hideScenePickerTimeout) {
+                clearTimeout(hideScenePickerTimeout);
+            }
+            hideScenePickerTimeout = setTimeout(hideScenePicker, 1600);
+        }
+
+        function hideScenePicker() {
+            fadeOut(scenePicker);
+        }
+
+        nowPlayingPositionSlider.addEventListener('immediate-value-change', function () {
+
+            showScenePicker(this.immediateValue);
+        });
+
         function onViewHideStopPlayback() {
 
             if (playbackManager.isPlayingVideo()) {
@@ -641,6 +736,65 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 // or 
                 //Emby.Page.setTransparency(Emby.TransparencyLevel.Backdrop);
             }
+        }
+
+        function fadeIn(elem, pct) {
+
+            if (!elem.classList.contains('hide')) {
+                selectChapterThumb(elem, pct);
+                return;
+            }
+
+            elem.classList.remove('hide');
+
+            var keyframes = [
+              { opacity: '0', offset: 0 },
+              { opacity: '1', offset: 1 }];
+            var timing = { duration: 300, iterations: 1 };
+            elem.animate(keyframes, timing).onfinish = function () {
+                selectChapterThumb(elem, pct);
+            };
+        }
+
+        function selectChapterThumb(elem, pct) {
+            var index = -1;
+            for (var i = 0, length = chapterPcts.length; i < length; i++) {
+
+                if (pct >= chapterPcts[i]) {
+                    index = i;
+                }
+            }
+
+            if (index == -1) {
+                index = 0;
+            }
+
+            var selected = elem.querySelector('.selectedChapterThumb');
+            var newSelected = elem.querySelector('.chapterThumb[data-index="' + index + '"]');
+
+            if (selected != newSelected) {
+                if (selected) {
+                    selected.classList.remove('selectedChapterThumb');
+                }
+
+                newSelected.classList.add('selectedChapterThumb');
+                scrollHelper.toCenter(elem, newSelected, true);
+            }
+        }
+
+        function fadeOut(elem) {
+
+            if (elem.classList.contains('hide')) {
+                return;
+            }
+
+            var keyframes = [
+              { opacity: '1', offset: 0 },
+              { opacity: '0', offset: 1 }];
+            var timing = { duration: 300, iterations: 1 };
+            elem.animate(keyframes, timing).onfinish = function () {
+                elem.classList.add('hide');
+            };
         }
 
         function enableStopOnBack(enabled) {
