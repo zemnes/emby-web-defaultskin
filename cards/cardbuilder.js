@@ -570,7 +570,7 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                 cardImageContainerOpen += indicators.getPlayedIndicatorHtml(item);
             }
 
-            var showTitle = options.showTitle || imgInfo.forceName;
+            var showTitle = options.showTitle || imgInfo.forceName || item.Type == 'PhotoAlbum';
             var showParentTitle = options.showParentTitle || (imgInfo.forceName && item.Type == 'Episode');
 
             if (!imgUrl) {
