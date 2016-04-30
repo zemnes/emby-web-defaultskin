@@ -11,7 +11,7 @@
     position: fixed;
     left: 12%;
     bottom: 20%;
-    right: 12%;
+    right: 0;
     display: flex;
     flex-direction: row;
     align-items: center;

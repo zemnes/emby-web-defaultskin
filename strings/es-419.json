@@ -79,7 +79,7 @@
     "Playlists": "Listas de Reproducci\u00f3n",
     "EnableEpisodeSpoilerProtection": "Habilitar opciones anti-spoilers",
     "EnableEpisodeSpoilerProtectionHelp": "Ocultar detalles para episodios mas all\u00e1 del primero que ha sido visto.",
-    "SkinName": "Default Skin",
-    "DimUnselectedPosters": "Dim unselected posters",
-    "Songs": "Songs"
+    "SkinName": "Tema por defecto",
+    "DimUnselectedPosters": "Opacar posters no seleccionados",
+    "Songs": "Canciones"
 }
