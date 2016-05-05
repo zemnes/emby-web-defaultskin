@@ -1,5 +1,5 @@
-define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
-    function (loading, skinInfo, datetime, playbackManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, focusManager, skinSettings, cardBuilder, indicators) {
+define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
+    function (loading, skinInfo, datetime, playbackManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
 
         function focusMainSection() {
 
@@ -246,7 +246,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
 
                 if (i.Height) {
 
-                    if (i.Width >= 4000) {
+                    if (i.Width >= 3800) {
                         return '4K';
                     }
                     if (i.Width >= 2500) {
@@ -1014,7 +1014,21 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
             var self = this;
             var currentItem;
 
+            function onInputCommand(e) {
+
+                switch (e.detail.command) {
+
+                    case 'play':
+                        play();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             view.addEventListener('viewshow', function (e) {
+
+                inputManager.on(view, onInputCommand);
 
                 var isRestored = e.detail.isRestored;
 
@@ -1104,6 +1118,11 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                     view.querySelector('.itemPageFixedLeft .btnShuffle').addEventListener('click', shuffle);
                     view.querySelector('.mainSection .btnShuffle').addEventListener('click', shuffle);
                 }
+            });
+
+            view.addEventListener('viewbeforehide', function () {
+
+                inputManager.off(view, onInputCommand);
             });
 
             view.addEventListener('viewdestroy', function () {
