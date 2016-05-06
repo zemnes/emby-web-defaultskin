@@ -11,17 +11,33 @@
         </div>
         <div class="nowPlayingButtonsContainer">
             <div>
-                <paper-icon-button class="btnPreviousTrack xlargePaperIconButton" icon="skip-previous"></paper-icon-button>
-                <paper-icon-button class="btnPause xlargePaperIconButton" icon="pause" autoFocus></paper-icon-button>
-                <paper-icon-button class="btnStop xlargePaperIconButton" icon="stop"></paper-icon-button>
-                <paper-icon-button class="btnNextTrack xlargePaperIconButton" icon="skip-next"></paper-icon-button>
-                <paper-icon-button class="btnPlaylist xlargePaperIconButton" icon="menu"></paper-icon-button>
-                <paper-icon-button class="btnRepeat xlargePaperIconButton" icon="repeat"></paper-icon-button>
+                <button is="paper-icon-button-light" class="btnPreviousTrack xlargePaperIconButton" disabled>
+                    <iron-icon icon="skip-previous"></iron-icon>
+                </button>
+                <button is="paper-icon-button-light" class="btnPause xlargePaperIconButton" autofocus>
+                    <iron-icon icon="pause"></iron-icon>
+                </button>
+                <button is="paper-icon-button-light" class="btnStop xlargePaperIconButton">
+                    <iron-icon icon="stop"></iron-icon>
+                </button>
+                <button is="paper-icon-button-light" class="btnNextTrack xlargePaperIconButton" disabled>
+                    <iron-icon icon="skip-next"></iron-icon>
+                </button>
+                <button is="paper-icon-button-light" class="btnPlaylist xlargePaperIconButton">
+                    <iron-icon icon="menu"></iron-icon>
+                </button>
+                <button is="paper-icon-button-light" class="btnRepeat xlargePaperIconButton">
+                    <iron-icon icon="repeat"></iron-icon>
+                </button>
             </div>
             <div class="nowPlayingSecondaryButtons">
                 <div class="userDataIcons">
                 </div>
-                <paper-icon-button class="buttonMute xlargePaperIconButton" icon="volume-up"></paper-icon-button>
+
+                <button is="paper-icon-button-light" class="buttonMute xlargePaperIconButton">
+                    <iron-icon icon="volume-up"></iron-icon>
+                </button>
+
                 <paper-slider step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"></paper-slider>
             </div>
         </div>

@@ -156,6 +156,22 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
             }
         }
 
+        function getAudioStreamForDisplay(item) {
+
+            if (!item.MediaSources) {
+                return null;
+            }
+
+            var mediaSource = item.MediaSources[0];
+            if (!mediaSource) {
+                return null;
+            }
+
+            return (mediaSource.MediaStreams || []).filter(function (i) {
+                return i.Type == 'Audio' && (i.Index == mediaSource.DefaultAudioStreamIndex || mediaSource.DefaultAudioStreamIndex == null);
+            })[0];
+        }
+
         function renderDynamicMediaIcons(view, item) {
 
             var html = '';
@@ -172,9 +188,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
             var videoStream = (mediaSource.MediaStreams || []).filter(function (i) {
                 return i.Type == 'Video';
             })[0] || {};
-            var audioStream = (mediaSource.MediaStreams || []).filter(function (i) {
-                return i.Type == 'Audio';
-            })[0] || {};
+            var audioStream = getAudioStreamForDisplay(item) || {};
 
             if (item.VideoType == 'Dvd') {
                 html += '<img class="mediaInfoIcon mediaInfoImageIcon" src="' + Emby.PluginManager.mapPath(skinInfo.id, 'css/mediaicons/S_Media_DVD_white.png') + '" />';
@@ -197,7 +211,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 html += '<div class="mediaInfoIcon mediaInfoText">' + videoStream.Codec + '</div>';
             }
 
-            var channels = getChannels(item);
+            var channels = audioStream.Channels;
             var channelText;
 
             if (channels == 8) {
@@ -265,32 +279,6 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 }
                 return null;
             })[0];
-
-        }
-
-        function getChannels(item) {
-
-            if (!item.MediaSources || !item.MediaSources.length) {
-                return 0;
-            }
-
-            return item.MediaSources[0].MediaStreams.filter(function (i) {
-
-                return i.Type == 'Audio';
-
-            }).map(function (i) {
-                return i.Channels;
-            })[0];
-
-        }
-
-        function hasCodec(mediaSource, streamType, codec) {
-
-            return (mediaSource.MediaStreams || []).filter(function (i) {
-
-                return i.Type == streamType && ((i.Codec || '').indexOf(codec) != -1 || (i.Profile || '').indexOf(codec) != -1);
-
-            }).length > 0;
 
         }
 

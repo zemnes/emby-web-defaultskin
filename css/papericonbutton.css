@@ -1,4 +1,4 @@
-paper-icon-button.mediumSizeIcon {
+button.mediumSizeIcon {
     height: 4.6vh;
     width: 4.6vh;
 }
@@ -9,8 +9,13 @@ iron-icon.mediumSizeIcon {
 }
 
 .largeIcon {
-    width: 5.2vh;
-    height: 5.2vh;
+    width: 5.2vh !important;
+    height: 5.2vh !important;
+}
+
+iron-icon.largeIcon, img.largeIcon {
+    height: 4.3vh !important;
+    width: 4.3vh !important;
 }
 
 .xlargePaperIconButton {

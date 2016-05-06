@@ -64,7 +64,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             //list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
 
             // Needed by the header
-            list.push('paper-icon-button');
+            list.push('paper-icon-button-light');
 
             // Needed by the header
             list.push('iron-icon-set');
@@ -175,7 +175,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/nowplaying.css'),
                     'paper-slider',
-                    'paper-icon-button',
+                    'paper-icon-button-light',
                     icons
                 ],
                 supportsThemeMedia: true
@@ -198,7 +198,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/videoosd.css'),
                     'paper-slider',
-                    'paper-icon-button',
+                    'paper-icon-button-light',
                     icons
                 ],
                 type: 'video-osd',
@@ -384,14 +384,12 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             if (user.PrimaryImageTag) {
 
-                headerUserButton.icon = null;
-                headerUserButton.src = Emby.Models.userImageUrl(user, {
-                    height: 44
-                });
+                headerUserButton.innerHTML = '<img src="' + Emby.Models.userImageUrl(user, {
+                    height: 38
+                }) + '" />';
 
             } else {
-                headerUserButton.src = null;
-                headerUserButton.icon = 'person';
+                headerUserButton.innerHTML = '<iron-icon icon="person"></iron-icon>';
             }
 
             document.querySelector('.headerUserButton').classList.remove('hide');

@@ -16,17 +16,30 @@
         <paper-slider step=".1" min="0" max="100" value="0" class="osdPositionSlider noKnob"></paper-slider>
 
         <div class="buttons">
-            <paper-icon-button class="btnPreviousTrack xlargePaperIconButton" icon="skip-previous"></paper-icon-button>
-            <paper-icon-button autoFocus class="btnPause xlargePaperIconButton" icon="pause"></paper-icon-button>
-            <paper-icon-button class="btnNextTrack xlargePaperIconButton" icon="skip-next"></paper-icon-button>
+            <button is="paper-icon-button-light" class="btnPreviousTrack xlargePaperIconButton" disabled>
+                <iron-icon icon="skip-previous"></iron-icon>
+            </button>
 
-            <paper-icon-button class="btnAudio xlargePaperIconButton hide" icon="audiotrack"></paper-icon-button>
-            <paper-icon-button class="btnSubtitles xlargePaperIconButton hide" icon="closed-caption"></paper-icon-button>
+            <button is="paper-icon-button-light" class="btnPause xlargePaperIconButton" autofocus>
+                <iron-icon icon="pause"></iron-icon>
+            </button>
+
+            <button is="paper-icon-button-light" class="btnNextTrack xlargePaperIconButton" disabled>
+                <iron-icon icon="skip-next"></iron-icon>
+            </button>
+            <button is="paper-icon-button-light" class="btnAudio xlargePaperIconButton">
+                <iron-icon icon="audiotrack"></iron-icon>
+            </button>
+            <button is="paper-icon-button-light" class="btnSubtitles xlargePaperIconButton">
+                <iron-icon icon="closed-caption"></iron-icon>
+            </button>
 
             <div class="osdTimeText"><span class="osdPositionText"></span><span class="osdDurationText"></span><span class="endsAtText"></span></div>
 
             <div class="volumeButtons">
-                <paper-icon-button class="buttonMute xlargePaperIconButton" icon="volume-up"></paper-icon-button>
+                <button is="paper-icon-button-light" class="buttonMute xlargePaperIconButton">
+                    <iron-icon icon="volume-up"></iron-icon>
+                </button>
                 <paper-slider step="1" min="0" max="100" value="0" class="osdVolumeSlider"></paper-slider>
             </div>
         </div>

@@ -337,7 +337,8 @@ define(['loading', './../skininfo', 'alphapicker', './../cards/cardbuilder', './
                 listNumbersElement: page.querySelector('.listNumbers'),
                 autoFocus: autoFocus,
                 cardOptions: {
-                    coverImage: true
+                    coverImage: true,
+                    showTitle: true
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
@@ -371,7 +372,8 @@ define(['loading', './../skininfo', 'alphapicker', './../cards/cardbuilder', './
                 listNumbersElement: page.querySelector('.listNumbers'),
                 autoFocus: autoFocus,
                 cardOptions: {
-                    coverImage: true
+                    coverImage: true,
+                    showTitle: true
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),

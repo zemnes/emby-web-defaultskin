@@ -147,22 +147,22 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../card
         function updatePlaystate(player) {
 
             if (playbackManager.paused()) {
-                view.querySelector('.btnPause').icon = 'play-arrow';
+                view.querySelector('.btnPause iron-icon').icon = 'play-arrow';
             } else {
-                view.querySelector('.btnPause').icon = 'pause';
+                view.querySelector('.btnPause iron-icon').icon = 'pause';
             }
 
             var repeatMode = playbackManager.getRepeatMode();
 
             if (repeatMode == 'RepeatAll') {
-                btnRepeat.icon = "repeat";
+                btnRepeat.querySelector('iron-icon').icon = 'repeat';
                 btnRepeat.classList.add('repeatActive');
             }
             else if (repeatMode == 'RepeatOne') {
-                btnRepeat.icon = "repeat-one";
+                btnRepeat.querySelector('iron-icon').icon = 'repeat-one';
                 btnRepeat.classList.add('repeatActive');
             } else {
-                btnRepeat.icon = "repeat";
+                btnRepeat.querySelector('iron-icon').icon = 'repeat';
                 btnRepeat.classList.remove('repeatActive');
             }
         }
@@ -178,9 +178,9 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../card
             }
 
             if (playbackManager.isMuted()) {
-                view.querySelector('.buttonMute').icon = 'volume-off';
+                view.querySelector('.buttonMute iron-icon').icon = 'volume-off';
             } else {
-                view.querySelector('.buttonMute').icon = 'volume-up';
+                view.querySelector('.buttonMute iron-icon').icon = 'volume-up';
             }
         }
 

@@ -46,7 +46,7 @@ a {
 
 .headerButton {
     vertical-align: middle;
-    margin: 0 .25em;
+    margin: 0 .5em;
 }
 
 .searchButtonContainer {
@@ -579,7 +579,7 @@ paper-slider.noKnob:hover #sliderKnob {
     }
 
 .mainSection .itemPageButtons paper-button, paper-button.mini {
-    padding: .25em .6em .4em;
+    padding: .35em .6em .5em;
     font-size: 90%;
     text-transform: none;
 }
