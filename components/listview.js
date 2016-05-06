@@ -110,7 +110,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'paper-icon-item', 'paper-item-
             }
 
             if (!options.enableSideMediaInfo) {
-                html += '<div class="paperIconItemMediaInfo">' + mediaInfo.getMediaInfoHtml(item) + '</div>';
+                html += '<div class="paperIconItemMediaInfo">' + mediaInfo.getPrimaryMediaInfoHtml(item) + '</div>';
             }
 
             if (enableOverview && item.Overview) {
@@ -122,7 +122,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'paper-icon-item', 'paper-item-
             html += '</paper-item-body>';
 
             if (options.enableSideMediaInfo) {
-                html += '<div class="paperIconItemMediaInfo">' + mediaInfo.getMediaInfoHtml(item) + '</div>';
+                html += '<div class="paperIconItemMediaInfo">' + mediaInfo.getPrimaryMediaInfoHtml(item) + '</div>';
             }
 
             html += '</paper-icon-item>';

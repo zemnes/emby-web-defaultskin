@@ -203,7 +203,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
             var html = '';
 
-            var mediaInfoHtml = mediaInfo.getMediaInfoHtml(item);
+            var mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(item);
 
             html += '<div>';
             html += '<div>';

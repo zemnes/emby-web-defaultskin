@@ -352,14 +352,16 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 view.querySelector('.mainSection .itemPageButtons').classList.remove('hide');
             }
 
-            var mediaInfoElem = view.querySelector('.mediaInfo');
-
+            var mediaInfoElem = view.querySelector('.mediaInfoPrimary');
             if (item.Type == 'Season' || item.Type == 'BoxSet') {
                 mediaInfoElem.classList.add('hide');
             } else {
                 mediaInfoElem.classList.remove('hide');
-                mediaInfo.fill(mediaInfoElem, item);
+                mediaInfo.fillPrimaryMediaInfo(mediaInfoElem, item);
             }
+
+            mediaInfoElem = view.querySelector('.mediaInfoSecondary');
+            mediaInfo.fillSecondaryMediaInfo(mediaInfoElem, item);
 
             var genres = item.Genres || [];
             var genresHtml = genres.map(function (i) {
