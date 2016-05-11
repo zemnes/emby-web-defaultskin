@@ -33,6 +33,33 @@ define(['userSettings', './skininfo'], function (userSettings, skininfo) {
             return self.get('dimunselectedposters') == 'true';
         };
 
+        self.enableMovieDetailScenes = function (val) {
+
+            if (val != null) {
+                self.set('moviedetailscenes', val.toString());
+            }
+
+            return self.get('moviedetailscenes') == 'true';
+        };
+
+        self.enableEpisodeDetailScenes = function (val) {
+
+            if (val != null) {
+                self.set('episodedetailscenes', val.toString());
+            }
+
+            return self.get('episodedetailscenes') == 'true';
+        };
+
+        self.enableOtherDetailScenes = function (val) {
+
+            if (val != null) {
+                self.set('otherdetailscenes', val.toString());
+            }
+
+            return self.get('otherdetailscenes') == 'true';
+        };
+
         self.apply = function () {
 
             if (self.dimUnselectedPosters()) {

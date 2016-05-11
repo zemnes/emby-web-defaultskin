@@ -210,12 +210,13 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 transition: 'slide',
                 controller: self.id + '/settings/settings',
                 dependencies: [
-                    'emby-dropdown-menu'
+                    'emby-dropdown-menu',
+                    'paper-checkbox'
                 ],
                 type: 'settings',
                 category: 'Display',
                 thumbImage: '',
-                title: self.name
+                title: 'Display'
             });
 
             return routes;

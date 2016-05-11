@@ -12,11 +12,11 @@ define(['./spotlight', 'imageLoader', 'focusManager', './../cards/cardbuilder', 
 
         return Emby.Models.resumable(options).then(function (result) {
 
-            var resumeSection = element.querySelector('.resumeSection');
+            var section = element.querySelector('.resumeSection');
 
             cardbuilder.buildCards(result.Items, {
-                parentContainer: resumeSection,
-                itemsContainer: resumeSection.querySelector('.itemsContainer'),
+                parentContainer: section,
+                itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdropCard',
                 rows: 3,
                 preferThumb: true
@@ -36,11 +36,11 @@ define(['./spotlight', 'imageLoader', 'focusManager', './../cards/cardbuilder', 
 
         return Emby.Models.latestItems(options).then(function (result) {
 
-            var resumeSection = element.querySelector('.latestSection');
+            var section = element.querySelector('.latestSection');
 
             cardbuilder.buildCards(result, {
-                parentContainer: resumeSection,
-                itemsContainer: resumeSection.querySelector('.itemsContainer'),
+                parentContainer: section,
+                itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'portraitCard',
                 rows: 2
             });
