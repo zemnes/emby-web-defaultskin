@@ -1,5 +1,5 @@
-define(['loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
-    function (loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
+    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
 
         function focusMainSection() {
 
@@ -342,6 +342,19 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'connectionMa
             } else {
                 view.querySelector('.mainSection .btnRecord').classList.add('hide');
             }
+
+            itemContextMenu.getCommands({
+
+                item: item,
+                isDetailView: true
+
+            }).then(function (commands) {
+                if (commands.length) {
+                    view.querySelector('.mainSection .btnMore').classList.remove('hide');
+                } else {
+                    view.querySelector('.mainSection .btnMore').classList.add('hide');
+                }
+            });
 
             var mediaInfoElem = view.querySelector('.mediaInfoPrimary');
             if (item.Type == 'Season' || item.Type == 'BoxSet') {
@@ -909,7 +922,8 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'connectionMa
                     peoplecardbuilder.buildPeopleCards(people, {
                         parentContainer: section,
                         itemsContainer: section.querySelector('.itemsContainer'),
-                        coverImage: true
+                        coverImage: true,
+                        serverId: item.ServerId
                     });
                 });
             });
@@ -1131,6 +1145,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'connectionMa
                     view.querySelector('.itemPageFixedLeft .btnPlay').addEventListener('click', play);
                     view.querySelector('.mainSection .btnPlay').addEventListener('click', play);
                     view.querySelector('.mainSection .btnRecord').addEventListener('click', record);
+                    view.querySelector('.mainSection .btnMore').addEventListener('click', showMoreMenu);
 
                     view.querySelector('.itemPageFixedLeft .btnQueue').addEventListener('click', queue);
 
@@ -1181,6 +1196,13 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'connectionMa
                     recordingCreator.show(currentItem.Id, currentItem.ServerId).then(function () {
                         reloadItem(true);
                     });
+                });
+            }
+
+            function showMoreMenu() {
+                itemContextMenu.show({
+                    item: currentItem,
+                    isDetailView: true
                 });
             }
 
