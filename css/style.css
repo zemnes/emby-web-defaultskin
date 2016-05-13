@@ -312,21 +312,6 @@ h2.listItemTitle {
     margin: 0;
 }
 
-.starRatingContainer {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-    .starRatingContainer iron-icon {
-        width: 3.4vh;
-        height: 3.4vh;
-        color: #CB272A;
-    }
-
 paper-item-body .overview {
     white-space: normal;
 }
@@ -499,22 +484,6 @@ paper-slider #sliderKnob {
 
 .repeatActive {
     color: #52B54B;
-}
-
-.criticRatingFresh {
-    padding-left: 3.15vh;
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: auto 2.6vh;
-    background-image: url(images/fresh.png);
-}
-
-.criticRatingRotten {
-    padding-left: 3.15vh;
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: auto 2.6vh;
-    background-image: url(images/rotten.png);
 }
 
 .listItemsMoreButtonContainer {

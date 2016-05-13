@@ -21,6 +21,7 @@ define(['visibleinviewport', 'itemShortcuts', 'browser'], function (visibleinvie
 
         card.querySelector('.cardText').innerHTML = item.Taglines && item.Taglines.length ? item.Taglines[0] : item.Name;
         card.setAttribute('data-id', item.Id);
+        card.setAttribute('data-serverid', item.ServerId);
         card.setAttribute('data-type', item.Type);
         card.setAttribute('data-isfolder', item.IsFolder.toString());
         card.setAttribute('data-action', 'link');

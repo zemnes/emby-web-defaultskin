@@ -1,5 +1,5 @@
-define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
-    function (loading, skinInfo, datetime, playbackManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
+define(['loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
+    function (loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
 
         function focusMainSection() {
 
@@ -76,65 +76,62 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
 
         function renderImage(view, item) {
 
-            require(['connectionManager'], function (connectionManager) {
+            var apiClient = connectionManager.getApiClient(item.ServerId);
 
-                var apiClient = connectionManager.getApiClient(item.ServerId);
+            var imageTags = item.ImageTags || {};
+            var imageWidth = 800;
+            var url;
 
-                var imageTags = item.ImageTags || {};
-                var imageWidth = 800;
-                var url;
+            if (imageTags.Primary) {
 
-                if (imageTags.Primary) {
+                url = apiClient.getScaledImageUrl(item.Id, {
+                    type: "Primary",
+                    width: imageWidth,
+                    tag: item.ImageTags.Primary
+                });
+            }
+            else if (imageTags.Thumb) {
 
-                    url = apiClient.getScaledImageUrl(item.Id, {
-                        type: "Primary",
-                        width: imageWidth,
-                        tag: item.ImageTags.Primary
-                    });
-                }
-                else if (imageTags.Thumb) {
+                url = apiClient.getScaledImageUrl(item.Id, {
+                    type: "Thumb",
+                    width: imageWidth,
+                    tag: item.ImageTags.Thumb
+                });
+            }
+            else if (imageTags.Disc) {
 
-                    url = apiClient.getScaledImageUrl(item.Id, {
-                        type: "Thumb",
-                        width: imageWidth,
-                        tag: item.ImageTags.Thumb
-                    });
-                }
-                else if (imageTags.Disc) {
+                url = apiClient.getScaledImageUrl(item.Id, {
+                    type: "Disc",
+                    width: imageWidth,
+                    tag: item.ImageTags.Disc
+                });
+            }
+            else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
-                    url = apiClient.getScaledImageUrl(item.Id, {
-                        type: "Disc",
-                        width: imageWidth,
-                        tag: item.ImageTags.Disc
-                    });
-                }
-                else if (item.AlbumId && item.AlbumPrimaryImageTag) {
+                url = apiClient.getScaledImageUrl(item.AlbumId, {
+                    type: "Primary",
+                    width: imageWidth,
+                    tag: item.AlbumPrimaryImageTag
+                });
+            }
+            else if (item.BackdropImageTags && item.BackdropImageTags.length) {
 
-                    url = apiClient.getScaledImageUrl(item.AlbumId, {
-                        type: "Primary",
-                        width: imageWidth,
-                        tag: item.AlbumPrimaryImageTag
-                    });
-                }
-                else if (item.BackdropImageTags && item.BackdropImageTags.length) {
+                url = apiClient.getScaledImageUrl(item.Id, {
+                    type: "Backdrop",
+                    width: imageWidth,
+                    tag: item.BackdropImageTags[0]
+                });
+            }
 
-                    url = apiClient.getScaledImageUrl(item.Id, {
-                        type: "Backdrop",
-                        width: imageWidth,
-                        tag: item.BackdropImageTags[0]
-                    });
-                }
+            var detailImage = enableTrackList(item) || item.Type == 'MusicArtist' ? view.querySelector('.leftFixedDetailImageContainer') : view.querySelector('.detailImageContainer');
 
-                var detailImage = enableTrackList(item) || item.Type == 'MusicArtist' ? view.querySelector('.leftFixedDetailImageContainer') : view.querySelector('.detailImageContainer');
-
-                if (url && item.Type != "Season" && item.Type != "BoxSet") {
-                    detailImage.classList.remove('hide');
-                    detailImage.innerHTML = '<img class="detailImage" src="' + url + '" />' + indicators.getProgressBarHtml(item);
-                } else {
-                    detailImage.classList.add('hide');
-                    detailImage.innerHTML = '';
-                }
-            });
+            if (url && item.Type != "Season" && item.Type != "BoxSet") {
+                detailImage.classList.remove('hide');
+                detailImage.innerHTML = '<img class="detailImage" src="' + url + '" />' + indicators.getProgressBarHtml(item);
+            } else {
+                detailImage.classList.add('hide');
+                detailImage.innerHTML = '';
+            }
         }
 
         function enableTrackList(item) {
@@ -282,7 +279,7 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
 
         }
 
-        function renderDetails(view, item) {
+        function renderDetails(view, item, user) {
 
             var mainSection = view.querySelector('.mainSection');
 
@@ -340,16 +337,26 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 view.querySelector('.mainSection .itemPageButtons').classList.remove('hide');
             }
 
+            if (item.Type == 'Program' && !item.TimerId && user.Policy.EnableLiveTvManagement) {
+                view.querySelector('.mainSection .btnRecord').classList.remove('hide');
+            } else {
+                view.querySelector('.mainSection .btnRecord').classList.add('hide');
+            }
+
             var mediaInfoElem = view.querySelector('.mediaInfoPrimary');
             if (item.Type == 'Season' || item.Type == 'BoxSet') {
                 mediaInfoElem.classList.add('hide');
             } else {
                 mediaInfoElem.classList.remove('hide');
-                mediaInfo.fillPrimaryMediaInfo(mediaInfoElem, item);
+                mediaInfo.fillPrimaryMediaInfo(mediaInfoElem, item, {
+                    interactive: true
+                });
             }
 
             mediaInfoElem = view.querySelector('.mediaInfoSecondary');
-            mediaInfo.fillSecondaryMediaInfo(mediaInfoElem, item);
+            mediaInfo.fillSecondaryMediaInfo(mediaInfoElem, item, {
+                interactive: true
+            });
 
             var genres = item.Genres || [];
             var genresHtml = genres.map(function (i) {
@@ -1028,17 +1035,20 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                 }
             }
 
-            view.addEventListener('viewshow', function (e) {
+            function reloadItem(reloadAllData) {
 
-                inputManager.on(view, onInputCommand);
-
-                var isRestored = e.detail.isRestored;
-
-                if (!isRestored) {
+                if (reloadAllData) {
                     loading.show();
                 }
 
-                Emby.Models.item(params.id).then(function (item) {
+                var apiClient = connectionManager.getApiClient(params.serverId);
+
+                var promises = [apiClient.getItem(apiClient.getCurrentUserId(), params.id), apiClient.getCurrentUser()];
+
+                Promise.all(promises).then(function (responses) {
+
+                    var item = responses[0];
+                    var user = responses[1];
 
                     currentItem = item;
 
@@ -1056,11 +1066,11 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                         item: item
                     });
 
-                    if (!isRestored) {
+                    if (reloadAllData) {
                         renderName(view, item);
                         renderImage(view, item);
                         renderChildren(view, item);
-                        renderDetails(view, item);
+                        renderDetails(view, item, user);
                         renderMediaInfoIcons(view, item);
                         renderPeople(view, item);
                         renderScenes(view, item);
@@ -1106,11 +1116,21 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
 
                     loading.hide();
                 });
+            }
+
+            view.addEventListener('viewshow', function (e) {
+
+                inputManager.on(view, onInputCommand);
+
+                var isRestored = e.detail.isRestored;
+
+                reloadItem(!isRestored);
 
                 if (!isRestored) {
 
                     view.querySelector('.itemPageFixedLeft .btnPlay').addEventListener('click', play);
                     view.querySelector('.mainSection .btnPlay').addEventListener('click', play);
+                    view.querySelector('.mainSection .btnRecord').addEventListener('click', record);
 
                     view.querySelector('.itemPageFixedLeft .btnQueue').addEventListener('click', queue);
 
@@ -1153,6 +1173,15 @@ define(['loading', './../skininfo', 'datetime', 'playbackManager', 'imageLoader'
                         playmenu.show(currentItem);
                     });
                 }
+            }
+
+            function record() {
+
+                require(['recordingCreator'], function (recordingCreator) {
+                    recordingCreator.show(currentItem.Id, currentItem.ServerId).then(function () {
+                        reloadItem(true);
+                    });
+                });
             }
 
             function queue() {

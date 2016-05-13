@@ -5,7 +5,23 @@ html {
 a {
     color: #52B54B;
     outline: none !important;
+    display: inline-block;
+    transition: all .15s ease-out;
+    transform: scale(1);
 }
+
+    a:focus {
+        background: #52B54B;
+        color: #fff;
+        transform: scale(1.16);
+        padding-left: .3em;
+        padding-right: .3em;
+        border-radius: .15em;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
 
 .skinContainer {
     background: #121212;
@@ -47,6 +63,7 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
 .paper-checkbox-0 #ink[checked].paper-checkbox {
     color: #52B54B;
 }
+
 .paper-checkbox-0 #ink.paper-checkbox {
     color: #52B54B;
 }

@@ -4,11 +4,12 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
 
         var homeScrollContent = page.querySelector('.contentScrollSlider');
 
-        homeScrollContent.innerHTML = '<div class="tabView">'+Globalize.translateDocument(html, skinInfo.id) + "</div>";
+        html = html;
+        homeScrollContent.innerHTML = Globalize.translateDocument(html, skinInfo.id);
 
         require([skinInfo.id + '/home/views.' + viewName], function (viewBuilder) {
 
-            var homePanel = homeScrollContent.querySelector('.tabView');
+            var homePanel = homeScrollContent;
             var tabView = new viewBuilder(homePanel, parentId, autoFocus);
             tabView.element = homePanel;
             tabView.loadData();

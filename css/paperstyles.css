@@ -2,6 +2,10 @@ paper-button.block {
     margin: .25em 0;
 }
 
+button[is="paper-icon-button-light"]:focus paper-ripple.paper-icon-button-light {
+    color: #52B54B;
+}
+
 paper-progress.block {
     display: block;
     width: 100%;
