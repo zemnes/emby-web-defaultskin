@@ -151,7 +151,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             requestAnimationFrame(function () {
 
                 var keyframes = [
-                  { transform: 'translate3d(0,-' + elem.offsetHeight + 'px,0)', opacity: '.3', offset: 0 },
+                  { transform: 'translate3d(0,-100%,0)', opacity: '.3', offset: 0 },
                   { transform: 'translate3d(0,0,0)', opacity: '1', offset: 1 }];
                 var timing = { duration: 300, iterations: 1, easing: 'ease-out' };
                 elem.animate(keyframes, timing);
@@ -168,7 +168,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
                 var keyframes = [
                   { transform: 'translate3d(0,0,0)', opacity: '1', offset: 0 },
-                  { transform: 'translate3d(0,-' + elem.offsetHeight + 'px,0)', opacity: '.3', offset: 1 }];
+                  { transform: 'translate3d(0,-100%,0)', opacity: '.3', offset: 1 }];
                 var timing = { duration: 300, iterations: 1, easing: 'ease-out' };
                 elem.animate(keyframes, timing).onfinish = function () {
                     elem.classList.add('hide');
@@ -188,7 +188,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             requestAnimationFrame(function () {
 
                 var keyframes = [
-                  { transform: 'translate3d(0,' + elem.offsetHeight + 'px,0)', opacity: '.3', offset: 0 },
+                  { transform: 'translate3d(0,100%,0)', opacity: '.3', offset: 0 },
                   { transform: 'translate3d(0,0,0)', opacity: '1', offset: 1 }];
                 var timing = { duration: 300, iterations: 1, easing: 'ease-out' };
                 elem.animate(keyframes, timing).onfinish = function () {
@@ -207,7 +207,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
                 var keyframes = [
                   { transform: 'translate3d(0,0,0)', opacity: '1', offset: 0 },
-                  { transform: 'translate3d(0,' + elem.offsetHeight + 'px,0)', opacity: '.3', offset: 1 }];
+                  { transform: 'translate3d(0,100%,0)', opacity: '0', offset: 1 }];
                 var timing = { duration: 300, iterations: 1, easing: 'ease-out' };
                 elem.animate(keyframes, timing).onfinish = function () {
                     elem.classList.add('hide');
@@ -506,12 +506,11 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 }
 
                 var opt = {
-                    name: name,
+                    name: stream.DisplayTitle || name,
                     id: stream.Index
                 };
 
                 if (stream.Index == currentIndex) {
-                    opt.ironIcon = "check";
                     opt.selected = true;
                 }
 
@@ -571,12 +570,11 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 }
 
                 var opt = {
-                    name: name,
+                    name: stream.DisplayTitle || name,
                     id: stream.Index
                 };
 
                 if (stream.Index == currentIndex) {
-                    opt.ironIcon = "check";
                     opt.selected = true;
                 }
 

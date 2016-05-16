@@ -343,6 +343,12 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 view.querySelector('.mainSection .btnRecord').classList.add('hide');
             }
 
+            if (item.Type == 'Program' && item.TimerId && user.Policy.EnableLiveTvManagement) {
+                view.querySelector('.mainSection .btnEditRecording').classList.remove('hide');
+            } else {
+                view.querySelector('.mainSection .btnEditRecording').classList.add('hide');
+            }
+
             itemContextMenu.getCommands({
 
                 item: item,
@@ -1145,6 +1151,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     view.querySelector('.itemPageFixedLeft .btnPlay').addEventListener('click', play);
                     view.querySelector('.mainSection .btnPlay').addEventListener('click', play);
                     view.querySelector('.mainSection .btnRecord').addEventListener('click', record);
+                    view.querySelector('.mainSection .btnEditRecording').addEventListener('click', editRecording);
                     view.querySelector('.mainSection .btnMore').addEventListener('click', showMoreMenu);
 
                     view.querySelector('.itemPageFixedLeft .btnQueue').addEventListener('click', queue);
@@ -1188,6 +1195,15 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         playmenu.show(currentItem);
                     });
                 }
+            }
+
+            function editRecording() {
+
+                require(['recordingEditor'], function (recordingEditor) {
+                    recordingEditor.show(currentItem.TimerId, currentItem.ServerId).then(function () {
+                        reloadItem(true);
+                    });
+                });
             }
 
             function record() {

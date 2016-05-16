@@ -85,5 +85,6 @@
   "SkinName": "Default Skin",
   "DimUnselectedPosters": "Dim unselected posters",
   "Songs": "Songs",
-  "Record": "Record"
+  "Record": "Record",
+  "ButtonEditRecording": "Edit Recording"
 }

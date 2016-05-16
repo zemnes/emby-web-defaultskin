@@ -84,5 +84,6 @@
     "EnableEpisodeSpoilerProtectionHelp": "Hide details for episodes beyond the first unwatched",
     "SkinName": "Default Skin",
     "DimUnselectedPosters": "Dim unselected posters",
-    "Songs": "Songs"
+    "Songs": "Songs",
+    "Record": "Record"
 }
