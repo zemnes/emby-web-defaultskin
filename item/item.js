@@ -1042,6 +1042,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             var self = this;
             var currentItem;
+            var dataPromises;
 
             function onInputCommand(e) {
 
@@ -1055,17 +1056,20 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 }
             }
 
+            function startDataLoad() {
+
+                var apiClient = connectionManager.getApiClient(params.serverId);
+
+                dataPromises = [apiClient.getItem(apiClient.getCurrentUserId(), params.id), apiClient.getCurrentUser()];
+            }
+
             function reloadItem(reloadAllData) {
 
                 if (reloadAllData) {
                     loading.show();
                 }
 
-                var apiClient = connectionManager.getApiClient(params.serverId);
-
-                var promises = [apiClient.getItem(apiClient.getCurrentUserId(), params.id), apiClient.getCurrentUser()];
-
-                Promise.all(promises).then(function (responses) {
+                Promise.all(dataPromises).then(function (responses) {
 
                     var item = responses[0];
                     var user = responses[1];
@@ -1138,6 +1142,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 });
             }
 
+            view.addEventListener('viewbeforeshow', function (e) {
+
+                startDataLoad();
+            });
+
             view.addEventListener('viewshow', function (e) {
 
                 inputManager.on(view, onInputCommand);
@@ -1201,6 +1210,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
                 require(['recordingEditor'], function (recordingEditor) {
                     recordingEditor.show(currentItem.TimerId, currentItem.ServerId).then(function () {
+                        startDataLoad();
                         reloadItem(true);
                     });
                 });
@@ -1210,15 +1220,26 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
                 require(['recordingCreator'], function (recordingCreator) {
                     recordingCreator.show(currentItem.Id, currentItem.ServerId).then(function () {
+                        startDataLoad();
                         reloadItem(true);
                     });
                 });
             }
 
             function showMoreMenu() {
+
                 itemContextMenu.show({
                     item: currentItem,
                     isDetailView: true
+
+                }).then(function (deleted) {
+
+                    if (deleted) {
+                        Emby.Page.goHome();
+                    } else {
+                        startDataLoad();
+                        reloadItem(true);
+                    }
                 });
             }
 

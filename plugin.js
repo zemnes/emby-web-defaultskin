@@ -300,6 +300,14 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             Emby.Page.show(pluginManager.mapRoute(self, 'search/search.html'));
         };
 
+        self.showLiveTV = function () {
+            Emby.Page.show(pluginManager.mapRoute(self, 'livetv/guide.html'));
+        };
+
+        self.showGuide = function () {
+            Emby.Page.show(pluginManager.mapRoute(self, 'livetv/guide.html'));
+        };
+
         self.showNowPlaying = function () {
             Emby.Page.show(pluginManager.mapRoute(self, 'nowplaying/nowplaying.html'));
         };

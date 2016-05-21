@@ -102,6 +102,14 @@ a {
     align-items: center;
 }
 
+@media all and (max-height: 800px) {
+
+    /* Prevent the heaer buttons from overlapping with the control box */
+    .headerRight {
+        margin-top: 1.2em;
+    }
+}
+
 .headerClock {
     margin: 0;
     display: inline-block;
