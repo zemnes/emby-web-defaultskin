@@ -23,8 +23,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphapicker', './../component
             dynamicHandle: 1,
             clickBar: 1,
             //centerOffset: window.innerWidth * .05,
-            scrollWidth: 200000,
-            enableAutoNativeScroll: true
+            scrollWidth: 200000
         };
 
         instance.scroller = new scroller(scrollFrame, options);

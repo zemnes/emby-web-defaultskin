@@ -8,14 +8,26 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop'], function (t
         var guideItemDetailsElement = view.querySelector('.guideItemDetails');
         var guideImageElement = view.querySelector('.guideImage');
 
+        var hideTime = 0;
+
         view.addEventListener('viewshow', function (e) {
 
             Emby.Page.setTitle(Globalize.translate('Guide'));
             backdrop.clear();
 
-            if (!e.detail.isRestored) {
+            if (e.detail.isRestored) {
+                if (guideInstance) {
+                    if ((new Date().getTime() - hideTime) > 60000) {
+                        guideInstance.refresh();
+                    }
+                }
+            } else {
                 initGuide();
             }
+        });
+
+        view.addEventListener('viewhide', function () {
+            hideTime = new Date().getTime();
         });
 
         view.addEventListener('viewdestroy', function () {
@@ -32,7 +44,7 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop'], function (t
         }
 
         function getTime(date) {
-            
+
             return datetime.getDisplayTime(date).toLowerCase();
         }
 

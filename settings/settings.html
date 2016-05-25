@@ -1,20 +1,18 @@
 <div class="externalPageContainer">
     <div style="width: 50%; margin: auto;">
 
-        <emby-dropdown-menu class="selectEnableEpisodeAntiSpoliers" label="${EnableEpisodeSpoilerProtection}">
-            <div class="dropdown-content">
-                <div class="dropdownItem" data-value="true">${Yes}</div>
-                <div class="dropdownItem" data-value="false">${No}</div>
-            </div>
+        <div class="selectContainer">
+            <select is="emby-select" class="selectEnableEpisodeAntiSpoliers" label="${EnableEpisodeSpoilerProtection}">
+                <option value="true">${Yes}</option>
+                <option value="false">${No}</option>
+            </select>
             <div class="fieldDescription">${EnableEpisodeSpoilerProtectionHelp}</div>
-        </emby-dropdown-menu>
+        </div>
 
-        <emby-dropdown-menu class="selectDimPosters" label="${DimUnselectedPosters}">
-            <div class="dropdown-content">
-                <div class="dropdownItem" data-value="true">${Yes}</div>
-                <div class="dropdownItem" data-value="false">${No}</div>
-            </div>
-        </emby-dropdown-menu>
+        <select is="emby-select" class="selectDimPosters" label="${DimUnselectedPosters}">
+            <option value="true">${Yes}</option>
+            <option value="false">${No}</option>
+        </select>
 
         <div class="paperCheckboxList mediaTypeField" data-mediatype="Video">
             <h3>${ShowScenesOnDetailScreensFor}</h3>

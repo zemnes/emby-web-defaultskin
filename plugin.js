@@ -33,7 +33,6 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 // Used for the mpaa rating
                 'css!' + pluginManager.mapPath(self, 'css/style'),
                 'css!' + pluginManager.mapPath(self, 'cards/card'),
-                'css!' + pluginManager.mapPath(self, 'components/atvimg'),
                 'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
                 'css!' + pluginManager.mapPath(self, 'css/paperstyles'),
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')
@@ -45,7 +44,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             } else if (browser.tv && (!browser.chrome || browser.web0s)) {
                 // Need to set our own font sizes on web0s
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.sized'));
-            } else if (browser.tv && browser.chrome) {
+            } else if (browser.tv && browser.chrome && !browser.operaTv) {
                 // Designed to use system default fonts
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.device'));
             } else if (browser.xboxOne) {
@@ -210,7 +209,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 transition: 'slide',
                 controller: self.id + '/settings/settings',
                 dependencies: [
-                    'emby-dropdown-menu',
+                    'emby-select',
                     'paper-checkbox'
                 ],
                 type: 'settings',

@@ -239,8 +239,7 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper',
                 dynamicHandle: 1,
                 clickBar: 1,
                 //centerOffset: window.innerWidth * .05,
-                scrollWidth: 500000,
-                enableAutoNativeScroll: true
+                scrollWidth: 500000
             };
 
             self.bodyScroller = new scroller(scrollFrame, options);

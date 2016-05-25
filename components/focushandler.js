@@ -1,5 +1,5 @@
-define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager', './atvimg'],
-    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager, atvimg) {
+define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager'],
+    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager) {
 
     function focusHandler(options) {
 
@@ -16,7 +16,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
         var zoomDuration = 160;
         var lastFocus = 0;
         var requireFocusForZoom = true;
-        var enableParallaxEffect = false;
 
         if (layoutManager.tv) {
             parent.addEventListener('focus', onFocusIn, true);
@@ -24,8 +23,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
         } else if (layoutManager.desktop) {
             parent.addEventListener('mouseenter', onFocusIn, true);
             parent.addEventListener('mouseleave', onFocusOut, true);
-            requireFocusForZoom = false;
-            enableParallaxEffect = true;
+            //requireFocusForZoom = false;
         }
 
         var selectedItemInfoInner = options.selectedItemInfoInner;
@@ -158,14 +156,10 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             var onAnimationFinished = function () {
                 currentAnimation = null;
 
-                if (enableParallaxEffect) {
-                    atvimg.mouseEnter(card, elem, zoomScale);
-                } else {
-                    zoomElement = elem;
-                }
+                zoomElement = elem;
             };
 
-            if (elem.animate && !enableParallaxEffect) {
+            if (elem.animate) {
                 var timing = { duration: zoomDuration, iterations: 1, fill: 'both', easing: zoomInEase };
                 var animation = elem.animate(keyframes, timing);
 

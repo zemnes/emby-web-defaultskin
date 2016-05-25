@@ -20,8 +20,8 @@ define(['loading', './../skinsettings', 'focusManager'], function (loading, skin
 
         view.addEventListener('viewbeforehide', function (e) {
 
-            skinSettings.enableAntiSpoliers(view.querySelector('.selectEnableEpisodeAntiSpoliers').getValue());
-            skinSettings.dimUnselectedPosters(view.querySelector('.selectDimPosters').getValue());
+            skinSettings.enableAntiSpoliers(view.querySelector('.selectEnableEpisodeAntiSpoliers').value);
+            skinSettings.dimUnselectedPosters(view.querySelector('.selectDimPosters').value);
             skinSettings.enableMovieDetailScenes(view.querySelector('.chkMovieScenes').checked);
             skinSettings.enableEpisodeDetailScenes(view.querySelector('.chkEpisodeScenes').checked);
             skinSettings.enableOtherDetailScenes(view.querySelector('.chkOtherScenes').checked);
@@ -33,8 +33,8 @@ define(['loading', './../skinsettings', 'focusManager'], function (loading, skin
 
             focusManager.autoFocus(view);
 
-            view.querySelector('.selectEnableEpisodeAntiSpoliers').setValue(skinSettings.enableAntiSpoliers());
-            view.querySelector('.selectDimPosters').setValue(skinSettings.dimUnselectedPosters());
+            view.querySelector('.selectEnableEpisodeAntiSpoliers').value = skinSettings.enableAntiSpoliers();
+            view.querySelector('.selectDimPosters').value = skinSettings.dimUnselectedPosters();
             view.querySelector('.chkMovieScenes').checked = skinSettings.enableMovieDetailScenes();
             view.querySelector('.chkEpisodeScenes').checked = skinSettings.enableEpisodeDetailScenes();
             view.querySelector('.chkOtherScenes').checked = skinSettings.enableOtherDetailScenes();

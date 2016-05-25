@@ -187,10 +187,14 @@ a {
 
 .itemScrollFrame.scrollFrameY {
     height: 100%;
+    /* Needed for native scroll */
+    display: flex;
 }
 
 .scrollFrameY > .scrollSlider {
     padding: 0 2%;
+    /* Needed for native scroll */
+    flex-grow: 1;
 }
 
 .centeredPageContent h1, .horizontalPageContent h1 {

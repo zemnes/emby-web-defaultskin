@@ -14,7 +14,8 @@ define(['focusManager', './../cards/cardbuilder', 'pluginManager', './../skininf
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'auto'
+                shape: 'auto',
+                showParentTitle: true
             });
         });
     }
