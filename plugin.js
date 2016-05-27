@@ -41,22 +41,28 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             if (browser.android) {
                 // on android we can't just use Roboto by name, it has to be sans-serif, which we don't want on other platforms
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.android'));
+            } else if (browser.tv && browser.operaTv) {
+                console.log("Using system fonts with explicit sizes");
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts.sized'));
             } else if (browser.tv && (!browser.chrome || browser.web0s)) {
                 // Need to set our own font sizes on web0s
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.sized'));
-            } else if (browser.tv && browser.chrome && !browser.operaTv) {
+            } else if (browser.tv && browser.chrome) {
                 // Designed to use system default fonts
+                console.log("Using system fonts");
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.device'));
             } else if (browser.xboxOne) {
                 // Xbox defines good default font sizes, so load a stylesheet that only applies the font family
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.xbox'));
             } else {
+                console.log("Using default fonts");
                 list.push('opensansFont');
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts'));
             }
 
             // The samsung and lg tv browsers don't quite support all of the flex techniques being used, so add a stylehsheet to degrade
             if (browser.tv && !browser.chrome) {
+                console.log("** Using smart tv css");
                 list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
             }
 
