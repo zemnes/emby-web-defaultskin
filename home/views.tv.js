@@ -19,8 +19,7 @@ define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo'
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdropCard',
                 rows: 3,
-                preferThumb: true,
-                addImageData: true
+                preferThumb: true
             });
         });
     }
@@ -55,8 +54,7 @@ define(['./spotlight', 'focusManager', './../cards/cardbuilder', './../skininfo'
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdropCard',
                 rows: 3,
-                preferThumb: true,
-                addImageData: true
+                preferThumb: true
             });
         });
     }

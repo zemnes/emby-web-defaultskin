@@ -560,14 +560,22 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                 cardImageContainerClose += '</div></div></div>';
             }
 
+            var indicatorsHtml = '';
+
+            indicatorsHtml += indicators.getTimerIndicator(item);
+
             if (options.showGroupCount) {
 
-                cardImageContainerOpen += indicators.getChildCountIndicatorHtml(item, {
+                indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
                     minCount: 1
                 });
             }
             else {
-                cardImageContainerOpen += indicators.getPlayedIndicatorHtml(item);
+                indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+            }
+
+            if (indicatorsHtml) {
+                cardImageContainerOpen += '<div class="indicators">' + indicatorsHtml + '</div>';
             }
 
             var showTitle = options.showTitle || imgInfo.forceName || item.Type == 'PhotoAlbum';
@@ -606,11 +614,6 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
             }
 
             var data = '';
-
-            if (options.addImageData) {
-                var primaryImageTag = (item.ImageTags || {}).Primary || item.PrimaryImageTag || '';
-                data += '<input type="hidden" class="primaryImageTag" value="' + primaryImageTag + '" />';
-            }
 
             var action = options.action || 'link';
 
@@ -708,11 +711,30 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
             }
         }
 
+        function ensureIndicators(card, indicatorsElem) {
+
+            if (indicatorsElem) {
+                return indicatorsElem;
+            }
+
+            indicatorsElem = card.querySelector('.indicators');
+
+            if (!indicatorsElem) {
+
+                var cardImageContainer = card.querySelector('.cardImageContainer');
+                indicatorsElem = document.createElement('div');
+                indicatorsElem.classList.add('indicators');
+                cardImageContainer.appendChild(indicatorsElem);
+            }
+
+            return indicatorsElem;
+        }
+
         function updateUserData(card, userData) {
 
             var type = card.getAttribute('data-type');
             var enableCountIndicator = type == 'Series' || type == 'BoxSet' || type == 'Season';
-            var cardImageContainer;
+            var indicatorsElem;
 
             if (userData.Played) {
 
@@ -722,8 +744,8 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
 
                     playedIndicator = document.createElement('div');
                     playedIndicator.classList.add('playedIndicator');
-                    cardImageContainer = cardImageContainer || card.querySelector('.cardImageContainer');
-                    cardImageContainer.appendChild(playedIndicator);
+                    indicatorsElem = ensureIndicators(card, indicatorsElem);
+                    indicatorsElem.appendChild(playedIndicator);
                 }
                 playedIndicator.innerHTML = '<iron-icon icon="check"></iron-icon>';
             } else {
@@ -735,15 +757,14 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                 }
             }
             if (userData.UnplayedItemCount) {
-
                 var countIndicator = card.querySelector('.countIndicator');
 
                 if (!countIndicator) {
 
                     countIndicator = document.createElement('div');
                     countIndicator.classList.add('countIndicator');
-                    cardImageContainer = cardImageContainer || card.querySelector('.cardImageContainer');
-                    cardImageContainer.appendChild(countIndicator);
+                    indicatorsElem = ensureIndicators(card, indicatorsElem);
+                    indicatorsElem.appendChild(countIndicator);
                 }
                 countIndicator.innerHTML = userData.UnplayedItemCount;
             } else if (enableCountIndicator) {

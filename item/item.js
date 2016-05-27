@@ -1044,12 +1044,30 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             var currentItem;
             var dataPromises;
 
+            function onRecordClicked() {
+
+                var btn;
+
+                if (currentItem.TimerId) {
+                    btn = view.querySelector('.btnEditRecording');
+                } else {
+                    btn = view.querySelector('.btnRecord');
+                }
+
+                if (!btn.classList.contains('hide')) {
+                    btn.click();
+                }
+            }
+
             function onInputCommand(e) {
 
                 switch (e.detail.command) {
 
                     case 'play':
                         play();
+                        break;
+                    case 'record':
+                        onRecordClicked();
                         break;
                     default:
                         break;

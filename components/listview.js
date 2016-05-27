@@ -43,7 +43,14 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'paper-icon-item', 'paper-item-
             } else {
                 html += '<div class="paperIconItemImage" item-icon>';
             }
-            html += indicators.getPlayedIndicatorHtml(item);
+
+            var indicatorsHtml = '';
+            indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+
+            if (indicatorsHtml) {
+                html += '<div class="indicators">' + indicatorsHtml + '</div>';
+            }
+
             var progressHtml = indicators.getProgressBarHtml(item);
 
             if (progressHtml) {

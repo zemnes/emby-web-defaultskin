@@ -559,10 +559,13 @@ paper-slider.noKnob:hover #sliderKnob {
         margin-bottom: .25em;
     }
 
-.mainSection .itemPageButtons paper-button, paper-button.mini {
+.mainSection .itemPageButtons paper-button {
     padding: .35em .8em .5em;
-    font-size: 90%;
     text-transform: none;
+}
+
+paper-button.mini {
+    font-size: 90%;
 }
 
 .horizontalItemsContainer {

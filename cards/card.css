@@ -188,10 +188,24 @@ button.card {
     top: -8%;
 }
 
-.countIndicator {
+.indicators {
     right: .5vh;
     top: .5vh;
     position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+iron-icon.indicator {
+    width: 3.4vh;
+    height: 3.4vh;
+}
+
+.indicator + .indicator {
+    margin-left: .25em;
+}
+
+.countIndicator {
     background: rgba(82,181,75,1);
     border-radius: 500px;
     width: 3.8vh;
@@ -207,9 +221,6 @@ button.card {
 }
 
 .playedIndicator {
-    right: .5vh;
-    top: .5vh;
-    position: absolute;
     background: rgba(82,181,75,1);
     border-radius: 500px;
     width: 3.8vh;
