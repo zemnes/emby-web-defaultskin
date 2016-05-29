@@ -168,7 +168,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 controller: self.id + '/search/search',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'search/search.css'),
-					'paper-input',
+					'emby-input',
                     icons
                 ]
             });

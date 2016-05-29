@@ -1,4 +1,4 @@
-<div class="pageContainer verticalPageContainer" style="margin-top:-5%; z-index:1;">
+<div class="pageContainer verticalPageContainer" style="z-index:1;">
     <div class="scrollFrame scrollFrameY itemScrollFrame">
 
         <div class="scrollSlider">
@@ -6,7 +6,9 @@
             <div class="searchFields">
                 <div class="searchFieldsInner">
                     <iron-icon icon="search" class="mediumSizeIcon iconSearch"></iron-icon>
-                    <paper-input class="txtSearch" type="text" data-keyboard="false"></paper-input>
+                    <div class="inputContainer" style="margin-bottom:0;flex-grow:1;">
+                        <input is="emby-input" class="txtSearch" type="text" data-keyboard="false" />
+                    </div>
                 </div>
                 <div class="alphaPicker"></div>
             </div>

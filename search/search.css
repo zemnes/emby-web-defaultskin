@@ -1,6 +1,6 @@
-    .searchHeader .headerRight {
-        display: none;
-    }
+.searchHeader .headerRight {
+    display: none;
+}
 
 .searchFields {
     text-align: center;
@@ -12,19 +12,15 @@
 
 .searchFieldsInner {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .iconSearch {
     vertical-align: bottom;
     opacity: .5;
-}
-
-.txtSearch {
-    display: inline-block;
-    width: 40%;
-    vertical-align: middle;
 }
 
 .searchResults .backdropCard {
