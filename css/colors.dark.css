@@ -37,6 +37,11 @@ a {
             /*backdrop-filter: blur(5px);*/
         }
 
+    .skinContainer[data-backdroptype="static"] {
+        background-color: rgba(6, 6, 6, .6);
+        transition: background-color 1000ms ease-out;
+    }
+
 .headerLogo {
     background-image: url(images/logowhite.png);
 }
@@ -49,11 +54,11 @@ a {
     border-bottom-color: rgb(115, 115, 115) !important;
 }
 
-select[is="emby-select"] {
+select[is="emby-select"], input[is="emby-input"] {
     border-bottom-color: rgb(115, 115, 115);
 }
 
-paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textarea label, paper-checkbox #checkboxLabel, .selectLabelUnfocused {
+paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textarea label, paper-checkbox #checkboxLabel, .selectLabelUnfocused, .inputLabelUnfocused {
     color: #bbb !important;
 }
 
@@ -91,7 +96,7 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
         color: #fff;
     }
 
-.cardFooter {
+.card:not(.round) .cardFooter {
     background-color: #333;
 }
 
@@ -99,7 +104,7 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
     color: #aaa;
 }
 
-.card[focused] .cardBox, .card:focus .cardBox {
+.card[focused]:not(.round) .cardBox, .card:focus:not(.round) .cardBox {
     border-color: #52B54B;
     /*border-color: rgba(0, 0, 0, .6);*/
 }
@@ -233,8 +238,4 @@ paper-icon-item {
 
 paper-icon-button[disabled] {
     color: #666 !important;
-}
-
-.sectionTitle {
-    color: #ccc;
 }

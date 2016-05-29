@@ -135,7 +135,6 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
 
                 renderTabs(view, self);
             }
-
         });
 
         view.addEventListener('viewhide', function () {

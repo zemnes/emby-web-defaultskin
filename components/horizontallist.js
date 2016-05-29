@@ -20,7 +20,7 @@ define(['loading', './focushandler', 'focusManager', './../cards/cardbuilder'], 
 
             loading.show();
 
-            getItemsMethod(0, 2500).then(function (result) {
+            getItemsMethod(0, 3000).then(function (result) {
 
                 // Normalize between the different response types
                 if (result.Items == null && result.TotalRecordCount == null) {

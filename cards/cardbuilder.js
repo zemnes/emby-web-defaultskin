@@ -625,8 +625,16 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                 prefix = prefix.toUpperCase();
             }
 
+            var timerAttributes = '';
+            if (item.TimerId) {
+                timerAttributes += ' data-timerid="' + item.TimerId + '"';
+            }
+            if (item.SeriesTimerId) {
+                timerAttributes += ' data-seriestimerid="' + item.SeriesTimerId + '"';
+            }
+
             return '\
-<' + tagName + ' data-index="' + index + '" data-action="' + action + '" data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '" data-prefix="' + prefix + '" raised class="' + className + '"> \
+<' + tagName + ' data-index="' + index + '"' + timerAttributes + ' data-action="' + action + '" data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '" data-prefix="' + prefix + '" raised class="' + className + '"> \
 ' + cardImageContainerOpen + innerCardFooter + data + cardImageContainerClose + '\
 </' + tagName + '>';
         }
