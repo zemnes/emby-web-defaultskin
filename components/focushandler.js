@@ -1,7 +1,7 @@
 define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager'],
     function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager) {
 
-        function focusHandler(options) {
+        return function (options) {
 
             var self = this;
 
@@ -238,35 +238,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 }
             }
 
-            function fillSelectedItemPanel(elem, item) {
-
-                var thumbImage = Emby.Models.thumbImageUrl(item);
-
-                var html = '';
-
-                if (thumbImage) {
-
-                    html += '<div class="selectedItemPanelImage lazy" data-src="' + thumbImage + '"></div>';
-                }
-
-                html += '<div class="selectedItemPanelContent">';
-
-                html += '<div>';
-                html += item.Name;
-                html += '</div>';
-
-                if (item.Taglines && item.Taglines.length) {
-                    html += '<p class="tagline">';
-                    html += item.Taglines[0];
-                    html += '</p>';
-                }
-
-                html += '</div>';
-
-                elem.innerHTML = html;
-                imageLoader.lazyChildren(elem);
-            }
-
             function clearSelectedItemInfo() {
 
                 if (selectedItemInfoInner) {
@@ -304,6 +275,4 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 parent.removeEventListener('blur', onFocusOut, true);
             };
         }
-
-        return focusHandler;
     });
