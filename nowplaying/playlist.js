@@ -1,4 +1,4 @@
-define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', './../components/listview', 'focusManager', 'itemShortcuts'], function (playbackManager, scroller, loading, imageLoader, backdrop, listview, focusManager, itemShortcuts) {
+define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', 'listView', 'focusManager', 'itemShortcuts'], function (playbackManager, scroller, loading, imageLoader, backdrop, listview, focusManager, itemShortcuts) {
 
     function createVerticalScroller(view, pageInstance) {
 

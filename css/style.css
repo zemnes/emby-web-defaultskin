@@ -311,22 +311,15 @@ iron-icon.mediaInfoItem {
     margin-right: 0;
 }
 
-paper-item-body .paperIconItemMediaInfo {
+.listItemMediaInfo {
+    color: #bbb !important;
     margin: .5em 0;
     display: flex;
     align-items: center;
 }
 
-    paper-item-body .paperIconItemMediaInfo .starRatingContainer {
-        margin-left: -3px;
-    }
-
 h2.listItemTitle {
     margin: 0;
-}
-
-paper-item-body .overview {
-    white-space: normal;
 }
 
 .selectedItemInfo {

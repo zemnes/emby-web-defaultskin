@@ -1,4 +1,4 @@
-define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', './../components/listview', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', './../cards/cardbuilder', 'indicators'],
     function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
 
         function focusMainSection() {
@@ -37,7 +37,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     scrollBy: 200,
                     speed: 270,
                     scrollWidth: 50000,
-                    immediateSpeed: 100
+                    immediateSpeed: 160
                 };
 
                 pageInstance.verticalScroller = new scroller(scrollFrame, options);

@@ -13,7 +13,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             var zoomScale = options.zoomScale || (isHorizontal ? '1.16' : '1.12');
             var zoomInEase = browser.chrome ? 'ease-out-sine' : 'ease-out';
             var zoomOutEase = browser.chrome ? 'ease-in-cubic' : 'ease-in';
-            var zoomDuration = 140;
+            var zoomDuration = 200;
             var lastFocus = 0;
             var requireFocusForZoom = true;
 

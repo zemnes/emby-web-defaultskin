@@ -46,7 +46,11 @@ a {
     background-image: url(images/logowhite.png);
 }
 
-.fieldDescription {
+.fieldDescription, .dimText {
+    color: #aaa;
+}
+
+.dim {
     color: #aaa;
 }
 
@@ -58,8 +62,12 @@ select[is="emby-select"], input[is="emby-input"] {
     border-bottom-color: rgb(115, 115, 115);
 }
 
-paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textarea label, paper-checkbox #checkboxLabel, .selectLabelUnfocused, .inputLabelUnfocused {
+paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textarea label, paper-checkbox #checkboxLabel, .selectLabelUnfocused {
     color: #bbb !important;
+}
+
+.inputLabel {
+    color: #bbb;
 }
 
 .mdl-textfield__label {
@@ -98,10 +106,6 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
 
 .card:not(.round) .cardFooter {
     background-color: #333;
-}
-
-.dim {
-    color: #aaa;
 }
 
 .card[focused]:not(.round) .cardBox, .card:focus:not(.round) .cardBox {
@@ -198,31 +202,19 @@ paper-slider #progressContainer {
     background-color: #666 !important;
 }
 
-paper-item-body [secondary] {
-    color: #999 !important;
-}
-
 .selectedItemSecondaryInfo {
     color: #ddd !important;
 }
 
-.paperIconItemMediaInfo {
-    color: #bbb !important;
+.listItem:focus {
+    background-color: #333 !important;
+    border-radius: .25em;
+    border: 1px solid #388E3C;
 }
 
-paper-icon-item {
-    border: 1px solid transparent;
+.listItemBody .secondary {
+    color: #999 !important;
 }
-
-    paper-icon-item[focused] {
-        background-color: rgba(20,20,20,.90);
-        border: 1px solid #52B54B;
-        outline: none !important;
-    }
-
-    paper-icon-item:focus::before {
-        display: none;
-    }
 
 .btnUserData {
     color: #aaa;
@@ -234,8 +226,4 @@ paper-icon-item {
 
 .tagline {
     color: #FFEB3B;
-}
-
-paper-icon-button[disabled] {
-    color: #666 !important;
 }

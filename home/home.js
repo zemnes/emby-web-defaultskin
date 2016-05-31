@@ -160,7 +160,7 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
 
                 var tabbedPageInstance = new tabbedPage(view, {
                     handleFocus: true,
-                    immediateSpeed: 100
+                    immediateSpeed: 160
                 });
                 tabbedPageInstance.loadViewContent = loadViewContent;
                 tabbedPageInstance.renderTabs(result.Items);
