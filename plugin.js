@@ -61,7 +61,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             }
 
             // The samsung and lg tv browsers don't quite support all of the flex techniques being used, so add a stylehsheet to degrade
-            if (browser.tv && !browser.chrome) {
+            if (browser.tv && !browser.chrome && !browser.operaTv) {
                 console.log("** Using smart tv css");
                 list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
             }
