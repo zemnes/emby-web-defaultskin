@@ -95,11 +95,11 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
     border-color: #bbb;
 }
 
-.paperRaised, paper-button[raised] {
+.paperRaised,[is="emby-button"].raised {
     background: #404040;
 }
 
-    .paperRaised:focus, paper-button[focused]:not(.btnUserViewHeader) {
+    .paperRaised:focus, [is="emby-button"]:focus:not(.btnUserViewHeader) {
         background: #52B54B;
         color: #fff;
     }
@@ -122,7 +122,7 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
 }
 
 
-.userViewNames paper-button {
+.userViewNames button {
     opacity: .25;
 }
 
@@ -131,7 +131,7 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
     border-bottom: 2px solid transparent;
 }
 
-.userViewNames paper-button.selected {
+.userViewNames button.selected {
     color: #fff;
     opacity: 1;
 }
@@ -169,12 +169,21 @@ paper-input label, paper-checkbox label, emby-dropdown-menu label, paper-textare
     color: #bbb !important;
 }
 
-.userViewNames paper-button[focused] {
+.userViewNames button:focus {
     color: #52B54B !important;
     opacity: 1;
 }
 
-    .userViewNames paper-button[focused] .userViewButtonText {
+    .userViewNames button:focus .userViewButtonText {
+        border-bottom-color: #52B54B;
+    }
+
+.userViewNames button:focus {
+    color: #52B54B !important;
+    opacity: 1;
+}
+
+    .userViewNames button:focus .userViewButtonText {
         border-bottom-color: #52B54B;
     }
 

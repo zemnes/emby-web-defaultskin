@@ -1,4 +1,4 @@
-define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'pluginManager', 'itemHelper', 'mediaInfo', 'focusManager', 'connectionManager', 'indicators', 'itemShortcuts', 'paper-button'],
+define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'pluginManager', 'itemHelper', 'mediaInfo', 'focusManager', 'connectionManager', 'indicators', 'itemShortcuts', 'emby-button'],
     function (datetime, skinInfo, imageLoader, connectionManager, pluginManager, itemHelper, mediaInfo, focusManager, connectionManager, indicators, itemShortcuts) {
 
         function setShapeHorizontal(items, options) {
@@ -155,7 +155,6 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                         }
 
                         if (hasOpenSection) {
-                            //html += '<paper-button>...</paper-button>';
 
                             html += '</div>';
 
@@ -297,7 +296,7 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
 
                 if (showMoreButton) {
                     html += '<div class="listItemsMoreButtonContainer">';
-                    html += '<paper-button class="listItemsMoreButton" data-parentid="' + options.parentId + '" data-indextype="Genres" data-indexvalue="' + item.Id + '" raised>' + Globalize.translate('More') + '</paper-button>';
+                    html += '<button is="emby-button" class="listItemsMoreButton raised" data-parentid="' + options.parentId + '" data-indextype="Genres" data-indexvalue="' + item.Id + '">' + Globalize.translate('More') + '</button>';
                     html += '</div>';
                 }
 
@@ -634,7 +633,7 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
             }
 
             return '\
-<' + tagName + ' data-index="' + index + '"' + timerAttributes + ' data-action="' + action + '" data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '" data-prefix="' + prefix + '" raised class="' + className + '"> \
+<' + tagName + ' data-index="' + index + '"' + timerAttributes + ' data-action="' + action + '" data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '" data-prefix="' + prefix + '" class="' + className + '"> \
 ' + cardImageContainerOpen + innerCardFooter + data + cardImageContainerClose + '\
 </' + tagName + '>';
         }

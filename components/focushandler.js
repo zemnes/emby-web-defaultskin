@@ -11,8 +11,8 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             var currentAnimation;
             var isHorizontal = options.scroller ? options.scroller.options.horizontal : options.horizontal;
             var zoomScale = options.zoomScale || (isHorizontal ? '1.16' : '1.12');
-            var zoomInEase = browser.chrome ? 'ease-out-sine' : 'ease-out';
-            var zoomOutEase = browser.chrome ? 'ease-in-cubic' : 'ease-in';
+            var zoomInEase = 'ease-out';
+            var zoomOutEase = 'ease-in';
             var zoomDuration = 200;
             var lastFocus = 0;
             var requireFocusForZoom = true;
@@ -97,7 +97,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 if (selectedMediaInfoTimeout) {
                     clearTimeout(selectedMediaInfoTimeout);
                 }
-                var delay = 1200;
+                var delay = 1000;
                 selectedMediaInfoTimeout = setTimeout(onSelectedMediaInfoTimeout, delay);
             }
 

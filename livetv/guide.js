@@ -1,4 +1,4 @@
-define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop'], function (tvguide, events, datetime, imageLoader, backdrop) {
+define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop', 'mediaInfo'], function (tvguide, events, datetime, imageLoader, backdrop, mediaInfo) {
 
     return function (view, params) {
 
@@ -67,6 +67,13 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop'], function (t
             }
 
             html += '</div>';
+
+            var secondaryMediaInfoHtml = mediaInfo.getSecondaryMediaInfoHtml(item);
+            if (secondaryMediaInfoHtml) {
+                html += '<div class="dim" style="margin-top:.15em;display:flex;align-items:center;">';
+                html += secondaryMediaInfoHtml;
+                html += '</div>';
+            }
 
             var overview = item.ShortOverview || item.Overview;
 

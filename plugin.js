@@ -61,7 +61,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             }
 
             // The samsung and lg tv browsers don't quite support all of the flex techniques being used, so add a stylehsheet to degrade
-            if (browser.tv && !browser.chrome && !browser.operaTv) {
+            if (browser.noFlex) {
                 console.log("** Using smart tv css");
                 list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
             }
@@ -114,7 +114,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 transition: 'slide',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'item/item.css'),
-                    'paper-button',
+                    'emby-button',
                     icons
                 ],
                 controller: self.id + '/item/item'
@@ -124,7 +124,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 path: 'list/list.html',
                 transition: 'slide',
                 controller: self.id + '/list/list',
-                dependencies: ['paper-button', icons]
+                dependencies: ['emby-button', icons]
             });
 
             routes.push({

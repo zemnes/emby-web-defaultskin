@@ -1,6 +1,6 @@
 define(['focusManager', './../cards/cardbuilder', 'pluginManager', './../skininfo'], function (focusManager, cardBuilder, pluginManager, skinInfo) {
 
-	function loadLatestRecordings(element) {
+    function loadLatestRecordings(element) {
 
         return Emby.Models.liveTvRecordings({
 
@@ -15,7 +15,8 @@ define(['focusManager', './../cards/cardbuilder', 'pluginManager', './../skininf
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                showParentTitle: true
+                showParentTitle: true,
+                coverImage: true
             });
         });
     }

@@ -86,7 +86,7 @@
     display: none !important;
 }
 
-.itemPageFixedLeft .itemPageButtons paper-button {
+.itemPageFixedLeft .itemPageButtons button {
     padding-top: .3em;
     padding-bottom: .45em;
     margin: .35em 0;

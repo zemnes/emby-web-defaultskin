@@ -1,4 +1,4 @@
-define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser', 'paper-button', 'scrollStyles'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
+define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper', 'browser', 'emby-button', 'scrollStyles'], function (loading, scroller, focusHandler, focusManager, scrollHelper, browser) {
 
     function focusViewSlider() {
 
@@ -112,13 +112,13 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper',
         var selectedItemInfoInner = page.querySelector('.selectedItemInfoInner');
         var selectedIndexElement = page.querySelector('.selectedIndex');
 
-        var tagName = 'paper-button';
+        var tagName = 'button';
 
         self.renderTabs = function (tabs, initialTabId) {
 
             page.querySelector('.userViewNames').innerHTML = tabs.map(function (i) {
 
-                return '<' + tagName + ' class="flat btnUserViewHeader" data-id="' + i.Id + '" data-type="' + (i.CollectionType || '') + '"><h2 class="userViewButtonText">' + i.Name + '</h2></' + tagName + '>';
+                return '<' + tagName + ' is="emby-button" class="flat btnUserViewHeader" data-id="' + i.Id + '" data-type="' + (i.CollectionType || '') + '"><h2 class="userViewButtonText">' + i.Name + '</h2></' + tagName + '>';
 
             }).join('');
 

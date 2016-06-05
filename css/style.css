@@ -497,9 +497,10 @@ paper-slider #sliderKnob {
 }
 
 .listItemsMoreButton {
-    margin: .25em .25em .25em 0;
-    padding: .3em .7em;
-    font-size: 84%;
+    margin: .25em .25em .25em 0 !important;
+    padding: .3em .7em !important;
+    font-size: 84% !important;
+    text-transform: uppercase;
     min-width: initial;
     margin-left: auto;
 }
@@ -530,7 +531,7 @@ paper-slider #sliderKnob {
     margin-bottom: 1.5em;
 }
 
-    .listPageButtons paper-button {
+    .listPageButtons button {
         padding: .2em .8em .35em;
         text-transform: none;
         font-size: 86%;
@@ -553,12 +554,12 @@ paper-slider.noKnob:hover #sliderKnob {
         margin-bottom: .25em;
     }
 
-.mainSection .itemPageButtons paper-button {
-    padding: .35em .8em .5em;
+.mainSection .itemPageButtons button {
+    padding: .45em .8em .55em;
     text-transform: none;
 }
 
-paper-button.mini {
+button.mini {
     font-size: 90%;
 }
 
