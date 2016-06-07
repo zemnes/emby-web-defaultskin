@@ -437,18 +437,30 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             }
             var path = e.detail.state.path;
 
-            var enableSubduedBackdrop = path.indexOf('item.html') == -1 && path.indexOf('guide.html') == -1 && path.indexOf('nowplaying') == -1;
-            setSubduedBackdrop(enableSubduedBackdrop);
+            var isDetailBackdrop = path.indexOf('item.html') != -1 || -1 && path.indexOf('guide.html') != -1 || path.indexOf('nowplaying') != -1;
+            var isStaticBackdrop = !isDetailBackdrop && (path.indexOf('login.html') != -1 || path.indexOf('selectserver.html') != -1);
+            setBackdropStyle(isDetailBackdrop, isStaticBackdrop);
         }
 
-        function setSubduedBackdrop(isSubdued) {
-            var elem = document.querySelector('.skinContainer');
-            if (isSubdued) {
+        var skinContainer;
+        function setBackdropStyle(isDetailBackdrop, isStaticBackdrop) {
 
-                elem.classList.remove('detailBackdrop');
+            skinContainer = skinContainer || document.querySelector('.skinContainer');
+
+            if (isDetailBackdrop) {
+
+                skinContainer.classList.add('detailBackdrop');
 
             } else {
-                elem.classList.add('detailBackdrop');
+                skinContainer.classList.remove('detailBackdrop');
+            }
+
+            if (isStaticBackdrop) {
+
+                skinContainer.classList.add('staticBackdrop');
+
+            } else {
+                skinContainer.classList.remove('staticBackdrop');
             }
         }
     }

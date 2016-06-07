@@ -177,7 +177,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     Emby.Models.item(id).then(function (item) {
 
                         if (options.enableBackdrops) {
-                            backdrop.setBackdrops([item]);
+                            backdrop.setBackdrop(item);
                         }
                         setSelectedInfo(card, item);
                     });

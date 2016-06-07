@@ -40,7 +40,7 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop', 'mediaInfo']
         function onGuideFocus(e, detail) {
 
             Emby.Models.item(detail.item.Id).then(setSelectedInfo);
-            backdrop.setBackdrops([detail.item]);
+            backdrop.setBackdrop(detail.item);
         }
 
         function getTime(date) {

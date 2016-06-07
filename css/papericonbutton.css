@@ -1,6 +1,6 @@
 button.mediumSizeIcon {
-    height: 4.6vh;
-    width: 4.6vh;
+    height: 4.6vh !important;
+    width: 4.6vh !important;
 }
 
 iron-icon.mediumSizeIcon {
@@ -19,12 +19,12 @@ iron-icon.largeIcon, img.largeIcon {
 }
 
 .xlargePaperIconButton {
-    width: 7.4vh;
-    height: 7.4vh;
+    width: 7.4vh !important;
+    height: 7.4vh !important;
 }
 
     /* Tone these down a little because they end up looking massive */
     .xlargePaperIconButton[icon='thumb-up'], .xlargePaperIconButton[icon='thumb-down'], .xlargePaperIconButton[icon='favorite'] {
-        width: 5.9vh;
-        height: 5.9vh;
+        width: 5.9vh !important;
+        height: 5.9vh !important;
     }

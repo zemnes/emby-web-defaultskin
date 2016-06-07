@@ -801,7 +801,7 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                     if (!innerCardFooter) {
                         innerCardFooter = document.createElement('div');
                         innerCardFooter.classList.add('innerCardFooter');
-                        cardImageContainer = cardImageContainer || card.querySelector('.cardImageContainer');
+                        var cardImageContainer = card.querySelector('.cardImageContainer');
                         cardImageContainer.appendChild(innerCardFooter);
                     }
                     innerCardFooter.appendChild(itemProgressBar);

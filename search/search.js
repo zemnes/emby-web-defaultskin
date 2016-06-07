@@ -1,4 +1,4 @@
-define(['loading', 'alphapicker', 'scroller', './../components/focushandler', './../cards/cardbuilder'], function (loading, alphaPicker, scroller, focusHandler, cardBuilder) {
+define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', './../cards/cardbuilder'], function (loading, alphaPicker, scroller, focusHandler, cardBuilder) {
 
     function createVerticalScroller(view, pageInstance) {
 
