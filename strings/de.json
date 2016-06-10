@@ -1,7 +1,7 @@
 {
-    "Episodes": "Episodes",
-    "OtherVideos": "Other videos",
-    "ShowScenesOnDetailScreensFor": "Show scenes on detail screens for",
+    "Episodes": "Episoden",
+    "OtherVideos": "Andere Videos",
+    "ShowScenesOnDetailScreensFor": "Zeige Kapitel auf den Detailseiten von",
     "Play": "Abspielen",
     "Queue": "Warteschlange",
     "Shuffle": "Zufallswiedergabe",
@@ -85,5 +85,5 @@
     "SkinName": "Standard Skin",
     "DimUnselectedPosters": "Dimme nicht ausgew\u00e4lte Kacheln",
     "Songs": "Titel",
-    "Record": "Record"
+    "Record": "Aufnahme"
 }

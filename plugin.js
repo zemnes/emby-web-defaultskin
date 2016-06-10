@@ -72,8 +72,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             list.push('paper-icon-button-light');
 
             // Needed by the header
-            list.push('iron-icon-set');
-            list.push('html!' + pluginManager.mapPath(self, 'icons.html'));
+            list.push('material-icons');
 
             return list;
         };
@@ -96,7 +95,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             var routes = [];
 
-            var icons = 'html!' + pluginManager.mapPath(self, 'icons.html');
+            var icons = 'material-icons';
 
             routes.push({
                 path: 'home.html',
@@ -398,12 +397,12 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             if (user.PrimaryImageTag) {
 
-                headerUserButton.innerHTML = '<img src="' + Emby.Models.userImageUrl(user, {
+                headerUserButton.innerHTML = '<img class="largeIcon" src="' + Emby.Models.userImageUrl(user, {
                     height: 38
                 }) + '" />';
 
             } else {
-                headerUserButton.innerHTML = '<iron-icon icon="person"></iron-icon>';
+                headerUserButton.innerHTML = '<i class="largeIcon md-icon">person</i>';
             }
 
             document.querySelector('.headerUserButton').classList.remove('hide');

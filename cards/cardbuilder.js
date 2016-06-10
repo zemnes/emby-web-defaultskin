@@ -754,7 +754,7 @@ define(['datetime', './../skininfo', 'imageLoader', 'connectionManager', 'plugin
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<iron-icon icon="check"></iron-icon>';
+                playedIndicator.innerHTML = '<i class="md-icon">check</i>';
             } else {
 
                 var playedIndicator = card.querySelector('.playedIndicator');

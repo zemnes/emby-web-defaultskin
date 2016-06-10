@@ -235,10 +235,7 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
         function renderFavorites(page, pageParams, autoFocus, scroller, resolve) {
 
-            fetch(Emby.PluginManager.mapPath(skinInfo.id, 'tv/views.favorites.html'), { mode: 'no-cors' }, true).then(function (response) {
-                return response.text();
-            }).then(function (html) {
-
+            require(['text!' + Emby.PluginManager.mapPath(skinInfo.id, 'tv/views.favorites.html')], function (html) {
                 var parent = page.querySelector('.contentScrollSlider');
                 parent.innerHTML = Globalize.translateDocument(html, skinInfo.id);
                 loadFavoriteSeries(parent, pageParams, autoFocus, resolve);

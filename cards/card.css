@@ -212,8 +212,9 @@ button.card {
 }
 
 .cardImageIcon {
-    width: 50% !important;
-    height: 50% !important;
+    width: 12vh;
+    height: 12vh;
+    font-size: 12vh;
     color: #fff;
     position: relative;
     top: -8%;

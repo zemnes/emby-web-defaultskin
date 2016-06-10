@@ -381,9 +381,9 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
         function updatePlaystate(player) {
 
             if (playbackManager.paused()) {
-                view.querySelector('.btnPause iron-icon').icon = 'play-arrow';
+                view.querySelector('.btnPause i').innerHTML = 'play_arrow';
             } else {
-                view.querySelector('.btnPause iron-icon').icon = 'pause';
+                view.querySelector('.btnPause i').innerHTML = 'pause';
             }
         }
 
@@ -394,9 +394,9 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             }
 
             if (playbackManager.isMuted()) {
-                view.querySelector('.buttonMute iron-icon').icon = 'volume-off';
+                view.querySelector('.buttonMute i').innerHTML = 'volume_off';
             } else {
-                view.querySelector('.buttonMute iron-icon').icon = 'volume-up';
+                view.querySelector('.buttonMute i').innerHTML = 'volume_up';
             }
         }
 

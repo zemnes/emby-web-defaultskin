@@ -147,22 +147,22 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../card
         function updatePlaystate(player) {
 
             if (playbackManager.paused()) {
-                view.querySelector('.btnPause iron-icon').icon = 'play-arrow';
+                view.querySelector('.btnPause i').innerHTML = 'play_arrow';
             } else {
-                view.querySelector('.btnPause iron-icon').icon = 'pause';
+                view.querySelector('.btnPause i').innerHTML = 'pause';
             }
 
             var repeatMode = playbackManager.getRepeatMode();
 
             if (repeatMode == 'RepeatAll') {
-                btnRepeat.querySelector('iron-icon').icon = 'repeat';
+                btnRepeat.querySelector('i').innerHTML = 'repeat';
                 btnRepeat.classList.add('repeatActive');
             }
             else if (repeatMode == 'RepeatOne') {
-                btnRepeat.querySelector('iron-icon').icon = 'repeat-one';
+                btnRepeat.querySelector('i').innerHTML = 'repeat_one';
                 btnRepeat.classList.add('repeatActive');
             } else {
-                btnRepeat.querySelector('iron-icon').icon = 'repeat';
+                btnRepeat.querySelector('i').innerHTML = 'repeat';
                 btnRepeat.classList.remove('repeatActive');
             }
         }
@@ -178,9 +178,9 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../card
             }
 
             if (playbackManager.isMuted()) {
-                view.querySelector('.buttonMute iron-icon').icon = 'volume-off';
+                view.querySelector('.buttonMute i').innerHTML = 'volume-off';
             } else {
-                view.querySelector('.buttonMute iron-icon').icon = 'volume-up';
+                view.querySelector('.buttonMute i').innerHTML = 'volume-up';
             }
         }
 

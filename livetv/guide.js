@@ -56,14 +56,14 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop', 'mediaInfo']
             html += '<h2>' + item.Name + '</h2>';
 
             if (item.IsHD) {
-                html += '<iron-icon icon="hd"></iron-icon>';
+                html += '<i class="md-icon">hd</i>';
             }
 
             if (item.SeriesTimerId) {
-                html += '<iron-icon class="seriesTimerIcon" icon="fiber-smart-record"></iron-icon>';
+                html += '<i class="seriesTimerIcon md-icon">fiber_smart_record</i>';
             }
             else if (item.TimerId) {
-                html += '<iron-icon class="timerIcon" icon="fiber-manual-record"></iron-icon>';
+                html += '<i class="timerIcon md-icon">fiber_manual_record</i>';
             }
 
             html += '</div>';

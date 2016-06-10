@@ -205,18 +205,11 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
                         break;
                 }
 
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', Emby.PluginManager.mapPath(skinInfo.id, 'home/views.' + viewName + '.html'), true);
-
-                xhr.onload = function (e) {
-
-                    var html = this.response;
+                require(['text!' + Emby.PluginManager.mapPath(skinInfo.id, 'home/views.' + viewName + '.html')], function (html) {
                     loadViewHtml(page, id, html, viewName, isFirstLoad, self);
                     isFirstLoad = false;
                     resolve();
-                }
-
-                xhr.send();
+                });
             });
         }
     }

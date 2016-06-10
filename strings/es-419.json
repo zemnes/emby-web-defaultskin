@@ -1,7 +1,7 @@
 {
-    "Episodes": "Episodes",
-    "OtherVideos": "Other videos",
-    "ShowScenesOnDetailScreensFor": "Show scenes on detail screens for",
+    "Episodes": "Episodios",
+    "OtherVideos": "Otros videos",
+    "ShowScenesOnDetailScreensFor": "Mostrar escenas en pantalla de detalles para",
     "Play": "Reproducir",
     "Queue": "Cola",
     "Shuffle": "Aleatorio",
@@ -85,5 +85,5 @@
     "SkinName": "Tema por defecto",
     "DimUnselectedPosters": "Opacar posters no seleccionados",
     "Songs": "Canciones",
-    "Record": "Record"
+    "Record": "Grabar"
 }
