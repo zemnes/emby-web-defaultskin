@@ -1,7 +1,7 @@
 <div class="pageContainer">
 
 </div>
-<div class="scenePicker hide hiddenScrollX" style="scroll-behavior: auto;">
+<div class="scenePicker hide hiddenScrollX">
 </div>
 <div class="videoOsdBottom">
 
@@ -13,7 +13,9 @@
             <h2 class="osdTitle"></h2>
             <div class="osdMediaInfo"></div>
         </div>
-        <paper-slider step=".1" min="0" max="100" value="0" class="osdPositionSlider noKnob"></paper-slider>
+        <div class="sliderContainer" style="margin-top:.25em;margin-bottom:.25em;">
+            <input type="range" step="1" min="0" max="100" value="0" is="emby-slider" class="osdPositionSlider" />
+        </div>
 
         <div class="buttons">
             <button is="paper-icon-button-light" class="btnPreviousTrack autoSize" disabled>
@@ -41,7 +43,9 @@
                 <button is="paper-icon-button-light" class="buttonMute autoSize">
                     <i class="xlargePaperIconButton md-icon">volume_up</i>
                 </button>
-                <paper-slider step="1" min="0" max="100" value="0" class="osdVolumeSlider"></paper-slider>
+                <div class="sliderContainer osdVolumeSliderContainer" style="flex-grow:1;">
+                    <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="osdVolumeSlider" />
+                </div>
             </div>
         </div>
     </div>

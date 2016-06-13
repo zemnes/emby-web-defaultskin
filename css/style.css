@@ -454,26 +454,12 @@ h2.listItemTitle {
     display: inline-block;
 }
 
-.paper-progress-0 #progressContainer.paper-progress, .paper-progress-0 .indeterminate.paper-progress:after {
-    height: .56vh;
-}
-
-paper-slider #progressContainer {
-    height: .56vh !important;
-}
-
 .itemProgressBar {
     height: .56vh;
 }
 
 .itemProgressBarForeground {
     background-color: #52B54B !important;
-}
-
-paper-slider #sliderKnob {
-    width: 44px !important;
-    height: 44px !important;
-    top: -4px !important;
 }
 
 .playlistPageContainer {
@@ -540,10 +526,6 @@ paper-slider #sliderKnob {
 
 .layout-tv paper-slider.noKnob #sliderKnob {
     display: none;
-}
-
-paper-slider.noKnob:hover #sliderKnob {
-    display: block;
 }
 
 .verticalSection {

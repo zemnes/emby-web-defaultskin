@@ -6,7 +6,9 @@
     <div class="nowPlayingInfoContainer" style="text-align: left;">
         <h1 class="nowPlayingMetadata">&nbsp;<br />&nbsp;<br />&nbsp;</h1>
         <div class="nowPlayingProgressContainer">
-            <paper-slider step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider noKnob"></paper-slider>
+            <div class="sliderContainer" style="flex-grow:1;">
+                <input type="range" step="1" min="0" max="100" value="0" is="emby-slider" class="nowPlayingPositionSlider" />
+            </div>
             <div class="nowPlayingTime"><span class="nowPlayingPositionText"></span><span class="nowPlayingDurationText"></span></div>
         </div>
         <div class="nowPlayingButtonsContainer">
@@ -38,7 +40,9 @@
                     <i class="xlargePaperIconButton md-icon">volume_up</i>
                 </button>
 
-                <paper-slider step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"></paper-slider>
+                <div class="sliderContainer" style="width:30%;">
+                    <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider" />
+                </div>
             </div>
         </div>
     </div>

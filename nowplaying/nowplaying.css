@@ -29,20 +29,12 @@
 .nowPlayingTime {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 2em;
+    margin-left: 1em;
 }
 
 .nowPlayingProgressContainer {
     display: flex;
     align-items: center;
-}
-
-.nowPlayingPositionSlider {
-    flex-grow: 1;
-}
-
-.nowPlayingVolumeSlider, .nowPlayingPositionSlider {
-    display: inline-block !important;
 }
 
 .nowPlayingProgressContainer {

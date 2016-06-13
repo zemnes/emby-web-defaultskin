@@ -34,7 +34,6 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 'css!' + pluginManager.mapPath(self, 'css/style'),
                 'css!' + pluginManager.mapPath(self, 'cards/card'),
                 'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
-                'css!' + pluginManager.mapPath(self, 'css/paperstyles'),
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')
             ];
 
@@ -178,7 +177,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 controller: self.id + '/nowplaying/nowplaying',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/nowplaying.css'),
-                    'paper-slider',
+                    'emby-slider',
                     'paper-icon-button-light',
                     icons
                 ],
@@ -201,7 +200,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 controller: self.id + '/nowplaying/videoosd',
                 dependencies: [
                     'css!' + pluginManager.mapPath(self, 'nowplaying/videoosd.css'),
-                    'paper-slider',
+                    'emby-slider',
                     'paper-icon-button-light',
                     icons
                 ],
@@ -215,7 +214,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 controller: self.id + '/settings/settings',
                 dependencies: [
                     'emby-select',
-                    'paper-checkbox'
+                    'emby-checkbox'
                 ],
                 type: 'settings',
                 category: 'Display',

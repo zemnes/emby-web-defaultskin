@@ -14,11 +14,20 @@
             <option value="false">${No}</option>
         </select>
 
-        <div class="paperCheckboxList mediaTypeField" data-mediatype="Video">
+        <div class="checkboxList mediaTypeField" data-mediatype="Video">
             <h3>${ShowScenesOnDetailScreensFor}</h3>
-            <paper-checkbox class="chkMovieScenes">${Movies}</paper-checkbox>
-            <paper-checkbox class="chkEpisodeScenes">${Episodes}</paper-checkbox>
-            <paper-checkbox class="chkOtherScenes">${OtherVideos}</paper-checkbox>
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkMovieScenes" />
+                <span>${Movies}</span>
+            </label>
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkEpisodeScenes" />
+                <span>${Episodes}</span>
+            </label>
+            <label>
+                <input type="checkbox" is="emby-checkbox" class="chkOtherScenes" />
+                <span>${OtherVideos}</span>
+            </label>
         </div>
     </div>
 </div>
