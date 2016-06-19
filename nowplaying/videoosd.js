@@ -806,6 +806,24 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             }
         }
 
+        nowPlayingPositionSlider.getBubbleText = function (value) {
+
+            var state = playbackManager.getPlayerState(currentPlayer);
+            var playState = state.PlayState || {};
+            var nowPlayingItem = state.NowPlayingItem || {};
+
+            if (nowPlayingItem.RunTimeTicks) {
+
+                var ticks = nowPlayingItem.RunTimeTicks;
+                ticks /= 100;
+                ticks *= value;
+
+                return datetime.getDisplayRunningTime(ticks);
+            }
+
+            return '--:--';
+        };
+
     }
 
 });
