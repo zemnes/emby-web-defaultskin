@@ -381,7 +381,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
         function updatePlaystate(player) {
 
             if (playbackManager.paused()) {
-                view.querySelector('.btnPause i').innerHTML = 'play_arrow';
+                view.querySelector('.btnPause i').innerHTML = '&#xE037;';
             } else {
                 view.querySelector('.btnPause i').innerHTML = 'pause';
             }

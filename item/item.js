@@ -376,6 +376,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             mediaInfo.fillSecondaryMediaInfo(mediaInfoElem, item, {
                 interactive: true
             });
+            if (mediaInfoElem.innerHTML) {
+                mediaInfoElem.classList.remove('hide');
+            } else {
+                mediaInfoElem.classList.add('hide');
+            }
 
             var genres = item.Genres || [];
             var genresHtml = genres.map(function (i) {
@@ -1105,7 +1110,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     userdataButtons.fill({
                         element: view.querySelector(userDataIconsSelector),
                         buttonClass: 'mediumSizeIcon',
-                        item: item
+                        item: item,
+                        style: 'fab'
                     });
 
                     if (reloadAllData) {
