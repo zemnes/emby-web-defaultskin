@@ -448,11 +448,9 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             var section = view.querySelector('.nextUpSection');
 
-            var userData = item.UserData || {};
-
             var focusedItemIsNextUp = parentWithClass(document.activeElement, 'nextUpSection') != null;
 
-            if (item.Type != 'Series' || !userData.PlayedPercentage) {
+            if (item.Type != 'Series') {
                 section.classList.add('hide');
 
                 if (focusedItemIsNextUp) {

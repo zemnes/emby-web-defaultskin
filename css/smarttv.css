@@ -89,11 +89,11 @@
     width: 50%;
 }
 
-.mediaInfo, .osdMediaInfo, .osdTextContainer {
+.mediaInfo, .osdTextContainer {
     display: block !important;
 }
 
-    .mediaInfo > *, .osdMediaInfo > *, .osdTextContainer > * {
+    .mediaInfo > *, .osdMediaInfo > *, .osdTextContainer > *, .buttons > * {
         display: inline-block;
         vertical-align: middle;
     }
@@ -258,3 +258,16 @@ i.mediumSizeIcon, .mediumSizeIcon i {
     top: 10px;
     right: 35px;
 }
+
+.volumeButtons {
+    display: none;
+}
+
+.videoOsdBottom {
+    display: block;
+}
+
+    .videoOsdBottom > * {
+        display: inline-block;
+        vertical-align: bottom;
+    }

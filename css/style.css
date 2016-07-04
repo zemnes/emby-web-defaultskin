@@ -448,10 +448,10 @@ h2.listItemTitle {
     height: 32.6vh;
 }
 
-.horizontalPageContent .loginSquareCard {
+.loginSquareCard {
     width: 18vw;
     flex-shrink: 0;
-    display: inline-block;
+    display: inline-block !important;
 }
 
 .itemProgressBar {

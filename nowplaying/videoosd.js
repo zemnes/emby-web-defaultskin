@@ -603,7 +603,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
         window.addEventListener('keydown', function (e) {
 
-            if (e.keyCode == 32) {
+            if (e.keyCode == 32 && !isOsdOpen()) {
                 playbackManager.playPause();
                 showOsd();
             }
