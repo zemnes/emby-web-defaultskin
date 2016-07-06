@@ -716,9 +716,9 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             fadeOut(scenePicker);
         }
 
-        nowPlayingPositionSlider.addEventListener('immediate-value-change', function () {
+        nowPlayingPositionSlider.addEventListener('input', function () {
 
-            showScenePicker(this.immediateValue);
+            showScenePicker(this.value);
         });
 
         function onViewHideStopPlayback() {

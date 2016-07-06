@@ -1,4 +1,4 @@
-define(['./spotlight', 'imageLoader', 'focusManager', './../cards/cardbuilder', './../skininfo', 'itemShortcuts'], function (spotlight, imageLoader, focusManager, cardbuilder, skinInfo, itemShortcuts) {
+define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skininfo', 'itemShortcuts'], function (spotlight, imageLoader, focusManager, cardbuilder, skinInfo, itemShortcuts) {
 
 	function loadResume(element, parentId) {
 

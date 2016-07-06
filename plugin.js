@@ -32,7 +32,6 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             var list = [
                 // Used for the mpaa rating
                 'css!' + pluginManager.mapPath(self, 'css/style'),
-                'css!' + pluginManager.mapPath(self, 'cards/card'),
                 'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
                 'css!' + pluginManager.mapPath(self, 'css/papericonbutton')
             ];
@@ -224,8 +223,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
         };
 
         function onUserDataChanged(e, apiClient, userData) {
-            require([self.id + '/cards/cardbuilder'], function (cardbuilder) {
-                cardbuilder.onUserDataChanged(userData);
+            require(['cardBuilder'], function (cardBuilder) {
+                cardBuilder.onUserDataChanged(userData);
             });
         }
 
@@ -278,6 +277,10 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             } else {
                 Emby.Page.show(pluginManager.mapRoute(self, 'item/item.html') + '?id=' + item.Id + '&serverId=' + item.ServerId, { item: item });
             }
+        };
+
+        self.showGenre = function(options) {
+            Emby.Page.show(pluginManager.mapRoute(self.id, 'list/list.html') + '?parentid=' + options.ParentId + '&genreId=' + options.Id);
         };
 
         self.setTitle = function (title) {

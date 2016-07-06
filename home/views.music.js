@@ -1,4 +1,4 @@
-define(['./../cards/cardbuilder', 'pluginManager', './../skininfo'], function (cardBuilder, pluginManager, skinInfo) {
+define(['cardBuilder', 'pluginManager', './../skininfo'], function (cardBuilder, pluginManager, skinInfo) {
 
 	function loadLatest(element, parentId) {
 

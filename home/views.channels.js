@@ -1,4 +1,4 @@
-define(['./../cards/cardbuilder'], function (cardBuilder) {
+define(['cardBuilder'], function (cardBuilder) {
 
     function loadChannels(element, parentId, autoFocus) {
 

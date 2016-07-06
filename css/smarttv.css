@@ -76,6 +76,10 @@
     vertical-align: middle;
 }
 
+.searchPageContainer .iconSearch {
+    display: none !important;
+}
+
 .mainSection {
     display: block !important;
 }
@@ -99,7 +103,7 @@
     }
 
 .mainSection .itemPageButtons, .mainSection .itemPageUserDataIcons {
-    display: inline-block !important;
+    display: inline-block;
 }
 
 .osdVolumeSlider {

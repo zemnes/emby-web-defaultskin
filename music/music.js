@@ -1,4 +1,4 @@
-define(['loading', './../skininfo', 'alphaPicker', './../cards/cardbuilder', './../components/horizontallist', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager'], function (loading, skinInfo, alphaPicker, cardBuilder, horizontalList, focusHandler, tabbedPage, backdrop, focusManager) {
+define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../components/horizontallist', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager'], function (loading, skinInfo, alphaPicker, cardBuilder, horizontalList, focusHandler, tabbedPage, backdrop, focusManager) {
 
     return function (view, params) {
 

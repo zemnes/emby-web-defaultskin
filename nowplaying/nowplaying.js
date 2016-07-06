@@ -1,4 +1,4 @@
-define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', './../cards/cardbuilder', 'pluginManager', './../skininfo'], function (playbackManager, datetime, backdrop, userdataButtons, cardBuilder, pluginManager, skinInfo) {
+define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuilder', 'pluginManager', './../skininfo'], function (playbackManager, datetime, backdrop, userdataButtons, cardBuilder, pluginManager, skinInfo) {
 
 	return function (view, params) {
 

@@ -1,4 +1,4 @@
-define(['focusManager', './../cards/cardbuilder', 'pluginManager', './../skininfo'], function (focusManager, cardBuilder, pluginManager, skinInfo) {
+define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo'], function (focusManager, cardBuilder, pluginManager, skinInfo) {
 
     function loadLatestRecordings(element) {
 

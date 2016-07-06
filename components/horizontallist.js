@@ -1,4 +1,4 @@
-define(['loading', './focushandler', 'focusManager', './../cards/cardbuilder'], function (loading, focusHandler, focusManager, cardbuilder) {
+define(['loading', './focushandler', 'focusManager', 'cardBuilder'], function (loading, focusHandler, focusManager, cardbuilder) {
 
     function horizontalList(options) {
 
