@@ -149,20 +149,20 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             if (playbackManager.paused()) {
                 view.querySelector('.btnPause i').innerHTML = '&#xE037;';
             } else {
-                view.querySelector('.btnPause i').innerHTML = 'pause';
+                view.querySelector('.btnPause i').innerHTML = '&#xE034;';
             }
 
             var repeatMode = playbackManager.getRepeatMode();
 
             if (repeatMode == 'RepeatAll') {
-                btnRepeat.querySelector('i').innerHTML = 'repeat';
+                btnRepeat.querySelector('i').innerHTML = '&#xE040;';
                 btnRepeat.classList.add('repeatActive');
             }
             else if (repeatMode == 'RepeatOne') {
-                btnRepeat.querySelector('i').innerHTML = 'repeat_one';
+                btnRepeat.querySelector('i').innerHTML = '&#xE041;';
                 btnRepeat.classList.add('repeatActive');
             } else {
-                btnRepeat.querySelector('i').innerHTML = 'repeat';
+                btnRepeat.querySelector('i').innerHTML = '&#xE040;';
                 btnRepeat.classList.remove('repeatActive');
             }
         }
@@ -178,9 +178,9 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             }
 
             if (playbackManager.isMuted()) {
-                view.querySelector('.buttonMute i').innerHTML = 'volume-off';
+                view.querySelector('.buttonMute i').innerHTML = '&#xE04F;';
             } else {
-                view.querySelector('.buttonMute i').innerHTML = 'volume-up';
+                view.querySelector('.buttonMute i').innerHTML = '&#xE050;';
             }
         }
 

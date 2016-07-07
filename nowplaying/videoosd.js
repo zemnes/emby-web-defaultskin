@@ -383,7 +383,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             if (playbackManager.paused()) {
                 view.querySelector('.btnPause i').innerHTML = '&#xE037;';
             } else {
-                view.querySelector('.btnPause i').innerHTML = 'pause';
+                view.querySelector('.btnPause i').innerHTML = '&#xE034;';
             }
         }
 
@@ -394,9 +394,9 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             }
 
             if (playbackManager.isMuted()) {
-                view.querySelector('.buttonMute i').innerHTML = 'volume_off';
+                view.querySelector('.buttonMute i').innerHTML = '&#xE04F;';
             } else {
-                view.querySelector('.buttonMute i').innerHTML = 'volume_up';
+                view.querySelector('.buttonMute i').innerHTML = '&#xE050;';
             }
         }
 

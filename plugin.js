@@ -99,6 +99,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 type: 'home',
                 controller: self.id + '/home/home',
                 dependencies: [
+                    'cardStyle',
                     'css!' + pluginManager.mapPath(self, 'home/home.css'),
                     icons
                 ]
@@ -108,6 +109,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 path: 'item/item.html',
                 transition: 'slide',
                 dependencies: [
+                    'cardStyle',
                     'css!' + pluginManager.mapPath(self, 'item/item.css'),
                     'emby-button',
                     icons
@@ -119,7 +121,10 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 path: 'list/list.html',
                 transition: 'slide',
                 controller: self.id + '/list/list',
-                dependencies: ['emby-button', icons]
+                dependencies: [
+                    'cardStyle',
+                    'emby-button',
+                    icons]
             });
 
             routes.push({
@@ -138,7 +143,9 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 path: 'livetv/livetv.html',
                 transition: 'slide',
                 controller: self.id + '/livetv/livetv',
-                dependencies: []
+                dependencies: [
+                    'cardStyle',
+                ]
             });
 
             routes.push({

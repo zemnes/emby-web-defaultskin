@@ -59,7 +59,7 @@
 .cardImageIcon {
     display: block !important;
     position: absolute !important;
-    top: 15%;
+    top: 15% !important;
     left: 25%;
 }
 
