@@ -559,3 +559,26 @@ button.mini {
     z-index: 99999999;
     position: relative;
 }*/
+
+i.mediumSizeIcon {
+    height: 3.7vh !important;
+    width: 3.7vh !important;
+    font-size: 3.7vh !important;
+}
+
+i.largeIcon {
+    height: 4.3vh !important;
+    width: 4.3vh !important;
+    font-size: 4.3vh !important;
+}
+
+img.largeIcon {
+    height: 4.3vh !important;
+    width: 4.3vh !important;
+}
+
+.xlargePaperIconButton {
+    height: 6.2vh !important;
+    width: 6.2vh !important;
+    font-size: 6.2vh !important;
+}
