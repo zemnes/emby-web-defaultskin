@@ -313,13 +313,6 @@ i.mediaInfoItem {
 
 .listItemMediaInfo {
     color: #bbb !important;
-    margin: .5em 0;
-    display: flex;
-    align-items: center;
-}
-
-h2.listItemTitle {
-    margin: 0;
 }
 
 .selectedItemInfo {
@@ -458,10 +451,6 @@ h2.listItemTitle {
     height: .56vh;
 }
 
-.itemProgressBarForeground {
-    background-color: #52B54B !important;
-}
-
 .playlistPageContainer {
     display: block;
     width: 70%;
@@ -578,7 +567,7 @@ img.largeIcon {
 }
 
 .xlargePaperIconButton {
-    height: 6.2vh !important;
-    width: 6.2vh !important;
-    font-size: 6.2vh !important;
+    height: 5.8vh !important;
+    width: 5.8vh !important;
+    font-size: 5.8vh !important;
 }

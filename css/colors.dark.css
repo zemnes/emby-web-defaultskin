@@ -28,19 +28,8 @@ a {
 }
 
     .skinContainer.withBackdrop {
-        background-color: rgba(6, 6, 6, .9);
-        transition: background-color 1000ms ease-out;
+        background: linear-gradient(rgba(6, 6, 6, .9), rgba(6, 6, 6, .6), rgba(6, 6, 6, .9));
     }
-
-        .skinContainer.withBackdrop.detailBackdrop {
-            background-color: rgba(6, 6, 6, .8);
-            /*backdrop-filter: blur(5px);*/
-        }
-
-        .skinContainer.withBackdrop.staticBackdrop {
-            background-color: rgba(6, 6, 6, .6);
-            transition: background-color 1000ms ease-out;
-        }
 
 .headerLogo {
     background-image: url(images/logowhite.png);
@@ -206,14 +195,6 @@ select[is="emby-select"], input[is="emby-input"] {
 
 .listItemBody .secondary {
     color: #999 !important;
-}
-
-.btnUserData {
-    color: #aaa;
-}
-
-.btnUserDataOn, .btnUserDataOn i {
-    color: #cc3333 !important;
 }
 
 .tagline {
