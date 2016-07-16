@@ -258,7 +258,8 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper',
                     selectedItemInfoInner: selectedItemInfoInner,
                     selectedIndexElement: selectedIndexElement,
                     animateFocus: pageOptions.animateFocus,
-                    scroller: self.bodyScroller
+                    scroller: self.bodyScroller,
+                    enableBackdrops: true
                 });
             }
         }

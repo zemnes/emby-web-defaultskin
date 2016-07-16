@@ -14,7 +14,8 @@ define(['loading', './focushandler', 'focusManager', 'cardBuilder'], function (l
                     selectedItemInfoInner: options.selectedItemInfoElement,
                     selectedIndexElement: options.selectedIndexElement,
                     scroller: options.scroller,
-                    selectedItemMode: options.selectedItemMode
+                    selectedItemMode: options.selectedItemMode,
+                    enableBackdrops: true
                 });
             }
 
