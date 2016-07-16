@@ -32,6 +32,16 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
         });
     }
 
+    function isWhitespace(userText) {
+        userText = userText.replace(/^\s+/, '').replace(/\s+$/, '');
+        if (userText === '') {
+            return true;
+        } else {
+            // text has real content, now free of leading/trailing whitespace
+            return false;
+        }
+    }
+
     return function (view, params) {
 
         var self = this;
@@ -56,7 +66,7 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
 
         function search(value) {
 
-            if (!value) {
+            if (!value || isWhitespace(value)) {
                 var emptyResult = {
                     SearchHints: []
                 };
