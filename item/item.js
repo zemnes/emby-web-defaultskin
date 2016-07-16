@@ -1,4 +1,4 @@
-define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators'],
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'emby-itemscontainer'],
     function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
 
         function focusMainSection() {
@@ -510,9 +510,6 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     showParentTitle: true,
                     enableSideMediaInfo: true
                 });
-
-                itemShortcuts.off(section);
-                itemShortcuts.on(section);
 
                 imageLoader.lazyChildren(section);
             };

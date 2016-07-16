@@ -1,4 +1,4 @@
-define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', 'listView', 'focusManager', 'itemShortcuts'], function (playbackManager, scroller, loading, imageLoader, backdrop, listview, focusManager, itemShortcuts) {
+define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', 'listView', 'focusManager', 'itemShortcuts', 'emby-itemscontainer'], function (playbackManager, scroller, loading, imageLoader, backdrop, listview, focusManager, itemShortcuts) {
 
     function createVerticalScroller(view, pageInstance) {
 
@@ -77,9 +77,6 @@ define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', 'li
                 enableSideMediaInfo: true
             });
 
-            itemShortcuts.off(section);
-            itemShortcuts.on(section);
-
             imageLoader.lazyChildren(section);
 
             focusManager.autoFocus(section);
@@ -97,9 +94,9 @@ define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', 'li
 
             if (index != -1) {
 
-                var item = view.querySelectorAll('.trackList .itemAction')[index];
+                var item = view.querySelectorAll('.trackList .listItem')[index];
                 if (item) {
-                    var img = item.querySelector('.paperIconItemImage');
+                    var img = item.querySelector('.listItemImage');
 
                     img.classList.add('playlistIndexIndicatorImage');
                 }
