@@ -279,6 +279,19 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
         }
 
+        function getContextMenuOptions(item, button) {
+
+            return {
+                item: item,
+                open: false,
+                play: false,
+                queue: false,
+                playAllFromHere: false,
+                queueAllFromHere: false,
+                positionTo: button
+            };
+        }
+
         function renderDetails(view, item, user) {
 
             var mainSection = view.querySelector('.mainSection');
@@ -349,12 +362,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 view.querySelector('.mainSection .btnEditRecording').classList.add('hide');
             }
 
-            itemContextMenu.getCommands({
-
-                item: item,
-                isDetailView: true
-
-            }).then(function (commands) {
+            itemContextMenu.getCommands(getContextMenuOptions(item)).then(function (commands) {
                 if (commands.length) {
                     view.querySelector('.mainSection .btnMore').classList.remove('hide');
                 } else {
@@ -507,8 +515,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 section.innerHTML = listview.getListViewHtml(result.Items, {
                     showIndexNumber: item.Type == 'MusicAlbum',
                     action: 'playallfromhere',
-                    showParentTitle: true,
-                    enableSideMediaInfo: true
+                    showParentTitle: true
                 });
 
                 imageLoader.lazyChildren(section);
@@ -788,13 +795,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 section.innerHTML = listview.getListViewHtml(result.Items, {
                     showIndexNumber: item.Type == 'MusicAlbum',
                     enableOverview: true,
-                    imageSize: 'large'
+                    imageSize: 'large',
+                    enableSideMediaInfo: false
                 });
 
                 imageLoader.lazyChildren(section);
-
-                itemShortcuts.off(section);
-                itemShortcuts.on(section);
 
                 // Sometimes this doesn't work without some delay after setting innerHTMl
                 setTimeout(function () {
@@ -1247,15 +1252,14 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             function showMoreMenu() {
 
-                itemContextMenu.show({
-                    item: currentItem,
-                    isDetailView: true
+                var button = this;
 
-                }).then(function (deleted) {
+                itemContextMenu.show(getContextMenuOptions(currentItem, button)).then(function (result) {
 
-                    if (deleted) {
+                    if (result.deleted) {
                         Emby.Page.goHome();
-                    } else {
+
+                    } else if (result.updated) {
                         startDataLoad();
                         reloadItem(true);
                     }
