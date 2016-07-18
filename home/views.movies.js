@@ -1,4 +1,4 @@
-define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skininfo', 'itemShortcuts'], function (spotlight, imageLoader, focusManager, cardbuilder, skinInfo, itemShortcuts) {
+define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skininfo', 'emby-itemscontainer'], function (spotlight, imageLoader, focusManager, cardbuilder, skinInfo) {
 
 	function loadResume(element, parentId) {
 
@@ -122,7 +122,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
         html += '<div class="horizontalSection">';
         html += '<div class="sectionTitle">' + title + '</div>';
 
-        html += '<div class="itemsContainer">';
+        html += '<div is="emby-itemscontainer" class="itemsContainer">';
 
         html += cardsHtml;
 
@@ -196,8 +196,6 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
         element.querySelector('.movieFavoritesCard').addEventListener('click', function () {
             Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'movies/movies.html?tab=favorites&parentid=' + parentId));
         });
-
-        itemShortcuts.on(element.querySelector('.recommendations'));
 
         self.destroy = function () {
 

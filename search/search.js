@@ -1,4 +1,4 @@
-define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'cardBuilder'], function (loading, alphaPicker, scroller, focusHandler, cardBuilder) {
+define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'cardBuilder', 'emby-itemscontainer'], function (loading, alphaPicker, scroller, focusHandler, cardBuilder) {
 
     function createVerticalScroller(view, pageInstance) {
 

@@ -1,4 +1,4 @@
-define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo'], function (focusManager, cardBuilder, pluginManager, skinInfo) {
+define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'], function (focusManager, cardBuilder, pluginManager, skinInfo) {
 
     function loadLatestRecordings(element) {
 

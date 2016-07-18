@@ -1,4 +1,4 @@
-define(['cardBuilder'], function (cardBuilder) {
+define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
 
     function loadAll(element, parentId, autoFocus) {
 

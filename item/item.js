@@ -1,5 +1,5 @@
-define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'itemShortcuts', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'emby-itemscontainer'],
-    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, itemShortcuts, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'emby-itemscontainer'],
+    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
 
         function focusMainSection() {
 
@@ -1219,13 +1219,21 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             function play() {
 
+                var button = this;
+                if (!button.tagName) {
+                    button = null;
+                }
+
                 if (currentItem.IsFolder) {
                     playbackManager.play({
                         items: [currentItem]
                     });
                 } else {
-                    require(['playmenu'], function (playmenu) {
-                        playmenu.show(currentItem);
+                    require(['playMenu'], function (playMenu) {
+                        playMenu.show({
+                            item: currentItem,
+                            positionTo: button
+                        });
                     });
                 }
             }

@@ -1,4 +1,4 @@
-define(['cardBuilder'], function (cardBuilder) {
+define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
 
     function loadChannels(element, parentId, autoFocus) {
 
@@ -34,7 +34,7 @@ define(['cardBuilder'], function (cardBuilder) {
 
         var html = '\
 <div class="sectionTitle">'+ Globalize.translate('LatestFromValue', channel.Name) + '</div>\
-<div class="itemsContainer">\
+<div is="emby-itemscontainer" class="itemsContainer">\
 </div>';
 
         var section = document.createElement('div');
