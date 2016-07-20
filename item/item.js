@@ -1,5 +1,5 @@
-define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'emby-itemscontainer'],
-    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators) {
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'layoutManager', 'emby-itemscontainer'],
+    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators, layoutManager) {
 
         function focusMainSection() {
 
@@ -26,6 +26,10 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
         }
 
         function createVerticalScroller(view, pageInstance) {
+
+            if (pageInstance.verticalScroller) {
+                return;
+            }
 
             require(['scroller'], function (scroller) {
 
@@ -288,6 +292,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 queue: false,
                 playAllFromHere: false,
                 queueAllFromHere: false,
+                sync: false,
                 positionTo: button
             };
         }
@@ -512,10 +517,19 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
                 section.classList.remove('hide');
 
+                if (item.Type == 'Playlist') {
+
+                    if (!layoutManager.tv) {
+                        section.enableDragReordering(true);
+                    }
+                }
+
                 section.innerHTML = listview.getListViewHtml(result.Items, {
                     showIndexNumber: item.Type == 'MusicAlbum',
                     action: 'playallfromhere',
-                    showParentTitle: true
+                    showParentTitle: true,
+                    dragHandle: item.Type == 'Playlist' && !layoutManager.tv,
+                    playlistId: item.Type == 'Playlist' ? item.Id : null
                 });
 
                 imageLoader.lazyChildren(section);
@@ -627,7 +641,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 html += section.name;
                 html += '</h2>';
 
-                html += '<div class="itemsContainer verticalItemsContainer">';
+                html += '<div is="emby-itemscontainer" class="itemsContainer verticalItemsContainer">';
                 html += '</div>';
 
                 html += '</div>';
@@ -896,12 +910,15 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
                 section.classList.remove('hide');
 
+                var itemsContainer = section.querySelector('.itemsContainer');
+
                 cardBuilder.buildCards(result.Items, extendVerticalCardOptions({
                     parentContainer: section,
-                    itemsContainer: section.querySelector('.itemsContainer'),
+                    itemsContainer: itemsContainer,
                     shape: 'autoVertical',
                     showTitle: showTitle,
-                    scalable: true
+                    scalable: true,
+                    collectionId: item.Type == 'BoxSet' ? item.Id: null
                 }));
             });
         }
@@ -1195,6 +1212,14 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     view.querySelector('.itemPageFixedLeft .btnShuffle').addEventListener('click', shuffle);
                     view.querySelector('.mainSection .btnShuffle').addEventListener('click', shuffle);
                 }
+            });
+
+            view.querySelector('.trackList').addEventListener('needsrefresh', function() {
+                reloadItem(true);
+            });
+
+            view.querySelector('.childrenItemsContainer').addEventListener('needsrefresh', function () {
+                reloadItem(true);
             });
 
             view.addEventListener('viewbeforehide', function () {

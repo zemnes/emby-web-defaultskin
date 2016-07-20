@@ -219,7 +219,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 type: 'settings',
                 category: 'Display',
                 thumbImage: '',
-                title: 'Display'
+                title: 'Default Skin'
             });
 
             return routes;

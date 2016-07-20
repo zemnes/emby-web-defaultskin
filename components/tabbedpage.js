@@ -82,8 +82,8 @@ define(['loading', 'scroller', './focushandler', 'focusManager', 'scrollHelper',
         page.querySelector('.contentScrollSlider').innerHTML = '';
         var promise = self.loadViewContent.call(self, page, id, btn.getAttribute('data-type'));
 
-        // Only enable the fade if native WebAnimations are supported, or in Firefox, because the polyfill performs fairly well in it
-        if (promise && (browser.animate || browser.firefox)) {
+        // Only enable the fade if native WebAnimations are supported
+        if (promise && browser.animate) {
             promise.then(function () {
                 fadeInRight(page.querySelector('.contentScrollSlider'));
             });

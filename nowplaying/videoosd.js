@@ -302,6 +302,10 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             }
         }
 
+        function onPlaybackCancelled(e) {
+            onPlaybackStop(e, {});
+        }
+
         view.addEventListener('viewbeforeshow', function (e) {
 
             getHeaderElement().classList.add('osdHeader');
@@ -313,6 +317,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
             Events.on(playbackManager, 'playbackstart', onPlaybackStart);
             Events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.on(playbackManager, 'playbackcancelled', onPlaybackCancelled);
 
             onPlaybackStart(e, playbackManager.currentPlayer());
             document.addEventListener('mousemove', onMouseMove);
@@ -328,6 +333,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             document.removeEventListener('mousemove', onMouseMove);
             Events.off(playbackManager, 'playbackstart', onPlaybackStart);
             Events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            Events.off(playbackManager, 'playbackcancelled', onPlaybackCancelled);
 
             inputManager.off(window, onInputCommand);
             releasePlayer();

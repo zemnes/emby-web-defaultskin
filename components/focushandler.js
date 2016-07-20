@@ -32,7 +32,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
             var enableAnimations = function () {
 
-                if (browser.animate) {
+                if (browser.animate || browser.edge) {
                     return true;
                 }
 
