@@ -1,4 +1,4 @@
-define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'events', 'datetime'], function (playbackManager, pluginManager, browser, connectionManager, Events, datetime) {
+define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'events', 'datetime'], function (playbackManager, pluginManager, browser, connectionManager, events, datetime) {
 
     function updateClock() {
 
@@ -240,7 +240,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             require(['serverNotifications'], function (serverNotifications) {
 
-                Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
+                events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
             });
         };
 
@@ -257,7 +257,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
                 require([settingsObjectName, 'serverNotifications'], function (skinSettings, serverNotifications) {
 
-                    Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
+                    events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
                     skinSettings.unload();
                     resolve();
                 });
@@ -356,22 +356,22 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 self.showUserMenu();
             });
 
-            Events.on(connectionManager, 'localusersignedin', onLocalUserSignedIn);
-            Events.on(connectionManager, 'localusersignedout', onLocalUserSignedOut);
+            events.on(connectionManager, 'localusersignedin', onLocalUserSignedIn);
+            events.on(connectionManager, 'localusersignedout', onLocalUserSignedOut);
             document.addEventListener('viewshow', onViewShow);
 
-            Events.on(playbackManager, 'playbackstart', onPlaybackStart);
-            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            events.on(playbackManager, 'playbackstart', onPlaybackStart);
+            events.on(playbackManager, 'playbackstop', onPlaybackStop);
         }
 
         function unbindEvents() {
 
-            Events.off(connectionManager, 'localusersignedin', onLocalUserSignedIn);
-            Events.off(connectionManager, 'localusersignedout', onLocalUserSignedOut);
+            events.off(connectionManager, 'localusersignedin', onLocalUserSignedIn);
+            events.off(connectionManager, 'localusersignedout', onLocalUserSignedOut);
             document.removeEventListener('viewshow', onViewShow);
 
-            Events.off(playbackManager, 'playbackstart', onPlaybackStart);
-            Events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            events.off(playbackManager, 'playbackstart', onPlaybackStart);
+            events.off(playbackManager, 'playbackstop', onPlaybackStop);
         }
 
         function onPlaybackStart(e) {

@@ -1,4 +1,4 @@
-define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'scrollStyles'], function (playbackManager, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper) {
+define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'scrollStyles', 'events'], function (playbackManager, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events) {
 
     return function (view, params) {
 
@@ -315,9 +315,9 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
         view.addEventListener('viewshow', function (e) {
 
-            Events.on(playbackManager, 'playbackstart', onPlaybackStart);
-            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
-            Events.on(playbackManager, 'playbackcancelled', onPlaybackCancelled);
+            events.on(playbackManager, 'playbackstart', onPlaybackStart);
+            events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            events.on(playbackManager, 'playbackcancelled', onPlaybackCancelled);
 
             onPlaybackStart(e, playbackManager.currentPlayer());
             document.addEventListener('mousemove', onMouseMove);
@@ -331,9 +331,9 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             stopHideTimer();
             getHeaderElement().classList.remove('osdHeader');
             document.removeEventListener('mousemove', onMouseMove);
-            Events.off(playbackManager, 'playbackstart', onPlaybackStart);
-            Events.off(playbackManager, 'playbackstop', onPlaybackStop);
-            Events.off(playbackManager, 'playbackcancelled', onPlaybackCancelled);
+            events.off(playbackManager, 'playbackstart', onPlaybackStart);
+            events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            events.off(playbackManager, 'playbackcancelled', onPlaybackCancelled);
 
             inputManager.off(window, onInputCommand);
             releasePlayer();
@@ -345,10 +345,10 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
 
                 releasePlayer();
 
-                Events.on(player, 'volumechange', onVolumeChange);
-                Events.on(player, 'timeupdate', onTimeUpdate);
-                Events.on(player, 'pause', onPlaystateChange);
-                Events.on(player, 'playing', onPlaystateChange);
+                events.on(player, 'volumechange', onVolumeChange);
+                events.on(player, 'timeupdate', onTimeUpdate);
+                events.on(player, 'pause', onPlaystateChange);
+                events.on(player, 'playing', onPlaystateChange);
             }
 
             currentPlayer = player;
@@ -363,10 +363,10 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             var player = currentPlayer;
 
             if (player) {
-                Events.off(player, 'volumechange', onVolumeChange);
-                Events.off(player, 'timeupdate', onTimeUpdate);
-                Events.off(player, 'pause', onPlaystateChange);
-                Events.off(player, 'playing', onPlaystateChange);
+                events.off(player, 'volumechange', onVolumeChange);
+                events.off(player, 'timeupdate', onTimeUpdate);
+                events.off(player, 'pause', onPlaystateChange);
+                events.off(player, 'playing', onPlaystateChange);
                 currentPlayer = null;
             }
         }
@@ -453,7 +453,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
                 nowPlayingPositionSlider.disabled = !playState.CanSeek;
 
                 if (nowPlayingItem.RunTimeTicks && playState.PositionTicks != null) {
-                    endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(nowPlayingItem.RunTimeTicks, playState.PositionTicks, false);
+                    endsAtText.innerHTML = '&nbsp;&nbsp;-&nbsp;&nbsp;' + mediaInfo.getEndsAtFromPosition(nowPlayingItem.RunTimeTicks, playState.PositionTicks, true);
                 } else {
                     endsAtText.innerHTML = '';
                 }
@@ -732,7 +732,7 @@ define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo'
             if (playbackManager.isPlayingVideo()) {
 
                 // Unbind this event so that we don't go back twice
-                Events.off(playbackManager, 'playbackstop', onPlaybackStop);
+                events.off(playbackManager, 'playbackstop', onPlaybackStop);
                 view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
 
                 playbackManager.stop();

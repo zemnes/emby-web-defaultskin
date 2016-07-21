@@ -1,4 +1,4 @@
-define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'playbackManager', './../skininfo'], function (loading, tabbedPage, backdrop, focusManager, playbackManager, skinInfo) {
+define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'playbackManager', './../skininfo', 'events'], function (loading, tabbedPage, backdrop, focusManager, playbackManager, skinInfo, events) {
 
     function loadViewHtml(page, parentId, html, viewName, autoFocus, self) {
 
@@ -105,7 +105,7 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
             needsRefresh = true;
         }
 
-        Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
+        events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
         view.addEventListener('viewbeforeshow', function (e) {
 
@@ -151,7 +151,7 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
                 self.tabView.destroy();
             }
 
-            Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
+            events.off(playbackManager, 'playbackstop', onPlaybackStopped);
         });
 
         function renderTabs(view, pageInstance) {
