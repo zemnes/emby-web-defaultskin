@@ -161,9 +161,8 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                     });
                 },
                 cardOptions: {
-                    shape: 'backdropCard',
+                    shape: 'auto',
                     rows: 3,
-                    preferThumb: true,
                     action: 'none'
                 },
                 listCountElement: page.querySelector('.listCount'),

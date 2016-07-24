@@ -524,7 +524,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     }
                 }
 
-                section.innerHTML = listview.getListViewHtml(result.Items, {
+                section.innerHTML = listview.getListViewHtml({
+                    items: result.Items,
                     showIndexNumber: item.Type == 'MusicAlbum',
                     action: 'playallfromhere',
                     showParentTitle: true,
@@ -806,7 +807,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     });
                 }
 
-                section.innerHTML = listview.getListViewHtml(result.Items, {
+                section.innerHTML = listview.getListViewHtml({
+                    items: result.Items,
                     showIndexNumber: item.Type == 'MusicAlbum',
                     enableOverview: true,
                     imageSize: 'large',
@@ -918,7 +920,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     shape: 'autoVertical',
                     showTitle: showTitle,
                     scalable: true,
-                    collectionId: item.Type == 'BoxSet' ? item.Id: null
+                    collectionId: item.Type == 'BoxSet' ? item.Id : null
                 }));
             });
         }
@@ -1031,13 +1033,53 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             });
         }
 
-        function renderSimilar(view, item) {
+        function renderMoreFrom(view, item, apiClient) {
 
-            Emby.Models.similar(item, {
+            var section = view.querySelector('.moreFromSection');
+            if (item.Type != 'MusicAlbum' || !item.AlbumArtists || !item.AlbumArtists.length) {
+                section.classList.add('hide');
+                return;
+            }
 
-                Limit: 12
+            apiClient.getItems(apiClient.getCurrentUserId(), {
+
+                IncludeItemTypes: "MusicAlbum",
+                ArtistIds: item.AlbumArtists[0].Id,
+                Recursive: true,
+                ExcludeItemIds: item.Id
 
             }).then(function (result) {
+
+                if (!result.Items.length) {
+                    section.classList.add('hide');
+                    return;
+                }
+
+                section.classList.remove('hide');
+
+                section.querySelector('h2').innerHTML = Globalize.translate('MoreFrom', item.AlbumArtists[0].Name);
+
+                cardBuilder.buildCards(result.Items, extendVerticalCardOptions({
+                    parentContainer: section,
+                    itemsContainer: section.querySelector('.itemsContainer'),
+                    shape: 'autoVertical',
+                    scalable: true,
+                    coverImage: item.Type == 'MusicArtist' || item.Type == 'MusicAlbum'
+                }));
+            });
+        }
+
+        function renderSimilar(view, item) {
+
+            var options = {
+                Limit: 12
+            };
+
+            if (item.Type == 'MusicAlbum' && item.AlbumArtists && item.AlbumArtists.length) {
+                options.ExcludeArtistIds = item.AlbumArtists[0].Id;
+            }
+
+            Emby.Models.similar(item, options).then(function (result) {
 
                 var section = view.querySelector('.similarSection');
 
@@ -1131,6 +1173,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         style: 'fab'
                     });
 
+                    var apiClient = connectionManager.getApiClient(item.ServerId);
+
                     if (reloadAllData) {
                         renderName(view, item);
                         renderImage(view, item);
@@ -1141,6 +1185,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         renderScenes(view, item);
                         renderExtras(view, item);
                         renderSimilar(view, item);
+                        renderMoreFrom(view, item, apiClient);
                         createVerticalScroller(view, self);
 
                         var mainSection = view.querySelector('.mainSection');
@@ -1214,7 +1259,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 }
             });
 
-            view.querySelector('.trackList').addEventListener('needsrefresh', function() {
+            view.querySelector('.trackList').addEventListener('needsrefresh', function () {
                 reloadItem(true);
             });
 

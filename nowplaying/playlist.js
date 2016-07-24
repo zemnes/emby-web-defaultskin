@@ -71,7 +71,8 @@ define(['playbackManager', 'scroller', 'loading', 'imageLoader', 'backdrop', 'li
 
             var items = playbackManager.playlist();
 
-            section.innerHTML = listview.getListViewHtml(items, {
+            section.innerHTML = listview.getListViewHtml({
+                items: items,
                 action: 'setplaylistindex',
                 showParentTitle: true,
                 enableSideMediaInfo: true

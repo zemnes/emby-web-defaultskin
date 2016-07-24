@@ -1,4 +1,4 @@
-define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'scrollStyles', 'events'], function (playbackManager, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events) {
+define(['playbackManager', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'scrollStyles'], function (playbackManager, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events) {
 
     return function (view, params) {
 
