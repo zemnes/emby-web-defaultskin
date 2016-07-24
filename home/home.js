@@ -1,4 +1,4 @@
-define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'playbackManager', './../skininfo', 'events'], function (loading, tabbedPage, backdrop, focusManager, playbackManager, skinInfo, events) {
+define(['connectionManager', 'loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'playbackManager', './../skininfo', 'events'], function (connectionManager, loading, tabbedPage, backdrop, focusManager, playbackManager, skinInfo, events) {
 
     function loadViewHtml(page, parentId, html, viewName, autoFocus, self) {
 
@@ -10,7 +10,8 @@ define(['loading', './../components/tabbedpage', 'backdrop', 'focusManager', 'pl
         require([skinInfo.id + '/home/views.' + viewName], function (viewBuilder) {
 
             var homePanel = homeScrollContent;
-            var tabView = new viewBuilder(homePanel, parentId, autoFocus);
+            var apiClient = connectionManager.currentApiClient();
+            var tabView = new viewBuilder(homePanel, apiClient, parentId, autoFocus);
             tabView.element = homePanel;
             tabView.loadData();
             self.tabView = tabView;

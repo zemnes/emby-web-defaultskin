@@ -137,7 +137,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
         });
     }
 
-    function view(element, parentId, autoFocus) {
+    function view(element, apiClient, parentId, autoFocus) {
 
         var self = this;
 

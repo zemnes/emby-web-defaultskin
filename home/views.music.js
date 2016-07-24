@@ -195,7 +195,7 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
         Emby.Page.show(pluginManager.mapRoute(skinInfo.id, 'music/music.html?tab=' + tab + "&parentid=" + parentId));
     }
 
-    function view(element, parentId, autoFocus) {
+    function view(element, apiClient, parentId, autoFocus) {
         var self = this;
 
         if (autoFocus) {

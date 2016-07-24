@@ -61,7 +61,7 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
         });
     }
 
-    function view(element, parentId, autoFocus) {
+    function view(element, apiClient, parentId, autoFocus) {
 
         var self = this;
 

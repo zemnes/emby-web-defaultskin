@@ -1,6 +1,6 @@
 define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skininfo', 'emby-itemscontainer'], function (spotlight, imageLoader, focusManager, cardbuilder, skinInfo) {
 
-	function loadResume(element, parentId) {
+    function loadResume(element, parentId) {
 
         var options = {
 
@@ -69,14 +69,15 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
         });
     }
 
-    function loadRecommendations(element, parentId) {
+    function loadRecommendations(element, apiClient, parentId) {
 
-        return Emby.Models.movieRecommendations({
+        return apiClient.getJSON(apiClient.getUrl('Movies/Recommendations', {
 
             categoryLimit: 4,
-            ItemLimit: 8
+            ItemLimit: 8,
+            UserId: apiClient.getCurrentUserId()
 
-        }).then(function (recommendations) {
+        })).then(function (recommendations) {
 
             var values = recommendations.map(getRecommendationHtml);
 
@@ -161,7 +162,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
         });
     }
 
-    function view(element, parentId, autoFocus) {
+    function view(element, apiClient, parentId, autoFocus) {
 
         var self = this;
 
@@ -177,7 +178,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
             ];
 
             if (!isRefresh) {
-                promises.push(loadRecommendations(element, parentId));
+                promises.push(loadRecommendations(element, apiClient, parentId));
             }
 
             return Promise.all(promises);

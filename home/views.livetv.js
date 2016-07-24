@@ -60,7 +60,7 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
         Emby.Page.show(pluginManager.mapRoute(skinInfo.id, 'livetv/livetv.html?tab=' + tab));
     }
 
-    function view(element, parentId, autoFocus) {
+    function view(element, apiClient, parentId, autoFocus) {
         var self = this;
 
         if (autoFocus) {
