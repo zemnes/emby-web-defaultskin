@@ -75,7 +75,9 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
 
             categoryLimit: 4,
             ItemLimit: 8,
-            UserId: apiClient.getCurrentUserId()
+            UserId: apiClient.getCurrentUserId(),
+            ImageTypeLimit: 1,
+            Fields: "PrimaryImageAspectRatio"
 
         })).then(function (recommendations) {
 

@@ -959,7 +959,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             });
         }
 
-        function renderExtras(view, item) {
+        function renderExtras(view, item, apiClient) {
 
             var section = view.querySelector('.extrasSection');
 
@@ -968,7 +968,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 return;
             }
 
-            Emby.Models.extras(item.Id).then(function (items) {
+            apiClient.getSpecialFeatures(apiClient.getCurrentUserId(), item.Id).then(function (items) {
 
                 if (!items.length) {
                     section.classList.add('hide');
@@ -1183,7 +1183,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         renderMediaInfoIcons(view, item);
                         renderPeople(view, item);
                         renderScenes(view, item);
-                        renderExtras(view, item);
+                        renderExtras(view, item, apiClient);
                         renderSimilar(view, item);
                         renderMoreFrom(view, item, apiClient);
                         createVerticalScroller(view, self);
