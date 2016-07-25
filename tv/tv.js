@@ -1,8 +1,10 @@
-define(['loading', './../skininfo', 'alphaPicker', './../components/horizontallist', 'cardBuilder', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager', 'emby-itemscontainer'], function (loading, skinInfo, alphaPicker, horizontalList, cardBuilder, focusHandler, tabbedPage, backdrop, focusManager) {
+define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../components/horizontallist', 'cardBuilder', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager', 'emby-itemscontainer'], function (connectionManager, loading, skinInfo, alphaPicker, horizontalList, cardBuilder, focusHandler, tabbedPage, backdrop, focusManager) {
 
-	return function(view, params) {
+    return function (view, params) {
 
         var self = this;
+
+        var apiClient = connectionManager.getApiClient(params.serverId);
 
         view.addEventListener('viewshow', function (e) {
 
@@ -130,13 +132,15 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
                 itemsContainer: page.querySelector('.contentScrollSlider'),
                 getItemsMethod: function (startIndex, limit) {
-                    return Emby.Models.upcoming({
-                        ImageTypeLimit: 1,
+                    return apiClient.getJSON(apiClient.getUrl('Shows/Upcoming', {
                         EnableImageTypes: "Primary,Backdrop,Thumb",
                         StartIndex: startIndex,
                         Limit: Math.min(limit, 60),
-                        ParentId: pageParams.parentid
-                    });
+                        ParentId: pageParams.parentid,
+                        UserId: apiClient.getCurrentUserId(),
+                        ImageTypeLimit: 1,
+                        Fields: "PrimaryImageAspectRatio"
+                    }));
                 },
                 autoFocus: autoFocus,
                 cardOptions: {
@@ -164,14 +168,15 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
                 itemsContainer: page.querySelector('.contentScrollSlider'),
                 getItemsMethod: function (startIndex, limit) {
-                    return Emby.Models.items({
+                    return apiClient.getItems(apiClient.getCurrentUserId(), {
                         StartIndex: startIndex,
                         Limit: limit,
                         ParentId: pageParams.parentid,
                         IncludeItemTypes: "Series",
                         Recursive: true,
                         SortBy: "SortName",
-                        Fields: "SortName"
+                        ImageTypeLimit: 1,
+                        Fields: "PrimaryImageAspectRatio,SortName"
                     });
                 },
                 listCountElement: page.querySelector('.listCount'),
@@ -193,9 +198,13 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
         function renderGenres(page, pageParams, autoFocus, scroller, resolve) {
 
-            Emby.Models.genres({
+            apiClient.getGenres(apiClient.getCurrentUserId(), {
+
                 ParentId: pageParams.parentid,
-                SortBy: "SortName"
+                SortBy: "SortName",
+                Recursive: true,
+                ImageTypeLimit: 1,
+                Fields: "PrimaryImageAspectRatio"
 
             }).then(function (genresResult) {
 
@@ -203,14 +212,15 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
                     itemsContainer: page.querySelector('.contentScrollSlider'),
                     getItemsMethod: function (startIndex, limit) {
-                        return Emby.Models.items({
+                        return apiClient.getItems(apiClient.getCurrentUserId(), {
                             StartIndex: startIndex,
                             Limit: limit,
                             ParentId: pageParams.parentid,
                             IncludeItemTypes: "Series",
                             Recursive: true,
                             SortBy: "SortName",
-                            Fields: "Genres"
+                            ImageTypeLimit: 1,
+                            Fields: "Genres,PrimaryImageAspectRatio"
                         });
                     },
                     autoFocus: autoFocus,
@@ -251,12 +261,14 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
         function loadFavoriteSeries(parent, pageParams, autoFocus, resolve) {
 
-            Emby.Models.items({
+            apiClient.getItems(apiClient.getCurrentUserId(), {
                 ParentId: pageParams.parentid,
                 IncludeItemTypes: "Series",
                 Recursive: true,
                 Filters: "IsFavorite",
-                SortBy: "SortName"
+                SortBy: "SortName",
+                ImageTypeLimit: 1,
+                Fields: "PrimaryImageAspectRatio"
 
             }).then(function (result) {
 
@@ -288,12 +300,14 @@ define(['loading', './../skininfo', 'alphaPicker', './../components/horizontalli
 
         function loadFavoriteEpisodes(parent, pageParams) {
 
-            Emby.Models.items({
+            apiClient.getItems(apiClient.getCurrentUserId(), {
                 ParentId: pageParams.parentid,
                 IncludeItemTypes: "Episode",
                 Recursive: true,
                 Filters: "IsFavorite",
-                SortBy: "SortName"
+                SortBy: "SortName",
+                ImageTypeLimit: 1,
+                Fields: "PrimaryImageAspectRatio"
 
             }).then(function (result) {
 

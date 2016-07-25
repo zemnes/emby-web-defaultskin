@@ -157,16 +157,18 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
         loadSpotlight(element, parentId);
         loadImages(element, parentId);
 
+        var serverId = apiClient.serverId();
+
         element.querySelector('.allSeriesCard').addEventListener('click', function () {
-            Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'tv/tv.html?parentid=' + parentId));
+            Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'tv/tv.html?parentid=' + parentId + "&serverId=" + serverId));
         });
 
         element.querySelector('.tvUpcomingCard').addEventListener('click', function () {
-            Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'tv/tv.html?tab=upcoming&parentid=' + parentId));
+            Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'tv/tv.html?tab=upcoming&parentid=' + parentId + "&serverId=" + serverId));
         });
 
         element.querySelector('.tvFavoritesCard').addEventListener('click', function () {
-            Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'tv/tv.html?tab=favorites&parentid=' + parentId));
+            Emby.Page.show(Emby.PluginManager.mapRoute(skinInfo.id, 'tv/tv.html?tab=favorites&parentid=' + parentId + "&serverId=" + serverId));
         });
 
         self.destroy = function () {
