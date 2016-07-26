@@ -23,11 +23,11 @@ a {
         text-decoration: underline;
     }
 
-.skinContainer {
+.backgroundContainer {
     background: #121212;
 }
 
-    .skinContainer.withBackdrop {
+    .backgroundContainer.withBackdrop {
         background: linear-gradient(rgba(6, 6, 6, .9), rgba(6, 6, 6, .6), rgba(6, 6, 6, .9));
     }
 

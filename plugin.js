@@ -444,25 +444,25 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             setBackdropStyle(isDetailBackdrop, isStaticBackdrop);
         }
 
-        var skinContainer;
+        var backgroundContainer;
         function setBackdropStyle(isDetailBackdrop, isStaticBackdrop) {
 
-            skinContainer = skinContainer || document.querySelector('.skinContainer');
+            backgroundContainer = backgroundContainer || document.querySelector('.backgroundContainer');
 
             if (isDetailBackdrop) {
 
-                skinContainer.classList.add('detailBackdrop');
+                backgroundContainer.classList.add('detailBackdrop');
 
             } else {
-                skinContainer.classList.remove('detailBackdrop');
+                backgroundContainer.classList.remove('detailBackdrop');
             }
 
             if (isStaticBackdrop) {
 
-                skinContainer.classList.add('staticBackdrop');
+                backgroundContainer.classList.add('staticBackdrop');
 
             } else {
-                skinContainer.classList.remove('staticBackdrop');
+                backgroundContainer.classList.remove('staticBackdrop');
             }
         }
     }

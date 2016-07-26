@@ -1,33 +1,31 @@
-<div class="externalPageContainer">
-    <div style="width: 50%; margin: auto;">
+<div class="pageContainer smoothScrollY vertical centered">
 
-        <div class="selectContainer">
-            <select is="emby-select" class="selectEnableEpisodeAntiSpoliers" label="${EnableEpisodeSpoilerProtection}">
-                <option value="true">${Yes}</option>
-                <option value="false">${No}</option>
-            </select>
-            <div class="fieldDescription">${EnableEpisodeSpoilerProtectionHelp}</div>
-        </div>
-
-        <select is="emby-select" class="selectDimPosters" label="${DimUnselectedPosters}">
+    <div class="selectContainer">
+        <select is="emby-select" class="selectEnableEpisodeAntiSpoliers" label="${EnableEpisodeSpoilerProtection}">
             <option value="true">${Yes}</option>
             <option value="false">${No}</option>
         </select>
+        <div class="fieldDescription">${EnableEpisodeSpoilerProtectionHelp}</div>
+    </div>
 
-        <div class="checkboxList mediaTypeField" data-mediatype="Video">
-            <h3>${ShowScenesOnDetailScreensFor}</h3>
-            <label>
-                <input type="checkbox" is="emby-checkbox" class="chkMovieScenes" />
-                <span>${Movies}</span>
-            </label>
-            <label>
-                <input type="checkbox" is="emby-checkbox" class="chkEpisodeScenes" />
-                <span>${Episodes}</span>
-            </label>
-            <label>
-                <input type="checkbox" is="emby-checkbox" class="chkOtherScenes" />
-                <span>${OtherVideos}</span>
-            </label>
-        </div>
+    <select is="emby-select" class="selectDimPosters" label="${DimUnselectedPosters}">
+        <option value="true">${Yes}</option>
+        <option value="false">${No}</option>
+    </select>
+
+    <div class="checkboxList mediaTypeField" data-mediatype="Video">
+        <h3>${ShowScenesOnDetailScreensFor}</h3>
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkMovieScenes" />
+            <span>${Movies}</span>
+        </label>
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkEpisodeScenes" />
+            <span>${Episodes}</span>
+        </label>
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkOtherScenes" />
+            <span>${OtherVideos}</span>
+        </label>
     </div>
 </div>
