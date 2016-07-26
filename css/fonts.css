@@ -1,22 +1,36 @@
 html {
     /* Check if certain android or iOS fonts are natively available, otherwise load Open Sans */
     font-family: San Francisco, Helvetica Neue, 'Open Sans';
-    font-size: 2.5vh;
+}
+
+html {
+    font-size: 100%;
 }
 
 h1 {
-    font-size: 4.07vh;
     font-weight: 300;
 }
 
 h2 {
-    font-weight: normal;
-    font-size: 3.3333vh;
     font-weight: 300;
 }
 
 h3 {
-    font-weight: normal;
-    font-size: 3vh;
     font-weight: 300;
+}
+
+html.layout-tv {
+    font-size: 2.5vh;
+}
+
+.layout-tv h1 {
+    font-size: 4.07vh;
+}
+
+.layout-tv h2 {
+    font-size: 3.3333vh;
+}
+
+.layout-tv h3 {
+    font-size: 3vh;
 }

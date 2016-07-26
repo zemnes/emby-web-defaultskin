@@ -132,7 +132,7 @@ define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../co
 
                 itemsContainer: page.querySelector('.contentScrollSlider'),
                 getItemsMethod: function (startIndex, limit) {
-                    return apiClient.getJSON(apiClient.getUrl('Shows/Upcoming', {
+                    return apiClient.getUpcomingEpisodes({
                         EnableImageTypes: "Primary,Backdrop,Thumb",
                         StartIndex: startIndex,
                         Limit: Math.min(limit, 60),
@@ -140,7 +140,7 @@ define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../co
                         UserId: apiClient.getCurrentUserId(),
                         ImageTypeLimit: 1,
                         Fields: "PrimaryImageAspectRatio"
-                    }));
+                    });
                 },
                 autoFocus: autoFocus,
                 cardOptions: {

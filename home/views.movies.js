@@ -71,7 +71,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
 
     function loadRecommendations(element, apiClient, parentId) {
 
-        return apiClient.getJSON(apiClient.getUrl('Movies/Recommendations', {
+        return apiClient.getMovieRecommendations({
 
             categoryLimit: 4,
             ItemLimit: 8,
@@ -79,7 +79,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
             ImageTypeLimit: 1,
             Fields: "PrimaryImageAspectRatio"
 
-        })).then(function (recommendations) {
+        }).then(function (recommendations) {
 
             var values = recommendations.map(getRecommendationHtml);
 
