@@ -7,7 +7,6 @@ a {
     outline: none !important;
     display: inline-block;
     transition: all .15s ease-out;
-    transform: scale(1);
 }
 
     a:focus {

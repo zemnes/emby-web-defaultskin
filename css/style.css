@@ -12,6 +12,8 @@ a {
     background-size: contain;
     width: 6.9vw;
     height: 3.7vh;
+    min-height: 40px;
+    min-width: 74px;
     vertical-align: middle;
     display: inline-block;
 }
@@ -91,6 +93,17 @@ a {
     display: inline-block;
     vertical-align: middle;
     margin-left: 1em;
+}
+
+@media all and (max-width: 720px) {
+
+    .headerClock {
+        display: none !important;
+    }
+}
+
+.layout-mobile .headerClock {
+    display: none !important;
 }
 
 .pageContainer, .externalPageContainer {
@@ -386,26 +399,32 @@ i.mediaInfoItem {
 }
 
 .loginSquareCard {
-    width: 40vw;
+    width: 54vw;
     flex-shrink: 0;
     display: inline-block !important;
 }
 
-@media all and (min-width: 600px) {
-
+@media (orientation: landscape) {
     .loginSquareCard {
-        width: 32vw;
+        width: 40vh;
     }
 }
 
-@media all and (min-width: 800px) {
+@media (orientation: landscape) and (max-height: 600px) {
+
+    .loginSquareCard {
+        width: 50vh;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 800px) {
 
     .loginSquareCard {
         width: 26vw;
     }
 }
 
-@media all and (min-width: 1280px) {
+@media (orientation: landscape) and (min-width: 1280px) {
 
     .loginSquareCard {
         width: 18vw;
