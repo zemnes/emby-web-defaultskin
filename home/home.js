@@ -157,7 +157,8 @@ define(['connectionManager', 'loading', './../components/tabbedpage', 'backdrop'
 
         function renderTabs(view, pageInstance) {
 
-            Emby.Models.userViews().then(function (result) {
+            var apiClient = connectionManager.currentApiClient();
+            apiClient.getUserViews({}, apiClient.getCurrentUserId()).then(function (result) {
 
                 var tabbedPageInstance = new tabbedPage(view, {
                     handleFocus: true,
