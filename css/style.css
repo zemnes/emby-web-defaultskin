@@ -109,7 +109,7 @@ a {
 .pageContainer, .externalPageContainer {
     padding-top: 11vh;
     overflow: hidden;
-    contain: strict;
+    contain: layout style;
 }
 
     .pageContainer.flex {
@@ -118,6 +118,7 @@ a {
         display: -ms-flex;
         display: -webkit-flex;
         display: flex;
+        contain: strict;
     }
 
     .pageContainer.vertical.fullWidth {

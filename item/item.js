@@ -1069,17 +1069,20 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             });
         }
 
-        function renderSimilar(view, item) {
+        function renderSimilar(view, item, apiClient) {
 
             var options = {
-                Limit: 12
+                Limit: 12,
+                UserId: apiClient.getCurrentUserId(),
+                ImageTypeLimit: 1,
+                Fields: "PrimaryImageAspectRatio"
             };
 
             if (item.Type == 'MusicAlbum' && item.AlbumArtists && item.AlbumArtists.length) {
                 options.ExcludeArtistIds = item.AlbumArtists[0].Id;
             }
 
-            Emby.Models.similar(item, options).then(function (result) {
+            apiClient.getSimilarItems(item.Id, options).then(function (result) {
 
                 var section = view.querySelector('.similarSection');
 
@@ -1184,7 +1187,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         renderPeople(view, item);
                         renderScenes(view, item);
                         renderExtras(view, item, apiClient);
-                        renderSimilar(view, item);
+                        renderSimilar(view, item, apiClient);
                         renderMoreFrom(view, item, apiClient);
                         createVerticalScroller(view, self);
 
