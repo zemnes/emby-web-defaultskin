@@ -178,7 +178,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
                         if (options.enableBackdrops) {
                             // too slow on tv browsers
-                            if (!browser.tv) {
+                            if (!browser.tv && !browser.xboxOne) {
                                 backdrop.setBackdrop(item);
                             }
                         }

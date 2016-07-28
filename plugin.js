@@ -48,6 +48,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             } else if (browser.xboxOne) {
                 // Xbox defines good default font sizes, so load a stylesheet that only applies the font family
                 list.push('css!' + pluginManager.mapPath(self, 'css/fonts.xbox'));
+            } else if (browser.edge) {
+                list.push('css!' + pluginManager.mapPath(self, 'css/fonts.segoe'));
             } else {
                 console.log("Using default fonts");
                 list.push('opensansFont');
@@ -394,7 +396,9 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             document.querySelector('.headerLogo').classList.add('hide');
 
-            document.querySelector('.headerSearchButton').classList.remove('hide');
+            if (!browser.tv) {
+                document.querySelector('.headerSearchButton').classList.remove('hide');
+            }
 
             var headerUserButton = document.querySelector('.headerUserButton');
 

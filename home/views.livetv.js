@@ -21,13 +21,16 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
         });
     }
 
-    function loadNowPlaying(element) {
+    function loadNowPlaying(element, apiClient) {
 
-        return Emby.Models.liveTvRecommendedPrograms({
+        return apiClient.getLiveTvRecommendedPrograms({
 
             IsAiring: true,
             limit: 9,
-            EnableImageTypes: "Primary"
+            EnableImageTypes: "Primary",
+            ImageTypeLimit: 1,
+            Fields: "PrimaryImageAspectRatio",
+            UserId: apiClient.getCurrentUserId()
 
         }).then(function (result) {
 
@@ -42,9 +45,13 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
         });
     }
 
-    function loadUpcomingPrograms(section, options) {
+    function loadUpcomingPrograms(section, apiClient, options) {
 
-        return Emby.Models.liveTvRecommendedPrograms(options).then(function (result) {
+        options.ImageTypeLimit = 1;
+        options.Fields = "PrimaryImageAspectRatio";
+        options.UserId = apiClient.getCurrentUserId();
+
+        return apiClient.getLiveTvRecommendedPrograms(options).then(function (result) {
 
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
@@ -71,9 +78,9 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
 
             return Promise.all([
                 loadLatestRecordings(element),
-                loadNowPlaying(element),
+                loadNowPlaying(element, apiClient),
 
-                loadUpcomingPrograms(element.querySelector('.upcomingProgramsSection'), {
+                loadUpcomingPrograms(element.querySelector('.upcomingProgramsSection'), apiClient, {
 
                     IsAiring: false,
                     HasAired: false,
@@ -85,7 +92,7 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
 
                 }),
 
-                loadUpcomingPrograms(element.querySelector('.upcomingMoviesSection'), {
+                loadUpcomingPrograms(element.querySelector('.upcomingMoviesSection'), apiClient, {
 
                     IsAiring: false,
                     HasAired: false,
@@ -94,7 +101,7 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
 
                 }),
 
-                loadUpcomingPrograms(element.querySelector('.upcomingSportsSection'), {
+                loadUpcomingPrograms(element.querySelector('.upcomingSportsSection'), apiClient, {
 
                     IsAiring: false,
                     HasAired: false,
@@ -103,7 +110,7 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
 
                 }),
 
-                loadUpcomingPrograms(element.querySelector('.upcomingKidsSection'), {
+                loadUpcomingPrograms(element.querySelector('.upcomingKidsSection'), apiClient, {
 
                     IsAiring: false,
                     HasAired: false,
