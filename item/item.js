@@ -491,6 +491,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     itemsContainer: section.querySelector('.itemsContainer'),
                     shape: 'autoVertical',
                     showTitle: true,
+                    overlayText: true,
                     scalable: true,
                     autoFocus: focusedItemIsNextUp,
                     sectionTitleTagName: 'h2'

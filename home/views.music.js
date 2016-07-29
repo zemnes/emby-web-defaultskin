@@ -52,6 +52,7 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
                 showTitle: true,
+                overlayText: true,
                 rows: {
                     portrait: 2,
                     square: 3,

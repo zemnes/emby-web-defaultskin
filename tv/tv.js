@@ -327,6 +327,7 @@ define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../co
                     itemsContainer: section.querySelector('.itemsContainer'),
                     shape: 'auto',
                     rows: 3,
+                    overlayText: true,
                     //showTitle: true,
                     showParentTitle: true
                 });

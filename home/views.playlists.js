@@ -24,6 +24,7 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
                 shape: 'auto',
                 autoFocus: autoFocus,
                 showTitle: true,
+                overlayText: true,
                 rows: {
                     portrait: 2,
                     square: 3,

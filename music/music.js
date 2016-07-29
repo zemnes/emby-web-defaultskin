@@ -240,6 +240,7 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                     }
                 },
                 cardOptions: {
+                    overlayText: true,
                     showTitle: true,
                     rows: 3
                 }
@@ -340,6 +341,7 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                 autoFocus: autoFocus,
                 cardOptions: {
                     coverImage: true,
+                    overlayText: true,
                     showTitle: true,
                     rows: 3
                 },
@@ -376,6 +378,7 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                 autoFocus: autoFocus,
                 cardOptions: {
                     coverImage: true,
+                    overlayText: true,
                     showTitle: true,
                     rows: 3
                 },
