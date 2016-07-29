@@ -29,7 +29,8 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }

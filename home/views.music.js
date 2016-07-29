@@ -24,7 +24,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -57,7 +58,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -91,7 +93,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -125,7 +128,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -158,7 +162,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -190,7 +195,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -221,7 +227,8 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }

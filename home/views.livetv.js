@@ -21,7 +21,9 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false,
+                overlayText: true
             });
         });
     }
@@ -50,7 +52,8 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }
@@ -72,7 +75,8 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }

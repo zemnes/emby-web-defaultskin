@@ -776,7 +776,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     shape: listOptions.shape,
                     scalable: true,
                     showTitle: listOptions.showTitle,
-                    showParentTitle: listOptions.showParentTitle
+                    showParentTitle: listOptions.showParentTitle,
+                    overlayText: true
                 });
             });
         }

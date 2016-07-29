@@ -17,7 +17,8 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
                 shape: 'backdrop',
                 rows: 3,
                 preferThumb: true,
-                autoFocus: autoFocus
+                autoFocus: autoFocus,
+                scalable: false
             });
 
             var latestContainer = element.querySelector('.latestContainer');
@@ -61,7 +62,8 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
                     portrait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             });
         });
     }

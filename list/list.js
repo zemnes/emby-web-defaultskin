@@ -98,7 +98,8 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                     portait: 2,
                     square: 3,
                     backdrop: 3
-                }
+                },
+                scalable: false
             }
         });
 

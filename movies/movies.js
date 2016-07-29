@@ -175,7 +175,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                             portrait: 2,
                             square: 3,
                             backdrop: 3
-                        }
+                        },
+                        scalable: false
                     }
                 });
 
@@ -216,7 +217,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         portrait: 2,
                         square: 3,
                         backdrop: 3
-                    }
+                    },
+                    scalable: false
                 }
             });
 
@@ -256,7 +258,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         portrait: 2,
                         square: 3,
                         backdrop: 3
-                    }
+                    },
+                    scalable: false
                 }
             });
 
@@ -297,7 +300,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         portrait: 2,
                         square: 3,
                         backdrop: 3
-                    }
+                    },
+                    scalable: false
                 }
             });
 
@@ -333,7 +337,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         portrait: 2,
                         square: 3,
                         backdrop: 3
-                    }
+                    },
+                    scalable: false
                 }
             });
 
@@ -362,7 +367,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         portrait: 2,
                         square: 3,
                         backdrop: 3
-                    }
+                    },
+                    scalable: false
                 },
                 listCountElement: page.querySelector('.listCount'),
                 listNumbersElement: page.querySelector('.listNumbers'),
@@ -403,7 +409,8 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         portrait: 2,
                         square: 3,
                         backdrop: 3
-                    }
+                    },
+                    scalable: false
                 },
                 listCountElement: page.querySelector('.listCount'),
                 listNumbersElement: page.querySelector('.listNumbers'),

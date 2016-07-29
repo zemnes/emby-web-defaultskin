@@ -19,7 +19,8 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdrop',
                 rows: 3,
-                preferThumb: true
+                preferThumb: true,
+                scalable: false
             });
         });
     }
@@ -54,7 +55,8 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdrop',
                 rows: 3,
-                preferThumb: true
+                preferThumb: true,
+                scalable: false
             });
         });
     }
@@ -81,7 +83,8 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
                 shape: 'backdrop',
                 rows: 3,
                 preferThumb: true,
-                showGroupCount: true
+                showGroupCount: true,
+                scalable: false
             });
         });
     }

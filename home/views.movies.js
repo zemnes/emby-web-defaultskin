@@ -19,7 +19,8 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'backdrop',
                 rows: 3,
-                preferThumb: true
+                preferThumb: true,
+                scalable: false
             });
         });
     }
@@ -42,7 +43,8 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'portrait',
-                rows: 2
+                rows: 2,
+                scalable: false
             });
         });
     }
@@ -97,7 +99,8 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
 
         var cardsHtml = cardbuilder.getCardsHtml(recommendation.Items, {
             shape: 'portrait',
-            rows: 2
+            rows: 2,
+            scalable: false
         });
 
         var html = '';
