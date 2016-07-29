@@ -14,7 +14,7 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'backdropCard',
+                shape: 'backdrop',
                 rows: 3,
                 preferThumb: true,
                 autoFocus: autoFocus
@@ -56,7 +56,12 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                showTitle: false
+                showTitle: false,
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }

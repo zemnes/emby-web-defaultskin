@@ -451,9 +451,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
         }
 
         function extendVerticalCardOptions(options) {
-            options.portraitWidth = 340;
-            options.squareWidth = 340;
-            options.thumbWidth = 500;
+            options.widths = {
+                portrait: 340,
+                thumb: 500,
+                square: 340
+            };
             return options;
         }
 

@@ -17,7 +17,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
             cardbuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'backdropCard',
+                shape: 'backdrop',
                 rows: 3,
                 preferThumb: true
             });
@@ -41,7 +41,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
             cardbuilder.buildCards(result, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'portraitCard',
+                shape: 'portrait',
                 rows: 2
             });
         });
@@ -96,7 +96,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
     function getRecommendationHtml(recommendation) {
 
         var cardsHtml = cardbuilder.buildCardsHtml(recommendation.Items, {
-            shape: 'portraitCard',
+            shape: 'portrait',
             rows: 2
         });
 

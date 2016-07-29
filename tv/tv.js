@@ -144,7 +144,7 @@ define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../co
                 },
                 autoFocus: autoFocus,
                 cardOptions: {
-                    shape: 'backdropCard',
+                    shape: 'backdrop',
                     rows: 3,
                     preferThumb: true,
                     indexBy: 'PremiereDate'
@@ -190,6 +190,9 @@ define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../co
                         resolve();
                         resolve = null;
                     }
+                },
+                cardOptions: {
+                    rows: 2
                 }
             });
 
@@ -235,7 +238,8 @@ define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../co
                         indexBy: 'Genres',
                         genres: genresResult.Items,
                         indexLimit: 4,
-                        parentId: pageParams.parentid
+                        parentId: pageParams.parentid,
+                        rows: 2
                     }
                 });
 

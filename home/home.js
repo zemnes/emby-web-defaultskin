@@ -170,7 +170,7 @@ define(['connectionManager', 'loading', './../components/tabbedpage', 'backdrop'
             });
         }
 
-        var isFirstLoad = true;
+        var autoFocusTabContent = true;
 
         function loadViewContent(page, id, type) {
 
@@ -208,8 +208,16 @@ define(['connectionManager', 'loading', './../components/tabbedpage', 'backdrop'
                 }
 
                 require(['text!' + Emby.PluginManager.mapPath(skinInfo.id, 'home/views.' + viewName + '.html')], function (html) {
-                    loadViewHtml(page, id, html, viewName, isFirstLoad, self);
-                    isFirstLoad = false;
+
+                    if (!autoFocusTabContent) {
+                        var activeElement = document.activeElement;
+                        if (!activeElement || activeElement.tagName == 'BODY' || !document.body.contains(activeElement)) {
+                            autoFocusTabContent = true;
+                        }
+                    }
+
+                    loadViewHtml(page, id, html, viewName, autoFocusTabContent, self);
+                    autoFocusTabContent = false;
                     resolve();
                 });
             });

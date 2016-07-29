@@ -19,7 +19,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
             cardBuilder.buildCards(result, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'auto'
+                shape: 'auto',
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -46,7 +51,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                showTitle: true
+                showTitle: true,
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -75,7 +85,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                action: 'instantmix'
+                action: 'instantmix',
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -104,7 +119,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                action: 'instantmix'
+                action: 'instantmix',
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -132,7 +152,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                action: 'instantmix'
+                action: 'instantmix',
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -159,7 +184,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'auto'
+                shape: 'auto',
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -185,7 +215,12 @@ define(['cardBuilder', 'pluginManager', './../skininfo', 'emby-itemscontainer'],
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'auto'
+                shape: 'auto',
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }

@@ -93,7 +93,12 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
             selectedIndexElement: view.querySelector('.selectedIndex'),
             scroller: instance.scroller,
             cardOptions: {
-                coverImage: true
+                coverImage: true,
+                rows: {
+                    portait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             }
         });
 

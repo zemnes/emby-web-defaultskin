@@ -86,7 +86,12 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                 }
             },
             cardOptions: {
-                action: 'play'
+                action: 'play',
+                rows: {
+                    portait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             }
         });
 
@@ -116,6 +121,13 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                 if (resolve) {
                     resolve();
                     resolve = null;
+                }
+            },
+            cardOptions: {
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
                 }
             }
         });

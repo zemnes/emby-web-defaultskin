@@ -176,9 +176,12 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
             cardOptions.itemsContainer = section.querySelector('.itemsContainer');
             cardOptions.shape = 'autoVertical';
             cardOptions.scalable = true;
-            cardOptions.portraitWidth = 340;
-            cardOptions.squareWidth = 340;
-            cardOptions.thumbWidth = 500;
+
+            cardOptions.widths = {
+                portrait: 340,
+                thumb: 500,
+                square: 340
+            };
 
             cardBuilder.buildCards(items, cardOptions);
         }

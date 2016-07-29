@@ -170,7 +170,12 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         indexBy: 'Genres',
                         genres: genresResult.Items,
                         indexLimit: 4,
-                        parentId: pageParams.parentid
+                        parentId: pageParams.parentid,
+                        rows: {
+                            portrait: 2,
+                            square: 3,
+                            backdrop: 3
+                        }
                     }
                 });
 
@@ -205,6 +210,13 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         resolve();
                         resolve = null;
                     }
+                },
+                cardOptions: {
+                    rows: {
+                        portrait: 2,
+                        square: 3,
+                        backdrop: 3
+                    }
                 }
             });
 
@@ -237,6 +249,13 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                     if (resolve) {
                         resolve();
                         resolve = null;
+                    }
+                },
+                cardOptions: {
+                    rows: {
+                        portrait: 2,
+                        square: 3,
+                        backdrop: 3
                     }
                 }
             });
@@ -272,6 +291,13 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         resolve();
                         resolve = null;
                     }
+                },
+                cardOptions: {
+                    rows: {
+                        portrait: 2,
+                        square: 3,
+                        backdrop: 3
+                    }
                 }
             });
 
@@ -301,6 +327,13 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                         resolve();
                         resolve = null;
                     }
+                },
+                cardOptions: {
+                    rows: {
+                        portrait: 2,
+                        square: 3,
+                        backdrop: 3
+                    }
                 }
             });
 
@@ -324,7 +357,12 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                     });
                 },
                 cardOptions: {
-                    indexBy: 'ProductionYear'
+                    indexBy: 'ProductionYear',
+                    rows: {
+                        portrait: 2,
+                        square: 3,
+                        backdrop: 3
+                    }
                 },
                 listCountElement: page.querySelector('.listCount'),
                 listNumbersElement: page.querySelector('.listNumbers'),
@@ -360,7 +398,12 @@ define(['loading', 'alphaPicker', './../components/horizontallist', './../compon
                     });
                 },
                 cardOptions: {
-                    indexBy: 'CommunityRating'
+                    indexBy: 'CommunityRating',
+                    rows: {
+                        portrait: 2,
+                        square: 3,
+                        backdrop: 3
+                    }
                 },
                 listCountElement: page.querySelector('.listCount'),
                 listNumbersElement: page.querySelector('.listNumbers'),

@@ -16,7 +16,12 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
                 showParentTitle: true,
-                coverImage: true
+                coverImage: true,
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -40,7 +45,12 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                coverImage: true
+                coverImage: true,
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }
@@ -57,7 +67,12 @@ define(['focusManager', 'cardBuilder', 'pluginManager', './../skininfo', 'emby-i
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
-                coverImage: true
+                coverImage: true,
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }

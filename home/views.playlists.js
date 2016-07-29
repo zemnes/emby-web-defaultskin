@@ -23,7 +23,12 @@ define(['cardBuilder', 'emby-itemscontainer'], function (cardBuilder) {
                 itemsContainer: section.querySelector('.itemsContainer'),
                 shape: 'auto',
                 autoFocus: autoFocus,
-                showTitle: true
+                showTitle: true,
+                rows: {
+                    portrait: 2,
+                    square: 3,
+                    backdrop: 3
+                }
             });
         });
     }

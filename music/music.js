@@ -240,7 +240,8 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                     }
                 },
                 cardOptions: {
-                    showTitle: true
+                    showTitle: true,
+                    rows: 3
                 }
             });
 
@@ -267,7 +268,8 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                 listNumbersElement: page.querySelector('.listNumbers'),
                 autoFocus: autoFocus,
                 cardOptions: {
-                    coverImage: true
+                    coverImage: true,
+                    rows: 3
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
@@ -302,7 +304,8 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                 listNumbersElement: page.querySelector('.listNumbers'),
                 autoFocus: autoFocus,
                 cardOptions: {
-                    coverImage: true
+                    coverImage: true,
+                    rows: 3
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
@@ -337,7 +340,8 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                 autoFocus: autoFocus,
                 cardOptions: {
                     coverImage: true,
-                    showTitle: true
+                    showTitle: true,
+                    rows: 3
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),
@@ -372,7 +376,8 @@ define(['loading', './../skininfo', 'alphaPicker', 'cardBuilder', './../componen
                 autoFocus: autoFocus,
                 cardOptions: {
                     coverImage: true,
-                    showTitle: true
+                    showTitle: true,
+                    rows: 3
                 },
                 selectedItemInfoElement: page.querySelector('.selectedItemInfoInner'),
                 selectedIndexElement: page.querySelector('.selectedIndex'),

@@ -21,7 +21,7 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
                 backdrop.setBackdrops([item]);
 
                 cardBuilder.buildCards([item], {
-                    shape: 'squareCard',
+                    shape: 'square',
                     width: 640,
                     itemsContainer: view.querySelector('.nowPlayingCardContainer'),
                     scalable: true

@@ -17,7 +17,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'backdropCard',
+                shape: 'backdrop',
                 rows: 3,
                 preferThumb: true
             });
@@ -52,7 +52,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
             cardBuilder.buildCards(result.Items, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'backdropCard',
+                shape: 'backdrop',
                 rows: 3,
                 preferThumb: true
             });
@@ -78,7 +78,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
             cardBuilder.buildCards(result, {
                 parentContainer: section,
                 itemsContainer: section.querySelector('.itemsContainer'),
-                shape: 'backdropCard',
+                shape: 'backdrop',
                 rows: 3,
                 preferThumb: true,
                 showGroupCount: true
