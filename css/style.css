@@ -249,10 +249,10 @@ a {
     margin-right: 1.25em;
 }
 
-.sectionTitle {
-    font-size: 90%;
-    padding-left: .1em;
-}
+    .horizontalSection .sectionTitle {
+        font-size: 90%;
+        padding-left: .1em;
+    }
 
 .mediaInfoItem {
     display: inline-block;
@@ -331,28 +331,6 @@ i.mediaInfoItem {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-.verticalItemsContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-    .verticalItemsContainer .backdropCard {
-        width: 25%;
-    }
-
-    .verticalItemsContainer .squareCard {
-        width: 16.66666666666666667%;
-    }
-
-    .verticalItemsContainer .portraitCard {
-        width: 16.66666666666666667%;
-    }
-
-    .verticalItemsContainer .personCard {
-        width: 14.285714285714285714285714285714%;
-    }
 
 .horizontalPageContent .squareCard .cardImageContainer {
     width: 20.83vh;

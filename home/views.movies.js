@@ -95,7 +95,7 @@ define(['./spotlight', 'imageLoader', 'focusManager', 'cardBuilder', './../skini
 
     function getRecommendationHtml(recommendation) {
 
-        var cardsHtml = cardbuilder.buildCardsHtml(recommendation.Items, {
+        var cardsHtml = cardbuilder.getCardsHtml(recommendation.Items, {
             shape: 'portrait',
             rows: 2
         });

@@ -58,8 +58,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             // The samsung and lg tv browsers don't quite support all of the flex techniques being used, so add a stylehsheet to degrade
             if (browser.noFlex) {
-                console.log("** Using smart tv css");
-                list.push('css!' + pluginManager.mapPath(self, 'css/smarttv'));
+                console.log("** Using noflex css");
+                list.push('css!' + pluginManager.mapPath(self, 'css/noflex'));
             }
 
             // Needed by the header

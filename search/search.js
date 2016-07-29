@@ -175,6 +175,7 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
             cardOptions = cardOptions || {};
             cardOptions.itemsContainer = section.querySelector('.itemsContainer');
             cardOptions.shape = 'autoVertical';
+            cardOptions.sectionTitleTagName = 'h2';
             cardOptions.scalable = true;
 
             cardOptions.widths = {

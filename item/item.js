@@ -492,7 +492,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     shape: 'autoVertical',
                     showTitle: true,
                     scalable: true,
-                    autoFocus: focusedItemIsNextUp
+                    autoFocus: focusedItemIsNextUp,
+                    sectionTitleTagName: 'h2'
                 }));
             });
         }
@@ -670,7 +671,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         PersonTypes: "",
                         ArtistIds: ""
                     }, extendVerticalCardOptions({
-                        shape: "autoVertical"
+                        shape: "autoVertical",
+                        sectionTitleTagName: 'h2'
                     }));
                     break;
 
@@ -682,6 +684,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         ArtistIds: ""
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
+                        sectionTitleTagName: 'h2',
                         showTitle: true
                     }));
                     break;
@@ -693,7 +696,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         PersonTypes: "",
                         ArtistIds: ""
                     }, extendVerticalCardOptions({
-                        shape: "autoVertical"
+                        shape: "autoVertical",
+                        sectionTitleTagName: 'h2'
                     }));
                     break;
 
@@ -704,7 +708,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         PersonTypes: "",
                         ArtistIds: ""
                     }, extendVerticalCardOptions({
-                        shape: "autoVertical"
+                        shape: "autoVertical",
+                        sectionTitleTagName: 'h2'
                     }));
                     break;
 
@@ -715,7 +720,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         PersonTypes: "",
                         ArtistIds: ""
                     }, extendVerticalCardOptions({
-                        shape: "autoVertical"
+                        shape: "autoVertical",
+                        sectionTitleTagName: 'h2'
                     }));
                     break;
 
@@ -727,6 +733,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         ArtistIds: ""
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
+                        sectionTitleTagName: 'h2',
                         playFromHere: true
                     }));
                     break;
@@ -740,6 +747,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         Limit: 50
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
+                        sectionTitleTagName: 'h2',
                         showTitle: true,
                         showParentTitle: true
                     }));
@@ -920,6 +928,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     parentContainer: section,
                     itemsContainer: itemsContainer,
                     shape: 'autoVertical',
+                    sectionTitleTagName: 'h2',
                     showTitle: showTitle,
                     scalable: true,
                     collectionId: item.Type == 'BoxSet' ? item.Id : null
@@ -983,6 +992,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     parentContainer: section,
                     itemsContainer: section.querySelector('.itemsContainer'),
                     shape: 'autoVertical',
+                    sectionTitleTagName: 'h2',
                     scalable: true,
                     showTitle: true,
                     action: 'playallfromhere'
@@ -1065,6 +1075,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     parentContainer: section,
                     itemsContainer: section.querySelector('.itemsContainer'),
                     shape: 'autoVertical',
+                    sectionTitleTagName: 'h2',
                     scalable: true,
                     coverImage: item.Type == 'MusicArtist' || item.Type == 'MusicAlbum'
                 }));
@@ -1101,6 +1112,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     parentContainer: section,
                     itemsContainer: section.querySelector('.itemsContainer'),
                     shape: 'autoVertical',
+                    sectionTitleTagName: 'h2',
                     scalable: true,
                     coverImage: item.Type == 'MusicArtist' || item.Type == 'MusicAlbum'
                 }));
