@@ -63,11 +63,11 @@
     left: 25%;
 }
 
-.verticalItemsContainer {
+.vertical-wrap {
     display: block;
 }
 
-    .verticalItemsContainer .card {
+    .vertical-wrap .card {
         display: inline-block;
     }
 

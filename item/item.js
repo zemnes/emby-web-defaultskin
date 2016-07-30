@@ -646,7 +646,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 html += section.name;
                 html += '</h2>';
 
-                html += '<div is="emby-itemscontainer" class="itemsContainer verticalItemsContainer">';
+                html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap">';
                 html += '</div>';
 
                 html += '</div>';
