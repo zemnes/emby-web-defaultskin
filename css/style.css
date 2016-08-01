@@ -180,10 +180,6 @@ a {
     margin-top: 0;
 }
 
-.horizontalPageContent {
-    width: 100%;
-}
-
 .scrollFrameY {
     overflow: hidden;
 }
@@ -332,7 +328,7 @@ i.mediaInfoItem {
     text-overflow: ellipsis;
 }
 
-.horizontalPageContent .squareCard .cardImageContainer {
+.horizontalPageContent .squareCard:not(.scalableCard) .cardImageContainer {
     width: 20.83vh;
     height: 20.83vh;
 }

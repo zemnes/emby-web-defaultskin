@@ -177,6 +177,7 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
             cardOptions.shape = 'autoVertical';
             cardOptions.sectionTitleTagName = 'h2';
             cardOptions.scalable = true;
+            cardOptions.overlayText = true;
 
             cardOptions.widths = {
                 portrait: 340,
