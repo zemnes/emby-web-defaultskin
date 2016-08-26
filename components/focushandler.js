@@ -97,8 +97,8 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 if (selectedMediaInfoTimeout) {
                     clearTimeout(selectedMediaInfoTimeout);
                 }
-                var delay = 1000;
-                selectedMediaInfoTimeout = setTimeout(onSelectedMediaInfoTimeout, delay);
+
+                selectedMediaInfoTimeout = setTimeout(onSelectedMediaInfoTimeout, 500);
             }
 
             function onZoomTimeout() {
