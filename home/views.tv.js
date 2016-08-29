@@ -89,7 +89,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
         });
     }
 
-    function loadSpotlight(element, parentId) {
+    function loadSpotlight(instance, element, parentId) {
 
         var options = {
 
@@ -106,7 +106,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
 
             var card = element.querySelector('.wideSpotlightCard');
 
-            new spotlight(card, result.Items, 767);
+            instance.spotlight = new spotlight(card, result.Items, 767);
         });
     }
 
@@ -157,7 +157,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
             ]);
         };
 
-        loadSpotlight(element, parentId);
+        loadSpotlight(self, element, parentId);
         loadImages(element, parentId);
 
         var serverId = apiClient.serverId();
@@ -175,7 +175,10 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
         });
 
         self.destroy = function () {
-
+            if (self.spotlight) {
+                self.spotlight.destroy();
+                self.spotlight = null;
+            }
         };
     }
 
