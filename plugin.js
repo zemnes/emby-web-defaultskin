@@ -230,23 +230,12 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             return routes;
         };
 
-        function onUserDataChanged(e, apiClient, userData) {
-            require(['cardBuilder'], function (cardBuilder) {
-                cardBuilder.onUserDataChanged(userData);
-            });
-        }
-
         var clockInterval;
         self.load = function () {
 
             updateClock();
             setInterval(updateClock, 50000);
             bindEvents();
-
-            require(['serverNotifications'], function (serverNotifications) {
-
-                events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
-            });
         };
 
         self.unload = function () {
@@ -260,9 +249,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                     clockInterval = null;
                 }
 
-                require([settingsObjectName, 'serverNotifications'], function (skinSettings, serverNotifications) {
+                require([settingsObjectName], function (skinSettings) {
 
-                    events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
                     skinSettings.unload();
                     resolve();
                 });
