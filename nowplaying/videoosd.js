@@ -198,6 +198,16 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             elem.classList.add('osdHeader-hidden');
         }
 
+        function clearBottomPanelAnimationEventListeners(elem) {
+            
+            dom.removeEventListener(elem, 'animationend', onSlideDownComplete, {
+                once: true
+            });
+            dom.removeEventListener(elem, 'animationend', onSlideUpComplete, {
+                once: true
+            });
+        }
+
         function onSlideUpComplete(e) {
 
             var elem = e.target;
@@ -216,6 +226,8 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             _osdOpen = true;
 
             elem.classList.remove('hide');
+
+            clearBottomPanelAnimationEventListeners(elem);
 
             elem.style.animation = 'slideupfadeshow 300ms ease-out normal both';
 
@@ -242,6 +254,8 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             if (!_osdOpen) {
                 return;
             }
+
+            clearBottomPanelAnimationEventListeners(elem);
 
             // trigger a reflow to force it to animate again
             void elem.offsetWidth;

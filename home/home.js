@@ -79,7 +79,7 @@ define(['connectionManager', 'loading', './../components/tabbedpage', 'backdrop'
                 // see if there's a card with the same library item
                 if (itemId) {
                     console.log('focusing by itemId');
-                    card = tabView.element.querySelector('*[data-id=\'' + itemId + '\']');
+                    var card = tabView.element.querySelector('*[data-id=\'' + itemId + '\']');
 
                     if (card && document.body.contains(card) && focusManager.isCurrentlyFocusable(card)) {
 
