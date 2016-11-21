@@ -207,21 +207,18 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 supportsThemeMedia: true
             });
 
-            // enable later after app approvals
-            if (!browser.tv) {
-                routes.push({
-                    path: 'settings/settings.html',
-                    transition: 'slide',
-                    controller: self.id + '/settings/settings',
-                    dependencies: [
-                        'emby-checkbox'
-                    ],
-                    type: 'settings',
-                    category: 'Display',
-                    thumbImage: '',
-                    title: 'Default Skin'
-                });
-            }
+            routes.push({
+                path: 'settings/settings.html',
+                transition: 'slide',
+                controller: self.id + '/settings/settings',
+                dependencies: [
+                    'emby-checkbox'
+                ],
+                type: 'settings',
+                category: 'Display',
+                thumbImage: '',
+                title: 'Default Skin'
+            });
 
             return routes;
         };
@@ -424,6 +421,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             document.querySelector('.headerLogo').classList.add('hide');
 
+            //if (!browser.operaTv && !browser.web0s) {
             if (!browser.tv) {
                 document.querySelector('.headerSearchButton').classList.remove('hide');
             }

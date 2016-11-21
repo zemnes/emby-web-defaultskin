@@ -103,28 +103,29 @@ a {
     contain: layout style;
 }
 
+@supports (display: flex) {
     .pageContainer.flex {
         padding-top: 11vh;
         overflow: hidden;
-        display: -ms-flex;
         display: -webkit-flex;
         display: flex;
         contain: strict;
     }
+}
 
-    .pageContainer.vertical.fullWidth {
-        display: block;
-        width: 94.5%;
-        margin: auto;
-    }
+.pageContainer.vertical.fullWidth {
+    display: block;
+    width: 94.5%;
+    margin: auto;
+}
 
-    .pageContainer.vertical.centered {
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        padding-left: 2.5%;
-        padding-right: 2.5%;
-    }
+.pageContainer.vertical.centered {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+}
 
 @media all and (min-width: 1280px) {
 
