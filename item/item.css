@@ -67,6 +67,11 @@
     margin: 0;
 }
 
+.itemPageButtonsContainer {
+    display: flex;
+    align-items: center;
+}
+
 .mainSection .itemPageButtons {
     margin-right: 1em;
 }

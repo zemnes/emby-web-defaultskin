@@ -86,7 +86,7 @@ a {
 }
 
 .userViewNames button.selected {
-    color: #fff;
+    color: inherit;
     opacity: 1;
 }
 

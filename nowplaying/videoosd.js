@@ -1,4 +1,4 @@
-define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'scrollStyles', 'cssAnimations'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager) {
+define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'scrollStyles'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser) {
     'use strict';
 
     function seriesImageUrl(item, options) {
@@ -199,20 +199,8 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         }
 
         function clearBottomPanelAnimationEventListeners(elem) {
-            
-            dom.removeEventListener(elem, 'animationend', onSlideDownComplete, {
-                once: true
-            });
-            dom.removeEventListener(elem, 'animationend', onSlideUpComplete, {
-                once: true
-            });
-        }
 
-        function onSlideUpComplete(e) {
-
-            var elem = e.target;
-
-            dom.removeEventListener(elem, 'animationend', onSlideUpComplete, {
+            dom.removeEventListener(elem, 'transitionend', onSlideDownComplete, {
                 once: true
             });
         }
@@ -225,15 +213,14 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             _osdOpen = true;
 
-            elem.classList.remove('hide');
-
             clearBottomPanelAnimationEventListeners(elem);
 
-            elem.style.animation = 'slideupfadeshow 300ms ease-out normal both';
+            elem.classList.remove('hide');
 
-            dom.addEventListener(elem, 'animationend', onSlideUpComplete, {
-                once: true
-            });
+            // trigger a reflow to force it to animate again
+            void elem.offsetWidth;
+
+            elem.classList.remove('videoOsdBottom-hidden');
 
             focusManager.focus(elem.querySelector('.btnPause'));
         }
@@ -244,7 +231,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             elem.classList.add('hide');
 
-            dom.removeEventListener(elem, 'animationend', onSlideDownComplete, {
+            dom.removeEventListener(elem, 'transitionend', onSlideDownComplete, {
                 once: true
             });
         }
@@ -260,11 +247,16 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             // trigger a reflow to force it to animate again
             void elem.offsetWidth;
 
-            elem.style.animation = 'slidedownfadehide 300ms ease-out normal both';
+            elem.classList.add('videoOsdBottom-hidden');
 
-            dom.addEventListener(elem, 'animationend', onSlideDownComplete, {
+            //if (!browser.supportsCssAnimation()) {
+            //    elem.classList.add('hide');
+            //}
+
+            dom.addEventListener(elem, 'transitionend', onSlideDownComplete, {
                 once: true
             });
+
             _osdOpen = false;
         }
 

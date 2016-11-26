@@ -217,7 +217,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 type: 'settings',
                 category: 'Display',
                 thumbImage: '',
-                title: 'Default Skin'
+                title: self.name
             });
 
             return routes;
@@ -421,8 +421,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             document.querySelector('.headerLogo').classList.add('hide');
 
-            //if (!browser.operaTv && !browser.web0s) {
-            if (!browser.tv) {
+            if (!browser.operaTv && !browser.web0s) {
                 document.querySelector('.headerSearchButton').classList.remove('hide');
             }
 

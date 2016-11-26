@@ -1,4 +1,4 @@
-define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuilder', 'pluginManager', './../skininfo'], function (playbackManager, datetime, backdrop, userdataButtons, cardBuilder, pluginManager, skinInfo) {
+define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuilder', 'pluginManager', './../skininfo', 'events'], function (playbackManager, datetime, backdrop, userdataButtons, cardBuilder, pluginManager, skinInfo, events) {
     'use strict';
 
     return function (view, params) {
@@ -106,10 +106,10 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
 
                 releasePlayer();
 
-                Events.on(player, 'volumechange', onVolumeChange);
-                Events.on(player, 'timeupdate', onTimeUpdate);
-                Events.on(player, 'pause', onPlaystateChange);
-                Events.on(player, 'playing', onPlaystateChange);
+                events.on(player, 'volumechange', onVolumeChange);
+                events.on(player, 'timeupdate', onTimeUpdate);
+                events.on(player, 'pause', onPlaystateChange);
+                events.on(player, 'playing', onPlaystateChange);
             }
 
             currentPlayer = player;
@@ -124,10 +124,10 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             var player = currentPlayer;
 
             if (player) {
-                Events.off(player, 'volumechange', onVolumeChange);
-                Events.off(player, 'timeupdate', onTimeUpdate);
-                Events.off(player, 'pause', onPlaystateChange);
-                Events.off(player, 'playing', onPlaystateChange);
+                events.off(player, 'volumechange', onVolumeChange);
+                events.off(player, 'timeupdate', onTimeUpdate);
+                events.off(player, 'pause', onPlaystateChange);
+                events.off(player, 'playing', onPlaystateChange);
                 currentPlayer = null;
             }
         }
@@ -261,9 +261,9 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             getHeaderElement().classList.add('nowPlayingHeader');
 
             Emby.Page.setTitle('');
-            Events.on(playbackManager, 'playbackstart', onPlaybackStart);
-            Events.on(playbackManager, 'playbackstop', onPlaybackStop);
-            Events.on(playbackManager, 'repeatmodechange', onRepeatModeChanged);
+            events.on(playbackManager, 'playbackstart', onPlaybackStart);
+            events.on(playbackManager, 'playbackstop', onPlaybackStop);
+            events.on(playbackManager, 'repeatmodechange', onRepeatModeChanged);
 
             onPlaybackStart(e, playbackManager.currentPlayer());
         });
@@ -273,9 +273,9 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             getHeaderElement().classList.remove('nowPlayingHeader');
 
             releasePlayer();
-            Events.off(playbackManager, 'playbackstart', onPlaybackStart);
-            Events.off(playbackManager, 'playbackstop', onPlaybackStop);
-            Events.off(playbackManager, 'repeatmodechange', onRepeatModeChanged);
+            events.off(playbackManager, 'playbackstart', onPlaybackStart);
+            events.off(playbackManager, 'playbackstop', onPlaybackStop);
+            events.off(playbackManager, 'repeatmodechange', onRepeatModeChanged);
         });
 
         view.querySelector('.buttonMute').addEventListener('click', function () {
