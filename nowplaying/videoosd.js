@@ -58,6 +58,8 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         var btnRewind = view.querySelector('.btnRewind');
         var btnFastForward = view.querySelector('.btnFastForward');
 
+        var transitionEndEventName = dom.whichTransitionEvent();
+
         function getHeaderElement() {
             return document.querySelector('.skinHeader');
         }
@@ -200,7 +202,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         function clearBottomPanelAnimationEventListeners(elem) {
 
-            dom.removeEventListener(elem, 'transitionend', onSlideDownComplete, {
+            dom.removeEventListener(elem, transitionEndEventName, onSlideDownComplete, {
                 once: true
             });
         }
@@ -231,7 +233,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             elem.classList.add('hide');
 
-            dom.removeEventListener(elem, 'transitionend', onSlideDownComplete, {
+            dom.removeEventListener(elem, transitionEndEventName, onSlideDownComplete, {
                 once: true
             });
         }
@@ -249,11 +251,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             elem.classList.add('videoOsdBottom-hidden');
 
-            //if (!browser.supportsCssAnimation()) {
-            //    elem.classList.add('hide');
-            //}
-
-            dom.addEventListener(elem, 'transitionend', onSlideDownComplete, {
+            dom.addEventListener(elem, transitionEndEventName, onSlideDownComplete, {
                 once: true
             });
 

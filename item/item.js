@@ -477,6 +477,15 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             return options;
         }
 
+        function nextUp(seriesItem, options) {
+
+            var apiClient = connectionManager.getApiClient(seriesItem.ServerId);
+
+            options.UserId = apiClient.getCurrentUserId();
+
+            return apiClient.getNextUpEpisodes(options);
+        }
+
         function renderNextUp(view, item) {
 
             var section = view.querySelector('.itemNextUpSection');
@@ -493,9 +502,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 return;
             }
 
-            Emby.Models.nextUp({
+            nextUp(item, {
 
-                SeriesId: item.Id
+                SeriesId: item.Id,
+                Fields: "PrimaryImageAspectRatio",
+                ImageTypeLimit: 1
 
             }).then(function (result) {
 

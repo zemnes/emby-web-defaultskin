@@ -39,15 +39,18 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
         return elem;
     }
 
-    function loadNextUp(element, parentId) {
+    function loadNextUp(element, parentId, apiClient) {
 
         var options = {
 
+            Fields: "PrimaryImageAspectRatio",
+            ImageTypeLimit: 1,
             Limit: 18,
-            ParentId: parentId
+            ParentId: parentId,
+            UserId: apiClient.getCurrentUserId()
         };
 
-        return Emby.Models.nextUp(options).then(function (result) {
+        return apiClient.getNextUpEpisodes(options).then(function (result) {
 
             var section = element.querySelector('.nextUpSection');
 
@@ -153,7 +156,7 @@ define(['./spotlight', 'focusManager', 'cardBuilder', './../skininfo', 'emby-ite
 
             return Promise.all([
             loadResume(element, parentId),
-            loadNextUp(element, parentId),
+            loadNextUp(element, parentId, apiClient),
             loadLatest(element, parentId)
             ]);
         };

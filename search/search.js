@@ -200,7 +200,6 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
                 mode: 'keyboard'
             });
 
-            self.alphaPicker.focus();
             alphaPickerElement.addEventListener('alphavalueclicked', onAlphaValueClicked);
         }
 
