@@ -12,6 +12,7 @@
 
 .mainSection {
     display: flex;
+    margin-top: 2em;
 }
 
 .smallBottomMargin {
@@ -28,13 +29,20 @@
 }
 
 .itemTitle {
-    margin: .1em 0 1.3em;
-    text-align: center;
+    margin: .5em 0;
 }
 
 .albumTitle {
     text-align: left;
     margin: .5em 0 0;
+}
+
+.albumMainSection {
+    margin-top: 0;
+}
+
+.seasonMainSection {
+    margin-top: 0;
 }
 
 .albumMainSection .itemPageLeft {
@@ -70,6 +78,7 @@
 .itemPageButtonsContainer {
     display: flex;
     align-items: center;
+    margin: 1.5em 0;
 }
 
 .mainSection .itemPageButtons {

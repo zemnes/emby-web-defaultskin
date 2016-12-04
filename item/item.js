@@ -1023,21 +1023,12 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             var section = view.querySelector('.scenesSection');
 
-            var method = 'enableOtherDetailScenes';
-
-            if (item.Type === 'Movie') {
-                method = 'enableMovieDetailScenes';
-            }
-            else if (item.Type === 'Episode') {
-                method = 'enableEpisodeDetailScenes';
-            }
-
-            if (!skinSettings[method]()) {
-                section.classList.add('hide');
-                return;
-            }
-
             var chapters = item.Chapters || [];
+
+            // If there are no chapter images, don't show a bunch of empty tiles
+            if (chapters.length && !chapters[0].ImageTag) {
+                chapters = [];
+            }
 
             if (!chapters.length) {
                 section.classList.add('hide');
@@ -1223,7 +1214,9 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
                     // If it's a person, leave the backdrop image from wherever we came from
                     if (item.Type !== 'Person') {
-                        backdrop.setBackdrops([item]);
+                        backdrop.setBackdrops([item], {
+                            blur: 40
+                        }, false);
                         setTitle(item);
                     }
 

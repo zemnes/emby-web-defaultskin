@@ -28,12 +28,19 @@
     </div>
     <div class="scrollFrame scrollFrameY itemScrollFrame">
         <div class="scrollSlider">
-            <h2 class="itemTitle"></h2>
             <div class="verticalSection mainSection focusable">
                 <div class="itemPageLeft">
                     <div class="detailImageContainer"></div>
                 </div>
                 <div class="itemPageMain">
+                    <h1 class="itemTitle"></h1>
+                    <div class="mediaInfo mediaInfoPrimary">
+
+                    </div>
+                    <div class="mediaInfo mediaInfoSecondary">
+
+                    </div>
+
                     <div class="itemPageButtonsContainer">
                         <div class="itemPageButtons">
                             <button is="emby-button" class="btnPlay hide raised">
@@ -59,19 +66,13 @@
                         </div>
                     </div>
 
-                    <div class="mediaInfo mediaInfoPrimary">
-
-                    </div>
-                    <div class="mediaInfo mediaInfoSecondary">
-
-                    </div>
                     <p class="genres hide">
 
                     </p>
                     <div class="recordingFields hide" style="margin:1em 0;"></div>
-                    <p class="tagline hide">
+                    <h2 class="tagline hide">
 
-                    </p>
+                    </h2>
                     <p class="birthDate hide">
 
                     </p>
@@ -110,16 +111,16 @@
                 <h2>${Extras}</h2>
                 <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
             </div>
-            <div class="verticalSection scenesSection hide">
-                <h2>${Scenes}</h2>
-                <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
-            </div>
             <div class="verticalSection moreFromSection hide">
                 <h2></h2>
                 <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
             </div>
             <div class="verticalSection similarSection hide">
                 <h2>${HeaderMoreLikeThis}</h2>
+                <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
+            </div>
+            <div class="verticalSection scenesSection hide">
+                <h2>${Scenes}</h2>
                 <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
             </div>
             <div class="peopleItems">

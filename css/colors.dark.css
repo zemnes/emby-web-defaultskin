@@ -51,7 +51,8 @@ a {
 }
 
 .emby-button.raised {
-    background: #404040;
+    background-color: rgba(170,170,190, .4);
+    color: #fff;
 }
 
 .emby-button:focus:not(.btnUserViewHeader) {
@@ -152,8 +153,4 @@ a {
 
 .listItemBody .secondary {
     color: #999 !important;
-}
-
-.tagline {
-    color: #FFEB3B;
 }

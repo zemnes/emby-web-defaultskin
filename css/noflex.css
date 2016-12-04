@@ -1,7 +1,3 @@
-.pageTitleWithLogo {
-    width: 300px;
-}
-
 /* 480p */
 .horizontalPageContent .squareCard .cardImageContainer, .homePageContent .squareCard .cardImageContainer, .listPageContent .squareCard .cardImageContainer {
     width: 95px !important;

@@ -2,12 +2,16 @@ a {
     text-decoration: none;
 }
 
+h1 {
+    opacity: .7;
+}
+
 .headerLogo {
     background-position: left center;
     background-repeat: no-repeat;
     background-size: contain;
-    width: 6.9vw;
-    height: 3.7vh;
+    width: 6em;
+    height: 1.8em;
     min-height: 40px;
     min-width: 74px;
     vertical-align: middle;
@@ -26,7 +30,7 @@ a {
     background-position: left center;
     background-size: contain;
     background-repeat: no-repeat;
-    width: 20.83vw;
+    width: 13.2em;
 }
 
 .headerAudioPlayerButton {
@@ -34,7 +38,7 @@ a {
 }
 
 .headerBackButton {
-    margin-left: -1.6vw;
+    margin-left: -1.4em;
 }
 
 .headerButton {
@@ -221,6 +225,7 @@ a {
 .userViewNames h3 {
     margin-top: 0;
     margin-bottom: 0;
+    font-weight: 300;
 }
 
 .userViewNames .btnUserViewHeader {
