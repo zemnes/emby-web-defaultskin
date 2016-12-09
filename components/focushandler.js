@@ -223,7 +223,9 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     html += '<div class="selectedItemInfoLogo" style="background-image:url(\'' + logoImageUrl + '\');"></div>';
                 }
 
-                var mediaInfoHtml = mediaInfo.getPrimaryMediaInfoHtml(item);
+                var mediaInfoHtml = item.Type === 'Program' ?
+                    mediaInfo.getSecondaryMediaInfoHtml(item) :
+                    mediaInfo.getPrimaryMediaInfoHtml(item);
 
                 html += '<div>';
                 html += '<div>';
@@ -232,7 +234,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     html += item.AlbumArtist + " - ";
                 }
 
-                if (item.EpisodeTitle) {
+                if (item.IsSeries) {
                     html += item.Name;
                 } else {
                     html += itemHelper.getDisplayName(item);

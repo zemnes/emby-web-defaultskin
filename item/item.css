@@ -16,7 +16,7 @@
 }
 
 .smallBottomMargin {
-    margin-bottom: 1.9vh;
+    margin-bottom: 1em;
 }
 
 .itemPageLeft {
@@ -63,6 +63,7 @@
 
 .bulletSeparator {
     color: #52B54B;
+    margin: 0 .35em;
 }
 
 .mediaInfo {
@@ -110,7 +111,6 @@
 }
 
 .detailImageContainer {
-    margin-bottom: 1em;
     /* Eliminates the gap of space between the image and progress bar*/
     line-height: 1;
 }
@@ -162,36 +162,26 @@
 }
 
 .mediaInfoIcons {
-    margin-top: 1.3em;
+    margin: 1.25em 0;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
-
-.mediaInfoIcon {
-    height: 3.7vh;
-    fill: #ccc;
-    color: #ccc;
-    vertical-align: middle;
-    margin-right: 1.1em;
-}
-
-    .mediaInfoIcon path {
-        fill: #fff;
-    }
 
 .mediaInfoText {
-    display: inline-block;
+    background: rgba(31,31,31,.7);
     padding: .2em .5em;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: #000;
-    background: rgba(231,231,231,.8);
-    backdrop-filter: blur(5px);
-    border-radius: .2em;
-    font-weight: normal;
-    margin-right: .8em;
-    font-size: 76%;
-    height: auto;
+    border-radius: .25em;
+    color: #ddd;
+    margin-right: .5em;
+    font-size: 84%;
+    background: rgba(170,170,190, .2);
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.mediaInfoText-upper {
     text-transform: uppercase;
 }
 
@@ -205,4 +195,13 @@
 
 .squareCard.chapterCard {
     width: 20%;
+}
+
+.parentName {
+    display: flex;
+    align-items: center;
+}
+
+.parentNameDivider {
+    margin: 0 .25em;
 }

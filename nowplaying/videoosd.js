@@ -180,7 +180,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         function startHideTimer() {
             stopHideTimer();
-            hideTimeout = setTimeout(hideOsd, 4000);
+            hideTimeout = setTimeout(hideOsd, 5000);
         }
 
         function stopHideTimer() {

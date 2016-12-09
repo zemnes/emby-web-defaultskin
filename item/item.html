@@ -33,7 +33,8 @@
                     <div class="detailImageContainer"></div>
                 </div>
                 <div class="itemPageMain">
-                    <h1 class="itemTitle"></h1>
+                    <h1 class="parentName hide" style="margin: 0 0 .25em;"></h1>
+                    <h1 class="itemTitle" style="margin: .25em 0;"></h1>
                     <div class="mediaInfo mediaInfoPrimary">
 
                     </div>
@@ -64,15 +65,14 @@
                         <div class="itemPageUserDataIcons">
 
                         </div>
+                        <button is="emby-button" type="button" class="btnDeleteItem fab mini hide" title="${DeleteMedia}"><i class="md-icon">&#xE872;</i></button>
                     </div>
 
+                    <div class="recordingFields hide" style="margin:1em 0;"></div>
                     <p class="genres hide">
 
                     </p>
-                    <div class="recordingFields hide" style="margin:1em 0;"></div>
-                    <h2 class="tagline hide">
-
-                    </h2>
+                    <h2 class="tagline hide"></h2>
                     <p class="birthDate hide">
 
                     </p>
@@ -89,15 +89,15 @@
 
                     </div>
 
-                    <div class="mediaInfoIcons dynamicMediaInfoIcons hide">
-                    </div>
-
-                    <div class="itemNextUpSection hide" style="margin-top: 1.5em;">
-                        <div>${NextUp}</div>
-                        <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
+                    <div class="mediaInfoIcons hide">
                     </div>
                 </div>
                 <div style="clear:both;"></div>
+            </div>
+
+            <div class="itemNextUpSection verticalSection hide">
+                <h2>${NextUp}</h2>
+                <div is="emby-itemscontainer" class="itemsContainer vertical-wrap"></div>
             </div>
             <div class="verticalSection childrenSection hide">
                 <h2></h2>
