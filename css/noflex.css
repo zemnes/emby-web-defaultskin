@@ -9,6 +9,11 @@
     height: 95px !important;
 }
 
+.horizontalPageContent .bannerCard .cardImageContainer, .homePageContent .bannerCard .cardImageContainer, .listPageContent .bannerCard .cardImageContainer {
+    width: 169px !important;
+    height: 25px !important;
+}
+
 .horizontalPageContent .portraitCard .cardImageContainer, .homePageContent .portraitCard .cardImageContainer, .listPageContent .portraitCard .cardImageContainer {
     width: 96px !important;
     height: 145px !important;
@@ -27,6 +32,11 @@
     .horizontalPageContent .backdropCard .cardImageContainer, .homePageContent .backdropCard .cardImageContainer, .listPageContent .backdropCard .cardImageContainer {
         width: 258px !important;
         height: 145px !important;
+    }
+
+    .horizontalPageContent .bannerCard .cardImageContainer, .homePageContent .bannerCard .cardImageContainer, .listPageContent .bannerCard .cardImageContainer {
+        width: 258px !important;
+        height: 39px !important;
     }
 
     .horizontalPageContent .portraitCard .cardImageContainer, .homePageContent .portraitCard .cardImageContainer, .listPageContent .portraitCard .cardImageContainer {
@@ -48,6 +58,11 @@
     .horizontalPageContent .backdropCard .cardImageContainer, .homePageContent .backdropCard .cardImageContainer, .listPageContent .backdropCard .cardImageContainer {
         width: 400px !important;
         height: 225px !important;
+    }
+
+    .horizontalPageContent .bannerCard .cardImageContainer, .homePageContent .bannerCard .cardImageContainer, .listPageContent .bannerCard .cardImageContainer {
+        width: 400px !important;
+        height: 60px !important;
     }
 
     .horizontalPageContent .portraitCard .cardImageContainer, .homePageContent .portraitCard .cardImageContainer, .listPageContent .portraitCard .cardImageContainer {

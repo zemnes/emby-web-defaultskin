@@ -11,7 +11,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     btn.focus();
                     return;
                 } catch (err) {
-                    
+
                 }
             }
 
@@ -175,10 +175,10 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
         function renderDynamicMediaIcons(view, item) {
 
-            var html = mediaInfo.getMediaInfoStats(item).map(function(mediaInfoItem) {
+            var html = mediaInfo.getMediaInfoStats(item).map(function (mediaInfoItem) {
 
                 var text = mediaInfoItem.text;
-                
+
                 if (mediaInfoItem.type === 'added') {
                     return '<div class="mediaInfoText">' + text + '</div>';
                 }
@@ -291,10 +291,17 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             }
 
             itemContextMenu.getCommands(getContextMenuOptions(item)).then(function (commands) {
+
                 if (commands.length && !browser.tv) {
                     view.querySelector('.mainSection .btnMore').classList.remove('hide');
                 } else {
                     view.querySelector('.mainSection .btnMore').classList.add('hide');
+                }
+
+                if (view.querySelector('.mainSection .itemPageButtons button:not(.hide)')) {
+                    view.querySelector('.mainSection .itemPageButtonsContainer').classList.remove('hide');
+                } else {
+                    view.querySelector('.mainSection .itemPageButtonsContainer').classList.add('hide');
                 }
             });
 
@@ -1127,6 +1134,30 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             var currentItem;
             var currentRecordingFields;
             var dataPromises;
+            var syncToggleInstance;
+
+            function onSynced() {
+                reloadItem(true);
+            }
+
+            function renderSyncLocalContainer(user, item) {
+
+                if (syncToggleInstance) {
+                    syncToggleInstance.refresh(item);
+                    return;
+                }
+
+                require(['syncToggle'], function (syncToggle) {
+
+                    syncToggleInstance = new syncToggle({
+                        user: user,
+                        item: item,
+                        container: view.querySelector('.syncLocalContainer')
+                    });
+
+                    events.on(syncToggleInstance, 'sync', onSynced);
+                });
+            }
 
             function onUserDataChanged(e, apiClient, userData) {
 
@@ -1200,6 +1231,28 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 dataPromises = [apiClient.getItem(apiClient.getCurrentUserId(), params.id), apiClient.getCurrentUser()];
             }
 
+            function renderUserDataIcons(view, item) {
+
+                var userDataIconsSelector = enableTrackList(item) || item.Type === 'MusicArtist' ? '.itemPageFixedLeft .itemPageUserDataIcons' : '.mainSection .itemPageUserDataIcons';
+
+                var elem = view.querySelector(userDataIconsSelector);
+
+                if (item.Type === 'Program') {
+
+                    elem.classList.add('hide');
+
+                } else {
+
+                    elem.classList.remove('hide');
+
+                    userdataButtons.fill({
+                        element: elem,
+                        item: item,
+                        style: 'fab-mini'
+                    });
+                }
+            }
+
             function reloadItem(reloadAllData) {
 
                 if (reloadAllData) {
@@ -1236,6 +1289,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         renderSimilar(view, item, apiClient);
                         renderMoreFrom(view, item, apiClient);
                         createVerticalScroller(view, self);
+                        renderSyncLocalContainer(user, item);
 
                         var mainSection = view.querySelector('.mainSection');
                         var itemScrollFrame = view.querySelector('.itemScrollFrame');
@@ -1264,13 +1318,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         }
                     }
 
-                    var userDataIconsSelector = enableTrackList(item) || item.Type === 'MusicArtist' ? '.itemPageFixedLeft .itemPageUserDataIcons' : '.mainSection .itemPageUserDataIcons';
-
-                    userdataButtons.fill({
-                        element: view.querySelector(userDataIconsSelector),
-                        item: item,
-                        style: 'fab-mini'
-                    });
+                    renderUserDataIcons(view, item);
 
                     // Always refresh this
                     renderNextUp(view, item);
@@ -1334,6 +1382,12 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             view.addEventListener('viewdestroy', function () {
 
                 events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
+
+                if (syncToggleInstance) {
+                    events.off(syncToggleInstance, 'sync', onSynced);
+                    syncToggleInstance.destroy();
+                    syncToggleInstance = null;
+                }
 
                 if (self.currentRecordingFields) {
                     self.currentRecordingFields.destroy();

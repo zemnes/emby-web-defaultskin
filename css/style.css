@@ -340,6 +340,11 @@ i.mediaInfoItem {
     height: 20.83vh;
 }
 
+.horizontalPageContent .bannerCard .cardImageContainer {
+    width: 37.04vh;
+    height: 5.556vh;
+}
+
 .horizontalPageContent .portraitCard .cardImageContainer {
     width: 21.02vh;
     height: 31.57vh;
@@ -348,6 +353,11 @@ i.mediaInfoItem {
 .homePageContent .squareCard:not(.scalableCard) .cardImageContainer {
     width: 21.85vh;
     height: 21.85vh;
+}
+
+.homePageContent .bannerCard .cardImageContainer {
+    width: 38.89vh;
+    height: 5.8335vh;
 }
 
 .homePageContent .backdropCard .cardImageContainer {
@@ -368,6 +378,11 @@ i.mediaInfoItem {
 .listPageContent .backdropCard .cardImageContainer {
     width: 38.222vh;
     height: 21.5vh;
+}
+
+.listPageContent .bannerCard .cardImageContainer {
+    width: 38.222vh;
+    height: 5.733vh;
 }
 
 .listPageContent .portraitCard .cardImageContainer {
