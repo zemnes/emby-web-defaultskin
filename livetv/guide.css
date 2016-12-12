@@ -1,6 +1,7 @@
 .guidePageContainer {
     bottom: 22%;
-    left: 3%;
+    left: 2.4%;
+    padding-top: 9vh;
 }
 
 .guideSelectedInfo {
@@ -16,9 +17,9 @@
         margin: 0;
     }
 
-    .guideItemDetails {
-        max-width: 90%;
-    }
+.guideItemDetails {
+    max-width: 90%;
+}
 
 .guideOverview {
     white-space: nowrap;
