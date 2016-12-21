@@ -1,17 +1,20 @@
-define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'layoutManager', 'browser', 'serverNotifications', 'events', 'dom', 'apphost', 'globalize', 'emby-itemscontainer'],
-    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators, layoutManager, browser, serverNotifications, events, dom, appHost, globalize) {
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'layoutManager', 'browser', 'serverNotifications', 'events', 'dom', 'apphost', 'globalize', 'itemShortcuts', 'emby-itemscontainer'],
+    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators, layoutManager, browser, serverNotifications, events, dom, appHost, globalize, itemShortcuts) {
         'use strict';
 
         function focusMainSection() {
 
-            var btn = this.querySelector('.emby-button.raised:not(.hide)');
+            var btns = this.querySelectorAll('.emby-button.raised');
 
-            if (btn) {
-                try {
-                    btn.focus();
-                    return;
-                } catch (err) {
+            for (var i = 0, length = btns.length; i < length; i++) {
+                var btn = btns[i];
+                if (focusManager.isCurrentlyFocusable(btn)) {
+                    try {
+                        btn.focus();
+                        return;
+                    } catch (err) {
 
+                    }
                 }
             }
 
@@ -77,7 +80,9 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             var itemTitle = view.querySelector('.itemTitle');
 
             itemTitle.classList.remove('hide');
-            itemTitle.innerHTML = itemHelper.getDisplayName(item);
+            itemTitle.innerHTML = itemHelper.getDisplayName(item, {
+                includeParentInfo: false
+            });
 
             if (enableTrackList(item) || item.Type === 'MusicArtist') {
                 itemTitle.classList.add('albumTitle');
@@ -1050,18 +1055,22 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             });
         }
 
+        function getHeadingText(text) {
+            return '<h1 style="margin:0;">' + text + '</h1>';
+        }
+
         function getTextActionButton(item, text) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
 
-            return text;
-            //var html = '<button data-id="' + item.Id + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
-            //html += text;
-            //html += '</button>';
+            //return text;
+            var html = '<button style="margin:0;padding:0;text-transform:none;font-weight:normal;" ' + itemShortcuts.getShortcutAttributesHtml(item) + ' type="button" is="emby-button" class="itemAction button-flat" data-action="link">';
+            html += getHeadingText(text);
+            html += '</button>';
 
-            //return html;
+            return html;
         }
 
         function renderParentName(view, item) {
@@ -1079,6 +1088,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 html.push(getTextActionButton({
 
                     Id: item.SeriesId,
+                    ServerId: item.ServerId,
                     Name: item.SeriesName,
                     Type: 'Series',
                     IsFolder: true
@@ -1091,6 +1101,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 html.push(getTextActionButton({
 
                     Id: item.SeriesId,
+                    ServerId: item.ServerId,
                     Name: item.SeriesName,
                     Type: 'Series',
                     IsFolder: true
@@ -1102,6 +1113,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 html.push(getTextActionButton({
 
                     Id: item.SeasonId,
+                    ServerId: item.ServerId,
                     Name: item.SeasonName,
                     Type: 'Season',
                     IsFolder: true
@@ -1117,7 +1129,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             } else if (item.Album) {
                 //html.push(item.Album);
             } else if (item.Type === 'Program' && item.IsSeries) {
-                html.push(item.Name);
+                html.push(getHeadingText(item.Name));
             }
 
             if (html.length) {
@@ -1269,7 +1281,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     // If it's a person, leave the backdrop image from wherever we came from
                     if (item.Type !== 'Person') {
                         backdrop.setBackdrops([item], {
-                            blur: 20
+                            blur: 16
                         }, false);
                         setTitle(item);
                     }
@@ -1332,6 +1344,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     loading.hide();
                 });
             }
+
+            itemShortcuts.on(view.querySelector('.parentName'));
 
             view.addEventListener('viewbeforeshow', function (e) {
 

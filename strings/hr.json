@@ -1,5 +1,4 @@
 {
-    "HeaderMoreLikeThis": "Vi\u0161e ovakvih",
     "ButtonEditRecording": "Uredi snimanje",
     "Episodes": "Epizode",
     "OtherVideos": "Ostali video",
@@ -44,7 +43,7 @@
     "RecommendationBecauseYouWatched": "Zato \u0161to ste gledali {0}",
     "RecommendationDirectedBy": "Re\u017eisirao {0}",
     "RecommendationStarring": "Glumi {0}",
-    "SimilarTo": "Sli\u010dno {0}",
+    "HeaderMoreLikeThis": "Vi\u0161e ovakvih",
     "MoreFrom": "Vi\u0161e od {0}",
     "AlbumArtists": "Albumi izvo\u0111a\u010da",
     "LiveTV": "TV u\u017eivo",

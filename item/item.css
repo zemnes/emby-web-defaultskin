@@ -168,18 +168,9 @@
     flex-wrap: wrap;
 }
 
-.mediaInfoText {
-    background: rgba(31,31,31,.7);
-    padding: .2em .5em;
-    border-radius: .25em;
-    color: #ddd;
-    margin-right: .5em;
-    font-size: 84%;
-    background: rgba(170,170,190, .2);
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-}
+    .mediaInfoIcons > .mediaInfoText {
+        margin-right: .5em;
+    }
 
 .mediaInfoText-upper {
     text-transform: uppercase;

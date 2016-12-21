@@ -18,9 +18,11 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop', 'mediaInfo']
 
             if (e.detail.isRestored) {
                 if (guideInstance) {
+                    var refreshGuideData = false;
                     if ((new Date().getTime() - hideTime) > 60000) {
-                        guideInstance.refresh();
+                        refreshGuideData = true;
                     }
+                    guideInstance.resume(refreshGuideData);
                 }
             } else {
                 initGuide();
@@ -29,6 +31,9 @@ define(['tvguide', 'events', 'datetime', 'imageLoader', 'backdrop', 'mediaInfo']
 
         view.addEventListener('viewhide', function () {
             hideTime = new Date().getTime();
+            if (guideInstance) {
+                guideInstance.pause();
+            }
         });
 
         view.addEventListener('viewdestroy', function () {

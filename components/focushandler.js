@@ -1,5 +1,5 @@
-define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager'],
-    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager) {
+define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 'scrollHelper', 'browser', 'layoutManager', 'dom'],
+    function (imageLoader, itemHelper, backdrop, mediaInfo, focusManager, scrollHelper, browser, layoutManager, dom) {
         'use strict';
 
         var enableAnimations = browser.animate || browser.edge;
@@ -42,8 +42,14 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             var lastFocus = 0;
 
             if (layoutManager.tv) {
-                parent.addEventListener('focus', onFocusIn, true);
-                parent.addEventListener('blur', onFocusOut, true);
+                dom.addEventListener(parent, 'focus', onFocusIn, {
+                    capture: true,
+                    passive: true
+                });
+                dom.addEventListener(parent, 'blur', onFocusOut, {
+                    capture: true,
+                    passive: true
+                });
             }
 
             var selectedItemInfoElement = options.selectedItemInfoElement;
@@ -227,8 +233,8 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                     mediaInfo.getSecondaryMediaInfoHtml(item) :
                     mediaInfo.getPrimaryMediaInfoHtml(item);
 
-                html += '<div>';
-                html += '<div>';
+                html += '<div class="selectedItemInfoDetails">';
+                html += '<div class="selectedItemName">';
 
                 if (item.AlbumArtist) {
                     html += item.AlbumArtist + " - ";
@@ -257,7 +263,8 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 selectedItemInfoElementHasContent = true;
 
                 var rect = card.getBoundingClientRect();
-                selectedItemInfoElement.style.left = (Math.max(rect.left, 70)) + 'px';
+                var left = Math.min(rect.left, dom.getWindowSize().innerWidth * 0.8);
+                selectedItemInfoElement.style.left = (Math.max(left, 70)) + 'px';
 
                 if (html && enableAnimations) {
                     fadeIn(selectedItemInfoElement, 1);
@@ -272,8 +279,14 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
             self.destroy = function () {
 
-                parent.removeEventListener('focus', onFocusIn, true);
-                parent.removeEventListener('blur', onFocusOut, true);
+                dom.removeEventListener(parent, 'focus', onFocusIn, {
+                    capture: true,
+                    passive: true
+                });
+                dom.removeEventListener(parent, 'blur', onFocusOut, {
+                    capture: true,
+                    passive: true
+                });
 
                 if (selectedItemInfoElement) {
                     selectedItemInfoElement.innerHTML = '';

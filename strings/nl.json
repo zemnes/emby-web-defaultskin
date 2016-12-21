@@ -1,5 +1,4 @@
 {
-    "HeaderMoreLikeThis": "More Like This",
     "ButtonEditRecording": "Edit Recording",
     "Episodes": "Episodes",
     "OtherVideos": "Other videos",
@@ -44,7 +43,7 @@
     "RecommendationBecauseYouWatched": "Omdat u keek naar {0}",
     "RecommendationDirectedBy": "Geregisseerd door {0}",
     "RecommendationStarring": "In de hoofdrol {0}",
-    "SimilarTo": "Vergelijkbaar met {0}",
+    "HeaderMoreLikeThis": "More Like This",
     "MoreFrom": "More from {0}",
     "AlbumArtists": "Album Artiesten",
     "LiveTV": "Live TV",

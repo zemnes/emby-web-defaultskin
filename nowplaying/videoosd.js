@@ -225,6 +225,11 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             elem.classList.remove('videoOsdBottom-hidden');
 
             focusManager.focus(elem.querySelector('.btnPause'));
+
+            view.dispatchEvent(new CustomEvent('video-osd-show', {
+                bubbles: true,
+                cancelable: false
+            }));
         }
 
         function onSlideDownComplete(e) {
@@ -236,6 +241,11 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             dom.removeEventListener(elem, transitionEndEventName, onSlideDownComplete, {
                 once: true
             });
+
+            view.dispatchEvent(new CustomEvent('video-osd-hide', {
+                bubbles: true,
+                cancelable: false
+            }));
         }
 
         function slideDownToHide(elem) {

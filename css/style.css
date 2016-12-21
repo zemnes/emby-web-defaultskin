@@ -257,19 +257,10 @@ h1 {
         padding-left: .1em;
     }
 
-.mediaInfoItem {
-    display: inline-block;
-    margin: 0 1em 0 0;
-}
-
 i.mediaInfoItem {
     width: 4vh;
     height: 4vh;
     margin-right: .6em;
-}
-
-.mediaInfoItem:last-child {
-    margin-right: 0;
 }
 
 .listItemMediaInfo {
@@ -281,7 +272,7 @@ i.mediaInfoItem {
     bottom: .5%;
     left: 3.7vw;
     right: 10%;
-    max-width: 60%;
+    max-width: 70%;
     font-size: 84%;
     color: #ccc;
     /*position: relative;
@@ -320,9 +311,15 @@ i.mediaInfoItem {
     background-position: right center;
     background-size: contain;
     margin-right: 1em;
+    flex-shrink: 0;
 }
 
-.selectedItemInfoInner > div {
+.selectedItemInfoDetails {
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.selectedItemInfoDetails > div {
     white-space: nowrap;
     max-width: 100%;
     overflow: hidden;
@@ -497,7 +494,7 @@ i.mediaInfoItem {
         margin-bottom: .25em;
     }
 
-.mainSection .itemPageButtons button {
+.mainSection .raised {
     padding: .7em 1.3em;
     text-transform: none;
     margin: 0 .35em 0 0;

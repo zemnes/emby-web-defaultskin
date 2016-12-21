@@ -71,7 +71,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             var files = [];
 
-            var languages = ['de', 'en-GB', 'en-US', 'fr', 'hr', 'it', 'nl', 'pl', 'pt-BR', 'pt-PT', 'ru', 'sv'];
+            var languages = ['de', 'en-GB', 'en-US', 'fr', 'hr', 'it', 'nl', 'pl', 'pt-BR', 'pt-PT', 'ru', 'sv', 'zh-CN'];
 
             return languages.map(function (i) {
                 return {

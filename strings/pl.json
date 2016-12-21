@@ -1,5 +1,4 @@
 {
-    "HeaderMoreLikeThis": "More Like This",
     "ButtonEditRecording": "Edytuj nagrania",
     "Episodes": "Odcinki",
     "OtherVideos": "Inne wideo",
@@ -44,7 +43,7 @@
     "RecommendationBecauseYouWatched": "Bo obejrza\u0142e\u015b {0}",
     "RecommendationDirectedBy": "Re\u017cyserowane przez {0}",
     "RecommendationStarring": "Wyst\u0119puj\u0105 {0}",
-    "SimilarTo": "Podobne do {0}",
+    "HeaderMoreLikeThis": "More Like This",
     "MoreFrom": "Wi\u0119cej od {0}",
     "AlbumArtists": "Arty\u015bci albumu",
     "LiveTV": "Telewizja na \u017cywo",

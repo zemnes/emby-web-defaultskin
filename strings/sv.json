@@ -1,5 +1,4 @@
 {
-    "HeaderMoreLikeThis": "More Like This",
     "ButtonEditRecording": "Edit Recording",
     "Episodes": "Episodes",
     "OtherVideos": "Other videos",
@@ -44,7 +43,7 @@
     "RecommendationBecauseYouWatched": "Eftersom du tittade p\u00e5 {0}",
     "RecommendationDirectedBy": "Regisserad av {0}",
     "RecommendationStarring": "I rollerna: {0}",
-    "SimilarTo": "Liknar {0}",
+    "HeaderMoreLikeThis": "More Like This",
     "MoreFrom": "More from {0}",
     "AlbumArtists": "Albumartister",
     "LiveTV": "Live-TV",

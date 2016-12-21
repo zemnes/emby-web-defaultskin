@@ -1,5 +1,4 @@
 {
-    "HeaderMoreLikeThis": "Mas como esto",
     "ButtonEditRecording": "Editar Grabaciones",
     "Episodes": "Episodios",
     "OtherVideos": "Otros videos",
@@ -44,7 +43,7 @@
     "RecommendationBecauseYouWatched": "Porque viste {0}",
     "RecommendationDirectedBy": "Dirigido por {0}",
     "RecommendationStarring": "Protagonizada por {0}",
-    "SimilarTo": "Similar a {0}",
+    "HeaderMoreLikeThis": "Mas como esto",
     "MoreFrom": "Mas de {0}",
     "AlbumArtists": "Artista del \u00c1lbum",
     "LiveTV": "TV en vivo",
