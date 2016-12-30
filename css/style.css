@@ -144,8 +144,8 @@ h1 {
 @media all and (min-width: 1280px) {
 
     .pageContainer.vertical.centered {
-        padding-left: 20%;
-        padding-right: 20%;
+        padding-left: 15%;
+        padding-right: 15%;
     }
 }
 
