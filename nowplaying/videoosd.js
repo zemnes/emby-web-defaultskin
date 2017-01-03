@@ -89,7 +89,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         var lastUpdateTime = 0;
         var lastPlayerState = {};
         var isEnabled;
-        var currentItem;
 
         var nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
         var nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
@@ -719,9 +718,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             var player = currentPlayer;
 
-            var audioTracks = lastPlayerState.MediaSource.MediaStreams.filter(function (s) {
-                return s.Type === 'Audio';
-            });
+            var audioTracks = playbackManager.audioTracks(player);
 
             var currentIndex = playbackManager.getAudioStreamIndex(player);
 
@@ -757,9 +754,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             var player = currentPlayer;
 
-            var streams = lastPlayerState.MediaSource.MediaStreams.filter(function (s) {
-                return s.Type === 'Subtitle';
-            });
+            var streams = playbackManager.subtitleTracks(player);
 
             var currentIndex = playbackManager.getSubtitleStreamIndex(player);
             if (currentIndex == null) {
@@ -817,7 +812,10 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         view.querySelector('.pageContainer').addEventListener('click', function () {
 
-            playbackManager.playPause(currentPlayer);
+            // TODO: Replace this check with click vs tap detection
+            if (!browser.touch) {
+                playbackManager.playPause(currentPlayer);
+            }
             showOsd();
         });
 
@@ -921,7 +919,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         function renderScenePicker(progressPct) {
 
             chapterPcts = [];
-            var item = currentItem;
+            var item = lastPlayerState.NowPlayingItem;
             if (!item) {
                 return;
             }
