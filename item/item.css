@@ -81,10 +81,6 @@
     margin-right: 1em;
 }
 
-.itemPageUserDataIcons .fab {
-    padding: .35em;
-}
-
 .itemPageUserDataIcons button + button {
     margin-left: .25em !important;
 }

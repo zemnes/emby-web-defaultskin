@@ -102,8 +102,6 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
 
             isEnabled = true;
 
-            playbackManager.beginPlayerUpdates(player);
-
             updatePlayerStateInternal(event, state);
             updatePlaylist();
         }
@@ -142,8 +140,6 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
 
             console.log('nowplaying event: ' + e.type);
             var player = this;
-
-            playbackManager.endPlayerUpdates(player);
 
             if (state.nextMediaType !== 'Audio') {
                 Emby.Page.back();
@@ -190,7 +186,6 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
                 events.off(player, 'playing', onPlayPauseStateChanged);
                 events.off(player, 'timeupdate', onTimeUpdate);
 
-                playbackManager.endPlayerUpdates(player);
                 currentPlayer = null;
             }
         }

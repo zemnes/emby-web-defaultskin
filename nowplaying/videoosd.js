@@ -1,4 +1,4 @@
-define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'scrollStyles'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost) {
+define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'mediaInfo', 'focusManager', 'imageLoader', 'scrollHelper', 'events', 'connectionManager', 'browser', 'globalize', 'apphost', 'scrollStyles', 'emby-slider'], function (playbackManager, dom, inputManager, datetime, itemHelper, mediaInfo, focusManager, imageLoader, scrollHelper, events, connectionManager, browser, globalize, appHost) {
     'use strict';
 
     function seriesImageUrl(item, options) {
@@ -87,7 +87,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         var currentPlayerSupportedCommands = [];
         var currentRuntimeTicks = 0;
         var lastUpdateTime = 0;
-        var lastPlayerState = {};
         var isEnabled;
 
         var nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
@@ -409,8 +408,29 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             releaseCurrentPlayer();
         });
 
+        if (appHost.supports('remotecontrol')) {
+            view.querySelector('.btnCast').classList.remove('hide');
+        }
+
+        view.querySelector('.btnCast').addEventListener('click', function () {
+            var btn = this;
+            require(['playerSelectionMenu'], function (playerSelectionMenu) {
+                playerSelectionMenu.show(btn);
+            });
+        });
+
+        view.querySelector('.btnSettings').addEventListener('click', onSettingsButtonClick);
+
         function onPlayerChange() {
-            bindToPlayer(playbackManager.getCurrentPlayer());
+
+            var player = playbackManager.getCurrentPlayer();
+
+            if (player && !player.isLocalPlayer) {
+                view.querySelector('.btnCast i').innerHTML = '&#xE308;';
+            } else {
+                view.querySelector('.btnCast i').innerHTML = '&#xE307;';
+            }
+            bindToPlayer(player);
         }
 
         function onStateChanged(event, state) {
@@ -426,8 +446,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
             updatePlayerStateInternal(event, state);
             updatePlaylist();
-
-            playbackManager.beginPlayerUpdates(player);
 
             enableStopOnBack(true);
         }
@@ -464,10 +482,9 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         function onPlaybackStopped(e, state) {
 
-            console.log('nowplaying event: ' + e.type);
-            var player = this;
+            currentRuntimeTicks = null;
 
-            playbackManager.endPlayerUpdates(player);
+            console.log('nowplaying event: ' + e.type);
 
             if (state.nextMediaType !== 'Video') {
 
@@ -517,7 +534,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
                 events.off(player, 'playing', onPlayPauseStateChanged);
                 events.off(player, 'timeupdate', onTimeUpdate);
 
-                playbackManager.endPlayerUpdates(player);
                 currentPlayer = null;
             }
         }
@@ -537,8 +553,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             lastUpdateTime = now;
 
             var player = this;
-            var state = lastPlayerState;
-            var nowPlayingItem = state.NowPlayingItem || {};
             currentRuntimeTicks = playbackManager.duration(player);
             updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks);
         }
@@ -553,8 +567,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         }
 
         function updatePlayerStateInternal(event, state) {
-
-            lastPlayerState = state;
 
             var playerInfo = playbackManager.getPlayerInfo();
 
@@ -596,6 +608,12 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks);
 
             updateNowPlayingInfo(state);
+
+            if (state.MediaSource && state.MediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
+                view.querySelector('.btnSettings').classList.remove('hide');
+            } else {
+                view.querySelector('.btnSettings').classList.add('hide');
+            }
         }
 
         function updateTimeDisplay(positionTicks, runtimeTicks) {
@@ -714,6 +732,58 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             elem.innerHTML = html;
         }
 
+        function onSettingsButtonClick(e) {
+
+            var btn = this;
+            require(['qualityoptions', 'actionsheet'], function (qualityoptions, actionsheet) {
+
+                //var currentSrc = self.getCurrentSrc(self.currentMediaRenderer).toLowerCase();
+                //var isStatic = currentSrc.indexOf('static=true') != -1;
+
+                var videoStream = playbackManager.currentMediaSource(currentPlayer).MediaStreams.filter(function (stream) {
+                    return stream.Type === "Video";
+                })[0];
+                var videoWidth = videoStream ? videoStream.Width : null;
+
+                var options = qualityoptions.getVideoQualityOptions(playbackManager.getMaxStreamingBitrate(currentPlayer), videoWidth);
+
+                //if (isStatic) {
+                //    options[0].name = "Direct";
+                //}
+
+                var menuItems = options.map(function (o) {
+
+                    var opt = {
+                        name: o.name,
+                        id: o.bitrate
+                    };
+
+                    if (o.selected) {
+                        opt.selected = true;
+                    }
+
+                    return opt;
+                });
+
+                var selectedId = options.filter(function (o) {
+                    return o.selected;
+                });
+                selectedId = selectedId.length ? selectedId[0].bitrate : null;
+                actionsheet.show({
+                    items: menuItems,
+                    positionTo: btn,
+                    callback: function (id) {
+
+                        var bitrate = parseInt(id);
+                        if (bitrate !== selectedId) {
+                            playbackManager.setMaxStreamingBitrate(bitrate, currentPlayer);
+                        }
+                    }
+                });
+
+            });
+        }
+
         function showAudioTrackSelection() {
 
             var player = currentPlayer;
@@ -736,11 +806,14 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
                 return opt;
             });
 
+            var positionTo = this;
+
             require(['actionsheet'], function (actionsheet) {
 
                 actionsheet.show({
                     items: menuItems,
-                    title: globalize.translate('Audio')
+                    title: globalize.translate('Audio'),
+                    positionTo: positionTo
                 }).then(function (id) {
                     var index = parseInt(id);
                     if (index !== currentIndex) {
@@ -780,11 +853,14 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
                 return opt;
             });
 
+            var positionTo = this;
+
             require(['actionsheet'], function (actionsheet) {
 
                 actionsheet.show({
                     title: globalize.translate('Subtitles'),
-                    items: menuItems
+                    items: menuItems,
+                    positionTo: positionTo
                 }).then(function (id) {
                     var index = parseInt(id);
                     if (index !== currentIndex) {
@@ -842,9 +918,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         nowPlayingPositionSlider.getBubbleText = function (value) {
 
-            var state = lastPlayerState;
-
-            if (!state || !state.NowPlayingItem || !currentRuntimeTicks) {
+            if (!currentRuntimeTicks) {
                 return '--:--';
             }
 
@@ -919,7 +993,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         function renderScenePicker(progressPct) {
 
             chapterPcts = [];
-            var item = lastPlayerState.NowPlayingItem;
+            var item = playbackManager.currentItem(currentPlayer);
             if (!item) {
                 return;
             }
