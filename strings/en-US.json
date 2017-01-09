@@ -88,5 +88,15 @@
   "DimUnselectedPosters": "Dim unselected posters",
   "Songs": "Songs",
   "Record": "Record",
+  "Settings": "Settings",
+  "Mute": "Mute",
+  "Unmute": "Unmute",
+  "Subtitles": "Subtitles",
+  "Audio": "Audio",
+  "Rewind": "Rewind",
+  "Fullscreen": "Full screen",
+  "ExitFullscreen": "Exit full screen",
+  "PlayOnAnotherDevice": "Play on another device",
+  "FastForward": "Fast-forward",
   "Items": "Items"
 }

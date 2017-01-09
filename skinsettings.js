@@ -25,15 +25,6 @@ define(['userSettings', './skininfo'], function (userSettings, skininfo) {
             return self.get('antispoilers') !== 'false';
         };
 
-        self.dimUnselectedPosters = function (val) {
-
-            if (val != null) {
-                self.set('dimunselectedposters', val.toString());
-            }
-
-            return self.get('dimunselectedposters') === 'true';
-        };
-
         self.enableMovieDetailScenes = function (val) {
 
             if (val != null) {
@@ -62,16 +53,9 @@ define(['userSettings', './skininfo'], function (userSettings, skininfo) {
         };
 
         self.apply = function () {
-
-            if (self.dimUnselectedPosters()) {
-                document.body.classList.add('dimunselected');
-            } else {
-                document.body.classList.remove('dimunselected');
-            }
         };
 
         self.unload = function () {
-            document.body.classList.remove('dimunselected');
         };
     };
 

@@ -378,6 +378,16 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             }
         }
 
+        function updateFullscreenIcon() {
+            if (playbackManager.isFullscreen(currentPlayer)) {
+                view.querySelector('.btnFullscreen').setAttribute('title', globalize.translate('ExitFullscreen'));
+                view.querySelector('.btnFullscreen i').innerHTML = '&#xE5D1;';
+            } else {
+                view.querySelector('.btnFullscreen').setAttribute('title', globalize.translate('Fullscreen'));
+                view.querySelector('.btnFullscreen i').innerHTML = '&#xE5D0;';
+            }
+        }
+
         view.addEventListener('viewbeforeshow', function (e) {
 
             getHeaderElement().classList.add('osdHeader');
@@ -417,6 +427,10 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             require(['playerSelectionMenu'], function (playerSelectionMenu) {
                 playerSelectionMenu.show(btn);
             });
+        });
+
+        view.querySelector('.btnFullscreen').addEventListener('click', function () {
+            playbackManager.toggleFullscreen(currentPlayer);
         });
 
         view.querySelector('.btnSettings').addEventListener('click', onSettingsButtonClick);
@@ -519,6 +533,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             events.on(player, 'pause', onPlayPauseStateChanged);
             events.on(player, 'playing', onPlayPauseStateChanged);
             events.on(player, 'timeupdate', onTimeUpdate);
+            events.on(player, 'fullscreenchange', updateFullscreenIcon);
         }
 
         function releaseCurrentPlayer() {
@@ -533,6 +548,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
                 events.off(player, 'pause', onPlayPauseStateChanged);
                 events.off(player, 'playing', onPlayPauseStateChanged);
                 events.off(player, 'timeupdate', onTimeUpdate);
+                events.off(player, 'fullscreenchange', updateFullscreenIcon);
 
                 currentPlayer = null;
             }
@@ -614,6 +630,14 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             } else {
                 view.querySelector('.btnSettings').classList.add('hide');
             }
+
+            if (supportedCommands.indexOf('ToggleFullscreen') === -1) {
+                view.querySelector('.btnFullscreen').classList.add('hide');
+            } else {
+                view.querySelector('.btnFullscreen').classList.remove('hide');
+            }
+
+            updateFullscreenIcon();
         }
 
         function updateTimeDisplay(positionTicks, runtimeTicks) {
@@ -663,8 +687,10 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             }
 
             if (isMuted) {
+                view.querySelector('.buttonMute').setAttribute('title', globalize.translate('Unmute'));
                 view.querySelector('.buttonMute i').innerHTML = '&#xE04F;';
             } else {
+                view.querySelector('.buttonMute').setAttribute('title', globalize.translate('Mute'));
                 view.querySelector('.buttonMute i').innerHTML = '&#xE050;';
             }
 

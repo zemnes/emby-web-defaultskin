@@ -511,15 +511,3 @@ button.mini {
 .xlargePaperIconButton {
     font-size: 2.3em !important;
 }
-
-.dimunselected .card .cardImageContainer {
-    -webkit-filter: brightness(50%);
-    filter: brightness(50%);
-    transition: filter, -webkit-filter 600ms ease-out !important;
-}
-
-.dimunselected .card:focus .cardImageContainer {
-    -webkit-filter: initial;
-    filter: initial;
-    transition: filter, -webkit-filter 600ms ease-out !important;
-}

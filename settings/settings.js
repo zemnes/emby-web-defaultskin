@@ -22,7 +22,6 @@ define(['loading', './../skinsettings', 'focusManager'], function (loading, skin
         view.addEventListener('viewbeforehide', function (e) {
 
             skinSettings.enableAntiSpoliers(view.querySelector('.chkEnableEpisodeAntiSpoliers').checked);
-            skinSettings.dimUnselectedPosters(view.querySelector('.chkDimPosters').checked);
 
             skinSettings.apply();
         });
@@ -32,7 +31,6 @@ define(['loading', './../skinsettings', 'focusManager'], function (loading, skin
             focusManager.autoFocus(view);
 
             view.querySelector('.chkEnableEpisodeAntiSpoliers').checked = skinSettings.enableAntiSpoliers();
-            view.querySelector('.chkDimPosters').checked = skinSettings.dimUnselectedPosters();
         }
     };
 

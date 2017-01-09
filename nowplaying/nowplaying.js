@@ -406,7 +406,7 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
         nowPlayingPositionSlider.addEventListener('change', function () {
 
             if (currentPlayer) {
-
+                var newPercent = parseFloat(this.value);
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
         });
