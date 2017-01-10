@@ -47,7 +47,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         if (item.ImageTags && item.ImageTags[options.type]) {
 
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.PrimaryImageItemId || item.Id, options);
         }
 
         if (options.type === 'Primary') {
@@ -400,18 +400,33 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             events.on(playbackManager, 'playerchange', onPlayerChange);
             bindToPlayer(playbackManager.getCurrentPlayer());
 
-            document.addEventListener('mousemove', onMouseMove);
+            dom.addEventListener(document, 'mousemove', onMouseMove, {
+                passive: true
+            });
+            document.body.classList.add('autoScrollY');
 
             showOsd();
 
             inputManager.on(window, onInputCommand);
+
+            dom.addEventListener(window, 'keydown', onWindowKeyDown, {
+                passive: true
+            });
         });
 
         view.addEventListener('viewbeforehide', function () {
+
+            dom.removeEventListener(window, 'keydown', onWindowKeyDown, {
+                passive: true
+            });
+
             stopHideTimer();
             getHeaderElement().classList.remove('osdHeader');
             getHeaderElement().classList.remove('osdHeader-hidden');
-            document.removeEventListener('mousemove', onMouseMove);
+            dom.removeEventListener(document, 'mousemove', onMouseMove, {
+                passive: true
+            });
+            document.body.classList.remove('autoScrollY');
 
             inputManager.off(window, onInputCommand);
             events.off(playbackManager, 'playerchange', onPlayerChange);
@@ -431,6 +446,10 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         view.querySelector('.btnFullscreen').addEventListener('click', function () {
             playbackManager.toggleFullscreen(currentPlayer);
+        });
+
+        view.querySelector('.btnPip').addEventListener('click', function () {
+            playbackManager.togglePictureInPicture(currentPlayer);
         });
 
         view.querySelector('.btnSettings').addEventListener('click', onSettingsButtonClick);
@@ -635,6 +654,12 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
                 view.querySelector('.btnFullscreen').classList.add('hide');
             } else {
                 view.querySelector('.btnFullscreen').classList.remove('hide');
+            }
+
+            if (supportedCommands.indexOf('PictureInPicture') === -1) {
+                view.querySelector('.btnPip').classList.add('hide');
+            } else {
+                view.querySelector('.btnPip').classList.remove('hide');
             }
 
             updateFullscreenIcon();
@@ -902,15 +927,12 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             getHeaderElement().classList.remove('hide');
         });
 
-        dom.addEventListener(window, 'keydown', function (e) {
-
+        function onWindowKeyDown(e) {
             if (e.keyCode === 32 && !isOsdOpen()) {
                 playbackManager.playPause(currentPlayer);
                 showOsd();
             }
-        }, {
-            passive: true
-        });
+        }
 
         view.querySelector('.pageContainer').addEventListener('click', function () {
 

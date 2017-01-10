@@ -1,4 +1,13 @@
 {
+    "Unmute": "Unmute",
+    "Mute": "Mute",
+    "Audio": "Audio",
+    "Subtitles": "Subtitles",
+    "Rewind": "Rewind",
+    "Fullscreen": "Full screen",
+    "ExitFullscreen": "Exit full screen",
+    "PlayOnAnotherDevice": "Play on another device",
+    "FastForward": "Fast-forward",
     "ButtonEditRecording": "Editar Grava\u00e7\u00e3o",
     "Episodes": "Epis\u00f3dios",
     "OtherVideos": "Outros v\u00eddeos",

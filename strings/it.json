@@ -1,4 +1,13 @@
 {
+    "Unmute": "Togli muto",
+    "Mute": "Muto",
+    "Audio": "Audio",
+    "Subtitles": "Sottotitoli",
+    "Rewind": "Riavvolgi",
+    "Fullscreen": "Schermo Intero",
+    "ExitFullscreen": "Esci da Schermo Intero",
+    "PlayOnAnotherDevice": "Riproduci su altro dispositivo",
+    "FastForward": "Avanti veloce",
     "ButtonEditRecording": "Modifica Registrazioni",
     "Episodes": "Episodi",
     "OtherVideos": "Altri Video",

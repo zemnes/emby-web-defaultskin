@@ -1,4 +1,13 @@
 {
+    "Unmute": "Unmute",
+    "Mute": "Mute",
+    "Audio": "Audio",
+    "Subtitles": "Subtitles",
+    "Rewind": "Rewind",
+    "Fullscreen": "Full screen",
+    "ExitFullscreen": "Exit full screen",
+    "PlayOnAnotherDevice": "Play on another device",
+    "FastForward": "Fast-forward",
     "ButtonEditRecording": "\u4fee\u6539\u5f55\u5236",
     "Episodes": "Episodes",
     "OtherVideos": "\u5176\u4ed6\u89c6\u9891",
