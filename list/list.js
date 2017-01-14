@@ -98,7 +98,8 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 rows: {
                     portrait: 2,
                     square: 3,
-                    backdrop: 3
+                    backdrop: 3,
+                    banner: 6
                 },
                 scalable: false
             }

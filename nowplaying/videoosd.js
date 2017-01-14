@@ -88,6 +88,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         var currentRuntimeTicks = 0;
         var lastUpdateTime = 0;
         var isEnabled;
+        var currentItem;
 
         var nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
         var nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
@@ -98,27 +99,18 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         var nowPlayingDurationText = view.querySelector('.osdDurationText');
         var endsAtText = view.querySelector('.endsAtText');
 
-        var scenePicker = view.querySelector('.scenePicker');
-        var isScenePickerRendered;
         var btnRewind = view.querySelector('.btnRewind');
         var btnFastForward = view.querySelector('.btnFastForward');
 
         var transitionEndEventName = dom.whichTransitionEvent();
 
-        function getHeaderElement() {
-            return document.querySelector('.skinHeader');
-        }
-
-        function getOsdBottom() {
-            return view.querySelector('.videoOsdBottom');
-        }
+        var headerElement = document.querySelector('.skinHeader');
+        var osdBottomElement = document.querySelector('.videoOsdBottom');
 
         function updateNowPlayingInfo(state) {
 
-            scenePicker.innerHTML = '';
-            isScenePickerRendered = false;
-
             var item = state.NowPlayingItem;
+            currentItem = item;
 
             setPoster(item);
 
@@ -209,15 +201,15 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         function showOsd() {
 
-            slideDownToShow(getHeaderElement());
-            slideUpToShow(getOsdBottom());
+            slideDownToShow(headerElement);
+            slideUpToShow(osdBottomElement);
             startHideTimer();
         }
 
         function hideOsd() {
 
-            slideUpToHide(getHeaderElement());
-            slideDownToHide(getOsdBottom());
+            slideUpToHide(headerElement);
+            slideDownToHide(osdBottomElement);
         }
 
         var hideTimeout;
@@ -390,7 +382,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         view.addEventListener('viewbeforeshow', function (e) {
 
-            getHeaderElement().classList.add('osdHeader');
+            headerElement.classList.add('osdHeader');
             // Make sure the UI is completely transparent
             Emby.Page.setTransparency('full');
         });
@@ -421,8 +413,8 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             });
 
             stopHideTimer();
-            getHeaderElement().classList.remove('osdHeader');
-            getHeaderElement().classList.remove('osdHeader-hidden');
+            headerElement.classList.remove('osdHeader');
+            headerElement.classList.remove('osdHeader-hidden');
             dom.removeEventListener(document, 'mousemove', onMouseMove, {
                 passive: true
             });
@@ -924,7 +916,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         view.addEventListener('viewhide', function () {
 
-            getHeaderElement().classList.remove('hide');
+            headerElement.classList.remove('hide');
         });
 
         function onWindowKeyDown(e) {
@@ -955,7 +947,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
 
         nowPlayingPositionSlider.addEventListener('change', function () {
 
-            stopScenePickerTimer();
             if (currentPlayer) {
 
                 var newPercent = parseFloat(this.value);
@@ -964,7 +955,67 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             }
         });
 
-        nowPlayingPositionSlider.getBubbleText = function (value) {
+        function getImgUrl(item, chapter, index, maxWidth, apiClient) {
+
+            if (chapter.ImageTag) {
+
+                return apiClient.getScaledImageUrl(item.Id, {
+                    maxWidth: maxWidth,
+                    tag: chapter.ImageTag,
+                    type: "Chapter",
+                    index: index
+                });
+            }
+
+            return null;
+        }
+
+        function getChapterBubbleHtml(apiClient, item, chapters, positionTicks) {
+
+            var chapter;
+            var index = -1;
+
+            for (var i = 0, length = chapters.length; i < length; i++) {
+
+                var currentChapter = chapters[i];
+
+                if (positionTicks >= currentChapter.StartPositionTicks) {
+                    chapter = currentChapter;
+                    index = i;
+                }
+            }
+
+            if (!chapter) {
+                return null;
+            }
+
+            var src = getImgUrl(item, chapter, index, 400, apiClient);
+
+            if (src) {
+
+                var html = '<div class="chapterThumbContainer">';
+                html += '<img class="chapterThumb" src="' + src + '" />';
+
+                html += '<div class="chapterThumbTextContainer">';
+                html += '<div class="chapterThumbText chapterThumbText-dim">';
+                html += chapter.Name;
+                html += '</div>';
+                html += '<h1 class="chapterThumbText">';
+                html += datetime.getDisplayRunningTime(positionTicks);
+                html += '</h1>';
+                html += '</div>';
+
+                html += '</div>';
+
+                return html;
+            }
+
+            return null;
+        }
+
+        nowPlayingPositionSlider.getBubbleHtml = function (value) {
+
+            showOsd();
 
             if (!currentRuntimeTicks) {
                 return '--:--';
@@ -974,7 +1025,16 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             ticks /= 100;
             ticks *= value;
 
-            return datetime.getDisplayRunningTime(ticks);
+            var item = currentItem;
+            if (item && item.Chapters && item.Chapters[0].ImageTag) {
+                var html = getChapterBubbleHtml(connectionManager.getApiClient(item.ServerId), item, item.Chapters, ticks);
+
+                if (html) {
+                    return html;
+                }
+            }
+
+            return '<h1 class="sliderBubbleText">' + datetime.getDisplayRunningTime(ticks) + '</h1>';
         };
 
         view.querySelector('.btnPreviousTrack').addEventListener('click', function () {
@@ -1005,112 +1065,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
         view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
         view.querySelector('.btnSubtitles').addEventListener('click', showSubtitleTrackSelection);
 
-        function getChapterHtml(item, chapter, index, maxWidth, apiClient) {
-
-            var html = '';
-
-            var src = getImgUrl(item, chapter, index, maxWidth, apiClient);
-
-            if (src) {
-
-                var pct = currentRuntimeTicks ? (chapter.StartPositionTicks / currentRuntimeTicks) : 0;
-                pct *= 100;
-                chapterPcts[index] = pct;
-
-                html += '<img data-index="' + index + '" class="chapterThumb" src="' + src + '" />';
-            }
-
-            return html;
-        }
-
-        function getImgUrl(item, chapter, index, maxWidth, apiClient) {
-
-            if (chapter.ImageTag) {
-
-                return apiClient.getScaledImageUrl(item.Id, {
-                    maxWidth: maxWidth,
-                    tag: chapter.ImageTag,
-                    type: "Chapter",
-                    index: index
-                });
-            }
-
-            return null;
-        }
-
-        function renderScenePicker(progressPct) {
-
-            chapterPcts = [];
-            var item = playbackManager.currentItem(currentPlayer);
-            if (!item) {
-                return;
-            }
-
-            var chapters = item.Chapters || [];
-
-            var currentIndex = -1;
-
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-
-            scenePicker.innerHTML = chapters.map(function (chapter) {
-                currentIndex++;
-                return getChapterHtml(item, chapter, currentIndex, 400, apiClient);
-            }).join('');
-
-            imageLoader.lazyChildren(scenePicker);
-            fadeIn(scenePicker, progressPct);
-        }
-
-        var hideScenePickerTimeout;
-        var chapterPcts = [];
-
-        function showScenePicker() {
-
-            var progressPct = nowPlayingPositionSlider.value;
-
-            if (!isScenePickerRendered) {
-                isScenePickerRendered = true;
-                renderScenePicker();
-            } else {
-                fadeIn(scenePicker, progressPct);
-            }
-
-            if (hideScenePickerTimeout) {
-                clearTimeout(hideScenePickerTimeout);
-            }
-            hideScenePickerTimeout = setTimeout(hideScenePicker, 1600);
-        }
-
-        function hideScenePicker() {
-            fadeOut(scenePicker);
-        }
-
-        var showScenePickerTimeout;
-
-        function startScenePickerTimer() {
-            if (!showScenePickerTimeout) {
-                showScenePickerTimeout = setTimeout(showScenePicker, 100);
-            }
-        }
-
-        function stopScenePickerTimer() {
-            if (showScenePickerTimeout) {
-                clearTimeout(showScenePickerTimeout);
-                showScenePickerTimeout = null;
-            }
-        }
-
-        dom.addEventListener(nowPlayingPositionSlider, 'input', function () {
-
-            if (scenePicker.classList.contains('hide')) {
-                startScenePickerTimer();
-            } else {
-                showScenePicker();
-            }
-        }, {
-            passive: true
-        });
-
         function onViewHideStopPlayback() {
 
             if (playbackManager.isPlayingVideo()) {
@@ -1127,67 +1081,6 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
                 // or 
                 //Emby.Page.setTransparency(Emby.TransparencyLevel.Backdrop);
             }
-        }
-
-        function fadeIn(elem, pct) {
-
-            if (!elem.classList.contains('hide')) {
-                selectChapterThumb(elem, pct);
-                return;
-            }
-
-            elem.classList.remove('hide');
-
-            var keyframes = [
-                { opacity: '0', offset: 0 },
-                { opacity: '1', offset: 1 }
-            ];
-            var timing = { duration: 300, iterations: 1 };
-            elem.animate(keyframes, timing).onfinish = function () {
-                selectChapterThumb(elem, pct);
-            };
-        }
-
-        function selectChapterThumb(elem, pct) {
-            var index = -1;
-            for (var i = 0, length = chapterPcts.length; i < length; i++) {
-
-                if (pct >= chapterPcts[i]) {
-                    index = i;
-                }
-            }
-
-            if (index === -1) {
-                index = 0;
-            }
-
-            var selected = elem.querySelector('.selectedChapterThumb');
-            var newSelected = elem.querySelector('.chapterThumb[data-index="' + index + '"]');
-
-            if (selected !== newSelected) {
-                if (selected) {
-                    selected.classList.remove('selectedChapterThumb');
-                }
-
-                newSelected.classList.add('selectedChapterThumb');
-                scrollHelper.toCenter(elem, newSelected, true);
-            }
-        }
-
-        function fadeOut(elem) {
-
-            if (elem.classList.contains('hide')) {
-                return;
-            }
-
-            var keyframes = [
-                { opacity: '1', offset: 0 },
-                { opacity: '0', offset: 1 }
-            ];
-            var timing = { duration: 300, iterations: 1 };
-            elem.animate(keyframes, timing).onfinish = function () {
-                elem.classList.add('hide');
-            };
         }
 
         function enableStopOnBack(enabled) {

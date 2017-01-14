@@ -338,8 +338,8 @@ i.mediaInfoItem {
 }
 
 .horizontalPageContent .bannerCard .cardImageContainer {
-    width: 37.04vh;
-    height: 5.556vh;
+    width: 56.32432vh;
+    height: 10.42vh;
 }
 
 .horizontalPageContent .portraitCard .cardImageContainer {
@@ -353,8 +353,8 @@ i.mediaInfoItem {
 }
 
 .homePageContent .bannerCard .cardImageContainer {
-    width: 38.89vh;
-    height: 5.8335vh;
+    width: 56.32432vh;
+    height: 10.42vh;
 }
 
 .homePageContent .backdropCard .cardImageContainer {
@@ -378,8 +378,8 @@ i.mediaInfoItem {
 }
 
 .listPageContent .bannerCard .cardImageContainer {
-    width: 38.222vh;
-    height: 5.733vh;
+    width: 56.32432vh;
+    height: 10.42vh;
 }
 
 .listPageContent .portraitCard .cardImageContainer {
@@ -509,5 +509,5 @@ button.mini {
 }
 
 .xlargePaperIconButton {
-    font-size: 2.3em !important;
+    font-size: 2.1em !important;
 }

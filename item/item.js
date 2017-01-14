@@ -545,7 +545,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     dragHandle: item.Type === 'Playlist' && !layoutManager.tv,
                     playlistId: item.Type === 'Playlist' ? item.Id : null,
                     image: item.Type === 'Playlist',
-                    artist: item.Type === 'Playlist'
+                    artist: item.Type === 'Playlist',
+                    addToListButton: true
                 });
 
                 imageLoader.lazyChildren(section);
