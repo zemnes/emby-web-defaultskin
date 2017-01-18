@@ -470,7 +470,7 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             isEnabled = true;
 
             updatePlayerStateInternal(event, state);
-            updatePlaylist();
+            updatePlaylist(player);
 
             enableStopOnBack(true);
         }
@@ -732,11 +732,11 @@ define(['playbackManager', 'dom', 'inputmanager', 'datetime', 'itemHelper', 'med
             }
         }
 
-        function updatePlaylist() {
+        function updatePlaylist(player) {
 
-            var items = playbackManager.playlist();
+            var items = playbackManager.playlist(player);
 
-            var index = playbackManager.currentPlaylistIndex();
+            var index = playbackManager.getCurrentPlaylistIndex(player);
 
             var previousEnabled = index > 0;
             var nextEnabled = (index < items.length - 1);

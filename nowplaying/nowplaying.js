@@ -103,7 +103,7 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             isEnabled = true;
 
             updatePlayerStateInternal(event, state);
-            updatePlaylist();
+            updatePlaylist(player);
         }
 
         function onPlayPauseStateChanged(e) {
@@ -211,9 +211,9 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
             updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks);
         }
 
-        function updatePlaylist() {
+        function updatePlaylist(player) {
 
-            var items = playbackManager.playlist();
+            var items = playbackManager.playlist(player);
 
             if (items.length > 1) {
                 view.querySelector('.btnPlaylist').disabled = false;
@@ -221,7 +221,7 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
                 view.querySelector('.btnPlaylist').disabled = true;
             }
 
-            var index = playbackManager.currentPlaylistIndex();
+            var index = playbackManager.getCurrentPlaylistIndex(player);
 
             if (index === 0) {
                 view.querySelector('.btnPreviousTrack').disabled = true;
