@@ -213,27 +213,27 @@ define(['playbackManager', 'datetime', 'backdrop', 'userdataButtons', 'cardBuild
 
         function updatePlaylist(player) {
 
-            var items = playbackManager.playlist(player);
+            playbackManager.getPlaylist(player).then(function (items) {
+                if (items.length > 1) {
+                    view.querySelector('.btnPlaylist').disabled = false;
+                } else {
+                    view.querySelector('.btnPlaylist').disabled = true;
+                }
 
-            if (items.length > 1) {
-                view.querySelector('.btnPlaylist').disabled = false;
-            } else {
-                view.querySelector('.btnPlaylist').disabled = true;
-            }
+                var index = playbackManager.getCurrentPlaylistIndex(player);
 
-            var index = playbackManager.getCurrentPlaylistIndex(player);
+                if (index === 0) {
+                    view.querySelector('.btnPreviousTrack').disabled = true;
+                } else {
+                    view.querySelector('.btnPreviousTrack').disabled = false;
+                }
 
-            if (index === 0) {
-                view.querySelector('.btnPreviousTrack').disabled = true;
-            } else {
-                view.querySelector('.btnPreviousTrack').disabled = false;
-            }
-
-            if (index >= items.length - 1) {
-                view.querySelector('.btnNextTrack').disabled = true;
-            } else {
-                view.querySelector('.btnNextTrack').disabled = false;
-            }
+                if (index >= items.length - 1) {
+                    view.querySelector('.btnNextTrack').disabled = true;
+                } else {
+                    view.querySelector('.btnNextTrack').disabled = false;
+                }
+            });
         }
 
         function updatePlayPauseState(isPaused) {
