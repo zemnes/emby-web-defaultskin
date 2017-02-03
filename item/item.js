@@ -1,5 +1,5 @@
-define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'layoutManager', 'browser', 'serverNotifications', 'events', 'dom', 'apphost', 'globalize', 'itemShortcuts', 'emby-itemscontainer'],
-    function (itemContextMenu, loading, skinInfo, datetime, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators, layoutManager, browser, serverNotifications, events, dom, appHost, globalize, itemShortcuts) {
+define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper', 'playbackManager', 'connectionManager', 'imageLoader', 'userdataButtons', 'itemHelper', './../components/focushandler', 'backdrop', 'listView', 'mediaInfo', 'inputManager', 'focusManager', './../skinsettings', 'cardBuilder', 'indicators', 'layoutManager', 'browser', 'serverNotifications', 'events', 'dom', 'apphost', 'globalize', 'itemShortcuts', 'emby-itemscontainer'],
+    function (itemContextMenu, loading, skinInfo, datetime, scrollHelper, playbackManager, connectionManager, imageLoader, userdataButtons, itemHelper, focusHandler, backdrop, listview, mediaInfo, inputManager, focusManager, skinSettings, cardBuilder, indicators, layoutManager, browser, serverNotifications, events, dom, appHost, globalize, itemShortcuts) {
         'use strict';
 
         function focusMainSection() {
@@ -572,7 +572,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             }
         }
 
-        function renderPeopleItems(view, item) {
+        function renderPeopleItems(view, item, apiClient) {
 
             var section = view.querySelector('.peopleItems');
 
@@ -669,11 +669,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             var sectionElems = section.querySelectorAll('.personSection');
             for (var i = 0, length = sectionElems.length; i < length; i++) {
-                renderPersonSection(view, item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+                renderPersonSection(view, item, sectionElems[i], sectionElems[i].getAttribute('data-type'), apiClient);
             }
         }
 
-        function renderPersonSection(view, item, element, type) {
+        function renderPersonSection(view, item, element, type, apiClient) {
 
             switch (type) {
 
@@ -686,7 +686,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
                         sectionTitleTagName: 'h2'
-                    }));
+                    }), apiClient);
                     break;
 
                 case 'MusicVideo':
@@ -711,7 +711,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
                         sectionTitleTagName: 'h2'
-                    }));
+                    }), apiClient);
                     break;
 
                 case 'Trailer':
@@ -723,7 +723,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
                         sectionTitleTagName: 'h2'
-                    }));
+                    }), apiClient);
                     break;
 
                 case 'Series':
@@ -735,7 +735,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                     }, extendVerticalCardOptions({
                         shape: "autoVertical",
                         sectionTitleTagName: 'h2'
-                    }));
+                    }), apiClient);
                     break;
 
                 case 'MusicAlbum':
@@ -748,7 +748,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         shape: "autoVertical",
                         sectionTitleTagName: 'h2',
                         playFromHere: true
-                    }));
+                    }), apiClient);
                     break;
 
                 case 'Episode':
@@ -763,7 +763,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         sectionTitleTagName: 'h2',
                         showTitle: true,
                         showParentTitle: true
-                    }));
+                    }), apiClient);
                     break;
 
                 default:
@@ -771,16 +771,17 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             }
         }
 
-        function loadPeopleItems(element, item, type, query, listOptions) {
+        function loadPeopleItems(element, item, type, query, listOptions, apiClient) {
 
             query.SortBy = "SortName";
             query.SortOrder = "Ascending";
             query.Recursive = true;
             query.CollapseBoxSetItems = false;
-
+            query.Fields = "PrimaryImageAspectRatio";
             query.PersonIds = item.Id;
+            query.ImageTypeLimit = 1;
 
-            Emby.Models.items(query).then(function (result) {
+            apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
 
                 cardBuilder.buildCards(result.Items, {
                     parentContainer: element,
@@ -869,23 +870,22 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             }
         }
 
-        function renderChildren(view, item) {
+        function renderChildren(view, item, apiClient) {
 
             renderTrackList(view, item);
             renderEpisodes(view, item);
-            renderPeopleItems(view, item);
+            renderPeopleItems(view, item, apiClient);
 
             var section = view.querySelector('.childrenSection');
 
             if (item.Type !== 'MusicArtist') {
-                if (!item.ChildCount || enableTrackList(item)) {
+                if ((!item.ChildCount && item.Type !== 'Episode') || enableTrackList(item)) {
                     section.classList.add('hide');
                     return;
                 }
             }
 
             var headerText = section.querySelector('h2');
-            var showTitle = false;
 
             if (item.Type === "Series") {
                 headerText.innerHTML = globalize.translate('Seasons');
@@ -902,18 +902,80 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 headerText.innerHTML = globalize.translate('Items');
                 headerText.classList.remove('hide');
 
+            } else if (item.Type === "Episode" && item.SeriesId && item.SeasonId) {
+                headerText.innerHTML = globalize.translate('MoreFromValue', item.SeasonName);
+                headerText.classList.remove('hide');
+
             } else {
                 section.classList.add('hide');
                 return;
             }
 
-            var promise = item.Type === 'MusicArtist' ?
-                Emby.Models.items({
+            var promise;
+            var userId = apiClient.getCurrentUserId();
+            var fields = "ItemCounts,PrimaryImageAspectRatio,BasicSyncInfo,CanDelete";
+            var itemsContainer = section.querySelector('.itemsContainer');
+            var scrollX = false;
+
+            var cardOptions = extendVerticalCardOptions({
+                parentContainer: section,
+                itemsContainer: itemsContainer,
+                shape: 'autoVertical',
+                sectionTitleTagName: 'h2',
+                showTitle: false,
+                scalable: true,
+                collectionId: item.Type === 'BoxSet' ? item.Id : null
+            });
+
+            if (item.Type === 'MusicArtist') {
+
+                promise = Emby.Models.items({
                     IncludeItemTypes: 'MusicAlbum',
                     Recursive: true,
                     ArtistIds: item.Id
-                }) :
-                Emby.Models.children(item, {});
+                });
+            }
+
+            else if (item.Type === "Series") {
+
+                promise = apiClient.getSeasons(item.Id, {
+
+                    userId: userId,
+                    Fields: fields
+                });
+            }
+            else if (item.Type === "Season") {
+
+                // Use dedicated episodes endpoint
+                promise = apiClient.getEpisodes(item.SeriesId, {
+
+                    seasonId: item.Id,
+                    userId: userId,
+                    Fields: fields
+                });
+
+                cardOptions.overlayText = true;
+                cardOptions.showTitle = true;
+                cardOptions.includeParentInfoInTitle = false;
+            }
+            else if (item.Type === "Episode" && item.SeriesId && item.SeasonId) {
+
+                // Use dedicated episodes endpoint
+                promise = apiClient.getEpisodes(item.SeriesId, {
+
+                    seasonId: item.SeasonId,
+                    userId: userId,
+                    Fields: fields
+                });
+
+                cardOptions.overlayText = true;
+                cardOptions.showTitle = true;
+                cardOptions.includeParentInfoInTitle = false;
+                scrollX = true;
+
+            } else {
+                promise = Emby.Models.children(item, {});
+            }
 
             promise.then(function (result) {
 
@@ -923,18 +985,25 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                 }
 
                 section.classList.remove('hide');
+                
+                if (scrollX) {
+                    itemsContainer.classList.add('smoothScrollX');
+                    itemsContainer.classList.remove('vertical-wrap');
+                    itemsContainer.classList.remove('vertical-list');
+                } else {
+                    itemsContainer.classList.remove('hiddenScrollX');
+                    itemsContainer.classList.remove('smoothScrollX');
+                }
 
-                var itemsContainer = section.querySelector('.itemsContainer');
+                cardBuilder.buildCards(result.Items, cardOptions);
 
-                cardBuilder.buildCards(result.Items, extendVerticalCardOptions({
-                    parentContainer: section,
-                    itemsContainer: itemsContainer,
-                    shape: 'autoVertical',
-                    sectionTitleTagName: 'h2',
-                    showTitle: showTitle,
-                    scalable: true,
-                    collectionId: item.Type === 'BoxSet' ? item.Id : null
-                }));
+                if (item.Type === 'Episode') {
+
+                    var card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
+                    if (card) {
+                        scrollHelper.toStart(itemsContainer, card.previousSibling || card, true);
+                    }
+                }
             });
         }
 
@@ -1325,9 +1394,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
                     // If it's a person, leave the backdrop image from wherever we came from
                     if (item.Type !== 'Person') {
-                        backdrop.setBackdrops([item], {
-                            blur: 10
-                        });
+                        backdrop.setBackdrops([item]);
                         setTitle(item);
                     }
 
@@ -1338,7 +1405,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
                         renderParentName(view, item);
                         renderImage(view, item);
                         renderLogo(view, item, apiClient);
-                        renderChildren(view, item);
+                        renderChildren(view, item, apiClient);
                         renderDetails(self, view, item, user);
                         renderMediaInfoIcons(view, item);
                         renderPeople(view, item);
@@ -1400,6 +1467,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
 
             view.addEventListener('viewshow', function (e) {
 
+                document.body.querySelector('.backgroundContainer').classList.add('detailBackgroundContainer');
+
                 inputManager.on(view, onInputCommand);
 
                 var isRestored = e.detail.isRestored;
@@ -1435,6 +1504,8 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'playbackMana
             });
 
             view.addEventListener('viewbeforehide', function () {
+
+                document.body.querySelector('.backgroundContainer').classList.remove('detailBackgroundContainer');
 
                 inputManager.off(view, onInputCommand);
             });

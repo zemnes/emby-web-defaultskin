@@ -33,7 +33,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             var list = [
                 // Used for the mpaa rating
                 'css!' + pluginManager.mapPath(self, 'css/style'),
-                'css!' + pluginManager.mapPath(self, 'css/colors.dark')
+                'css!' + pluginManager.mapPath(self, 'css/colors.dark'),
+                'flexStyles'
             ];
 
             if (browser.android) {
@@ -389,10 +390,15 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             events.off(playbackManager, 'playbackstop', onPlaybackStop);
         }
 
-        function onPlaybackStart(e) {
+        function onPlaybackStart(e, player, state) {
 
             if (playbackManager.isPlayingAudio()) {
                 document.querySelector('.headerAudioPlayerButton').classList.remove('hide');
+
+                if (state.IsFirstItem && state.IsFullscreen) {
+                    self.showNowPlaying();
+                }
+
             } else {
                 document.querySelector('.headerAudioPlayerButton').classList.add('hide');
             }
