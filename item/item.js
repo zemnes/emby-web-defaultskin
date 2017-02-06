@@ -903,7 +903,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                 headerText.classList.remove('hide');
 
             } else if (item.Type === "Episode" && item.SeriesId && item.SeasonId) {
-                headerText.innerHTML = globalize.translate('MoreFromValue', item.SeasonName);
+                headerText.innerHTML = globalize.translate('MoreFrom', item.SeasonName);
                 headerText.classList.remove('hide');
 
             } else {
@@ -940,7 +940,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
 
                 promise = apiClient.getSeasons(item.Id, {
 
-                    userId: userId,
+                    UserId: userId,
                     Fields: fields
                 });
             }
@@ -950,7 +950,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                 promise = apiClient.getEpisodes(item.SeriesId, {
 
                     seasonId: item.Id,
-                    userId: userId,
+                    UserId: userId,
                     Fields: fields
                 });
 
@@ -964,7 +964,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                 promise = apiClient.getEpisodes(item.SeriesId, {
 
                     seasonId: item.SeasonId,
-                    userId: userId,
+                    UserId: userId,
                     Fields: fields
                 });
 
