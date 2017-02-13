@@ -1,4 +1,4 @@
-define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'cardBuilder', 'connectionManager', 'emby-itemscontainer'], function (loading, alphaPicker, scroller, focusHandler, cardBuilder, connectionManager) {
+define(['browser', 'loading', 'alphaPicker', 'scroller', './../components/focushandler', 'cardBuilder', 'connectionManager', 'emby-itemscontainer'], function (browser, loading, alphaPicker, scroller, focusHandler, cardBuilder, connectionManager) {
     'use strict';
 
     function createVerticalScroller(view, pageInstance) {
@@ -46,6 +46,10 @@ define(['loading', 'alphaPicker', 'scroller', './../components/focushandler', 'c
     return function(view, params) {
 
         var self = this;
+
+        if (browser.tizen || browser.orsay) {
+            view.querySelector('.txtSearch').readOnly=true;
+        }
 
         function onAlphaValueClicked(e) {
 

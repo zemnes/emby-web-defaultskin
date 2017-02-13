@@ -7,19 +7,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
         var zoomOutEase = 'ease-in';
         var zoomDuration = 200;
 
-        function zoomOut(elem, scaleSize) {
-
-            var keyframes = [
-            { transform: 'scale(' + scaleSize + ')  ', offset: 0 },
-            { transform: 'scale(1)', offset: 1 }
-            ];
-
-            if (elem.animate) {
-                var timing = { duration: zoomDuration, iterations: 1, fill: 'both', easing: zoomOutEase };
-                elem.animate(keyframes, timing);
-            }
-        }
-
         function fadeIn(elem) {
 
             var keyframes = [
@@ -36,9 +23,9 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             var parent = options.parent;
             var focusedElement;
             var zoomElement;
-            var currentAnimation;
             var isHorizontal = options.scroller ? options.scroller.options.horizontal : options.horizontal;
             var zoomScale = options.zoomScale || (isHorizontal ? '1.16' : '1.12');
+            var zoomScaleClass = (isHorizontal ? 'cardBox-scaled' : 'cardBox-scaled-small');
             var lastFocus = 0;
 
             if (layoutManager.tv) {
@@ -55,6 +42,11 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
             var selectedItemInfoElement = options.selectedItemInfoElement;
             var selectedIndexElement = options.selectedIndexElement;
             var selectedItemPanel;
+
+            function zoomOut(elem, scaleSize) {
+
+                elem.classList.remove(zoomScaleClass);
+            }
 
             function onFocusIn(e) {
 
@@ -102,11 +94,6 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
                 if (zoomed) {
                     zoomOut(zoomed, zoomScale);
-                }
-
-                if (currentAnimation) {
-                    currentAnimation.cancel();
-                    currentAnimation = null;
                 }
             }
 
@@ -163,30 +150,8 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
 
                 elem = cardBox;
 
-                var keyframes = [
-                    { transform: 'scale(1)  ', offset: 0 },
-                  { transform: 'scale(' + zoomScale + ')', offset: 1 }
-                ];
-
-                if (currentAnimation) {
-                    //currentAnimation.cancel();
-                }
-
-                var onAnimationFinished = function () {
-                    currentAnimation = null;
-
-                    zoomElement = elem;
-                };
-
-                if (elem.animate) {
-                    var timing = { duration: zoomDuration, iterations: 1, fill: 'both', easing: zoomInEase };
-                    var animation = elem.animate(keyframes, timing);
-
-                    animation.onfinish = onAnimationFinished;
-                    currentAnimation = animation;
-                } else {
-                    onAnimationFinished();
-                }
+                elem.classList.add(zoomScaleClass);
+                zoomElement = elem;
             }
 
             function setSelectedItemInfo(card) {
@@ -266,7 +231,7 @@ define(['imageLoader', 'itemHelper', 'backdrop', 'mediaInfo', 'focusManager', 's
                 var left = Math.min(rect.left, dom.getWindowSize().innerWidth * 0.8);
                 selectedItemInfoElement.style.left = (Math.max(left, 70)) + 'px';
 
-                if (html && enableAnimations) {
+                if (html && selectedItemInfoElement.animate) {
                     fadeIn(selectedItemInfoElement, 1);
                 }
             }
