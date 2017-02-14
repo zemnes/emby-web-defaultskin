@@ -158,7 +158,7 @@ define(['browser', 'loading', 'alphaPicker', 'scroller', './../components/focush
 
         function searchType(value, query, section, cardOptions) {
 
-            query.Limit = 6;
+            query.Limit = 20;
 
             getSearchResults(query).then(function(result) {
 
@@ -193,6 +193,8 @@ define(['browser', 'loading', 'alphaPicker', 'scroller', './../components/focush
             };
 
             cardBuilder.buildCards(items, cardOptions);
+
+            cardOptions.itemsContainer.scrollLeft = 0;
         }
 
         function initAlphaPicker(view) {
