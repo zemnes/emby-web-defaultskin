@@ -47,10 +47,10 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
                     depends.push('./channels');
                     break;
                 case 3:
-                    depends.push('scripts/livetvrecordings');
+                    depends.push('./recordings');
                     break;
                 case 4:
-                    depends.push('scripts/livetvschedule');
+                    depends.push('./schedule');
                     break;
                 case 5:
                     depends.push('./series');

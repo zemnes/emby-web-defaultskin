@@ -1,11 +1,11 @@
-﻿define(['cardBuilder', 'imageLoader', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'scrollHelper', 'emby-itemscontainer'], function (cardBuilder, imageLoader, loading, connectionManager, appHost, layoutManager, scrollHelper) {
+﻿define(['cardBuilder', 'imageLoader', 'loading', 'connectionManager', 'apphost', 'datetime', 'layoutManager', 'scrollHelper', 'emby-itemscontainer'], function (cardBuilder, imageLoader, loading, connectionManager, appHost, datetime, layoutManager, scrollHelper) {
     'use strict';
 
     function enableScrollX() {
         return !layoutManager.desktop;
     }
 
-    function LiveTvSuggestionsTab(view, params) {
+    function LiveTvRecordingsTab(view, params) {
         this.view = view;
         this.params = params;
         this.apiClient = connectionManager.getApiClient(params.serverId);
@@ -24,23 +24,28 @@
             var elem = section.querySelector('.itemsContainer');
 
             if (enableScrollX()) {
-                elem.classList.add('padded-left');
-                elem.classList.add('padded-right');
-
                 section.querySelector('.sectionTitle').classList.add('padded-left');
 
-                elem.classList.remove('vertical-wrap');
+                if (elem) {
+                    elem.classList.add('focuscontainer-x');
+                    elem.classList.add('padded-left');
+                    elem.classList.add('padded-right');
 
-                elem.classList.add('hiddenScrollX');
+                    elem.classList.remove('vertical-wrap');
 
-                if (layoutManager.tv) {
-                    elem.classList.add('padded-top-focusscale');
-                    elem.classList.add('padded-bottom-focusscale');
-                    scrollHelper.centerFocus.on(elem, true);
+                    elem.classList.add('hiddenScrollX');
+
+                    if (layoutManager.tv) {
+                        elem.classList.add('padded-top-focusscale');
+                        elem.classList.add('padded-bottom-focusscale');
+                        scrollHelper.centerFocus.on(elem, true);
+                    }
                 }
 
             } else {
-                elem.classList.add('vertical-wrap');
+                if (elem) {
+                    elem.classList.add('vertical-wrap');
+                }
             }
         }
 
@@ -50,8 +55,8 @@
         }
     }
 
-    function getPortraitShape() {
-        return enableScrollX() ? 'overflowPortrait' : 'portrait';
+    function getBackdropShape() {
+        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
     }
 
     function renderItems(view, items, sectionClass, overlayButton, cardOptions) {
@@ -63,47 +68,25 @@
 
         var html = cardBuilder.getCardsHtml(Object.assign({
             items: items,
-            preferThumb: true,
-            inheritThumb: false,
-            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-            showParentTitleOrTitle: true,
-            showTitle: false,
-            centerText: !cardLayout,
-            coverImage: true,
-            overlayText: false,
+            shape: "square",
+            showTitle: true,
             lazy: true,
-            overlayMoreButton: overlayButton !== 'play' && !cardLayout && !layoutManager.tv,
-            overlayPlayButton: overlayButton === 'play' && !layoutManager.tv,
-            allowBottomPadding: !enableScrollX(),
-            showAirTime: true,
-            showAirDateTime: true,
-            showChannelName: true,
-            vibrant: true,
-            cardLayout: cardLayout
+            cardLayout: true,
+            showDetailsMenu: true,
+            showCurrentProgram: true
 
         }, cardOptions));
 
-        var section = view.querySelector('.' + sectionClass);
-
-        if (items.length) {
-            section.classList.remove('hide');
-        } else {
-            section.classList.add('hide');
-        }
-
-        var elem = section.querySelector('.itemsContainer');
+        var elem = view.querySelector('.' + sectionClass);
 
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
-        elem.scrollLeft = 0;
     }
 
-    LiveTvSuggestionsTab.prototype.onBeforeShow = function () {
+    LiveTvRecordingsTab.prototype.onBeforeShow = function () {
 
         var apiClient = this.apiClient;
         var promises = [];
-
-        var limit = enableScrollX() ? 18 : 12;
 
         promises.push(apiClient.getLiveTvRecordings({
             UserId: apiClient.getCurrentUserId(),
@@ -113,72 +96,56 @@
             EnableImageTypes: "Primary,Thumb,Backdrop"
         }));
 
-        // on now
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
+        promises.push(apiClient.getLiveTvRecordings({
+            UserId: apiClient.getCurrentUserId(),
+            Limit: enableScrollX() ? 12 : 8,
+            IsInProgress: false,
+            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
+            EnableTotalRecordCount: false,
+            EnableImageTypes: "Primary,Thumb,Backdrop"
+        }));
+
+        promises.push(apiClient.getLiveTvRecordings({
 
             UserId: apiClient.getCurrentUserId(),
-            IsAiring: true,
-            Limit: limit,
-            ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Thumb,Backdrop",
+            Limit: enableScrollX() ? 12 : 8,
+            IsInProgress: false,
+            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo,PrimaryImageAspectRatio"
-
+            IsMovie: true
         }));
 
-        // upcoming programs
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
+        promises.push(apiClient.getLiveTvRecordingSeries({
+            UserId: apiClient.getCurrentUserId(),
+            Limit: enableScrollX() ? 12 : 8,
+            IsInProgress: false,
+            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
+            EnableTotalRecordCount: false,
+            IsSeries: true
+        }));
+
+        promises.push(apiClient.getLiveTvRecordings({
 
             UserId: apiClient.getCurrentUserId(),
-            IsAiring: false,
-            HasAired: false,
-            Limit: limit,
-            IsMovie: false,
-            IsSports: false,
-            IsKids: false,
-            IsSeries: true,
+            Limit: enableScrollX() ? 12 : 8,
+            IsInProgress: false,
+            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo,PrimaryImageAspectRatio",
-            EnableImageTypes: "Primary,Thumb"
+            IsKids: true
         }));
 
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
-
-            userId: apiClient.getCurrentUserId(),
-            IsAiring: false,
-            HasAired: false,
-            Limit: limit,
-            IsMovie: true,
+        promises.push(apiClient.getLiveTvRecordings({
+            UserId: apiClient.getCurrentUserId(),
+            Limit: enableScrollX() ? 12 : 8,
+            IsInProgress: false,
+            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo",
-            EnableImageTypes: "Primary,Thumb"
-
+            IsSports: true
         }));
 
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
+        promises.push(apiClient.getLiveTvRecordingGroups({
 
-            userId: apiClient.getCurrentUserId(),
-            IsAiring: false,
-            HasAired: false,
-            Limit: limit,
-            IsSports: true,
-            EnableTotalRecordCount: false,
-            Fields: "ChannelInfo",
-            EnableImageTypes: "Primary,Thumb"
-
-        }));
-
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
-
-            userId: apiClient.getCurrentUserId(),
-            IsAiring: false,
-            HasAired: false,
-            Limit: limit,
-            IsKids: true,
-            EnableTotalRecordCount: false,
-            Fields: "ChannelInfo",
-            EnableImageTypes: "Primary,Thumb"
-
+            userId: apiClient.getCurrentUserId()
         }));
 
         this.promises = promises;
@@ -219,10 +186,6 @@
         imageLoader.lazyChildren(recordingItems);
     }
 
-    function getBackdropShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-    }
-
     function renderActiveRecordings(context, items) {
 
         renderRecordings(context.querySelector('.activeRecordings'), items, {
@@ -240,7 +203,7 @@
         });
     }
 
-    LiveTvSuggestionsTab.prototype.onShow = function () {
+    LiveTvRecordingsTab.prototype.onShow = function () {
 
         var promises = this.promises;
         if (!promises) {
@@ -254,35 +217,53 @@
         });
 
         promises[1].then(function (result) {
-            renderItems(view, result.Items, 'activePrograms');
+
+            renderRecordings(view.querySelector('.latestRecordings'), result.Items, {
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                showYear: true,
+                lines: 2
+            });
         });
 
         promises[2].then(function (result) {
-            renderItems(view, result.Items, 'upcomingPrograms');
+
+            renderRecordings(view.querySelector('.movieRecordings'), result.Items, {
+                showYear: true,
+                showParentTitle: false
+            });
         });
 
         promises[3].then(function (result) {
-            renderItems(view, result.Items, 'upcomingTvMovies', null, {
-                shape: getPortraitShape(),
-                preferThumb: null
+
+            renderRecordings(view.querySelector('.episodeRecordings'), result.Items, {
+                showSeriesYear: true,
+                showParentTitle: false
             });
         });
 
         promises[4].then(function (result) {
-            renderItems(view, result.Items, 'upcomingSports');
+
+            renderRecordings(view.querySelector('.sportsRecordings'), result.Items, {
+                showYear: true,
+                showParentTitle: false
+            });
         });
 
         promises[5].then(function (result) {
-            renderItems(view, result.Items, 'upcomingKids');
+
+            renderRecordings(view.querySelector('.kidsRecordings'), result.Items, {
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                showYear: true,
+                lines: 2
+            });
         });
+    };
+
+    LiveTvRecordingsTab.prototype.onHide = function () {
 
     };
 
-    LiveTvSuggestionsTab.prototype.onHide = function () {
-
-    };
-
-    LiveTvSuggestionsTab.prototype.destroy = function () {
+    LiveTvRecordingsTab.prototype.destroy = function () {
 
         this.view = null;
         this.params = null;
@@ -290,5 +271,5 @@
         this.promises = null;
     };
 
-    return LiveTvSuggestionsTab;
+    return LiveTvRecordingsTab;
 });

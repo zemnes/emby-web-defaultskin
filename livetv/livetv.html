@@ -30,7 +30,7 @@
             <div class="tabContent padded-top" id="suggestionsTab" data-index="0">
                 <div class="activeRecordings verticalSection hide">
                     <h2 class="sectionTitle">${HeaderActiveRecordings}</h2>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer focuscontainer-x"></div>
+                    <div is="emby-itemscontainer" class="itemsContainer focuscontainer-x"></div>
                 </div>
                 <div class="activePrograms hide verticalSection">
                     <div>
@@ -72,71 +72,54 @@
                 </div>
                 <div is="emby-itemscontainer" class="itemsContainer vertical-wrap centered"></div>
             </div>
-            <div class="tabContent" id="recordingsTab" data-index="3">
-                <div id="activeRecordings" class="verticalSection hide">
-                    <h1>${HeaderActiveRecordings}</h1>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+            <div class="tabContent padded-top" data-index="3">
+                <div class="activeRecordings verticalSection hide">
+                    <h2 class="sectionTitle">${HeaderActiveRecordings}</h2>
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="latestRecordings" class="verticalSection hide">
+                <div class="latestRecordings verticalSection hide">
                     <div>
-                        <h1 style="display: inline-block; vertical-align: middle;">${HeaderLatestRecordings}</h1>
-                        <button is="emby-button" type="button" class="raised more mini" data-type="latest">${ButtonMore}</button>
-                        <button is="emby-button" type="button" class="raised submit mini button-accent categorySyncButton" data-category="Latest">
-                            <span>${ButtonSync}</span>
-                        </button>
+                        <h2 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${LatestRecordings}</h2>
                     </div>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="movieRecordings" class="homePageSection hide">
+                <div class="movieRecordings verticalSection hide">
                     <div>
-                        <h1 style="display: inline-block; vertical-align: middle;">${TabMovies}</h1>
-                        <button is="emby-button" type="button" class="raised more mini" data-type="movies">${ButtonMore}</button>
+                        <h2 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${Movies}</h2>
                     </div>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="episodeRecordings" class="verticalSection hide">
+                <div class="episodeRecordings verticalSection hide">
                     <div>
-                        <h1 style="display: inline-block; vertical-align: middle;">${TabSeries}</h1>
-                        <button is="emby-button" type="button" class="raised more mini" data-type="episodes">${ButtonMore}</button>
+                        <h2 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${Series}</h2>
                     </div>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="sportsRecordings" class="verticalSection hide">
+                <div class="sportsRecordings verticalSection hide">
                     <div>
-                        <h1 style="display: inline-block; vertical-align: middle;">${Sports}</h1>
-                        <button is="emby-button" type="button" class="raised more mini" data-type="sports">${ButtonMore}</button>
+                        <h2 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${Sports}</h2>
                     </div>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="kidsRecordings" class="verticalSection hide">
+                <div class="kidsRecordings verticalSection hide">
                     <div>
-                        <h1 style="display: inline-block; vertical-align: middle;">${HeaderForKids}</h1>
-                        <button is="emby-button" type="button" class="raised more mini" data-type="kids">${ButtonMore}</button>
+                        <h2 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${HeaderForKids}</h2>
                     </div>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="recordingGroups" class="hide verticalSection">
+                <div class="recordingGroups hide verticalSection">
                     <div>
-                        <h1 style="display: inline-block; vertical-align: middle;">${HeaderRecordingGroups}</h1>
+                        <h2 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${HeaderRecordingGroups}</h2>
                     </div>
                     <div id="recordingGroupItems"></div>
                 </div>
             </div>
-            <div class="tabContent" id="scheduleTab" data-index="4">
-                <div id="activeRecordings" class="verticalSection hide">
-                    <h1>${HeaderActiveRecordings}</h1>
-                    <div is="emby-itemscontainer" class="recordingItems itemsContainer"></div>
-                    <br />
+            <div class="tabContent padded-top" id="scheduleTab" data-index="4">
+                <div class="activeRecordings verticalSection hide">
+                    <h2 class="sectionTitle">${HeaderActiveRecordings}</h2>
+                    <div is="emby-itemscontainer" class="itemsContainer"></div>
                 </div>
-                <div id="upcomingRecordings" class="verticalSection hide">
-                    <div class="recordingItems"></div>
-                    <br />
+                <div class="upcomingRecordings">
                 </div>
             </div>
             <div class="tabContent padded-left padded-right padded-top" data-index="5">
