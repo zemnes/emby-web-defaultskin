@@ -312,13 +312,7 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                 view.querySelector('.btnTrailer').classList.add('hide');
             }
 
-            if (playbackManager.canPlay(item)) {
-                view.querySelector('.itemPageFixedLeft .btnPlay').classList.remove('hide');
-                view.querySelector('.mainSection .btnPlay').classList.remove('hide');
-            } else {
-                view.querySelector('.itemPageFixedLeft .btnPlay').classList.add('hide');
-                view.querySelector('.mainSection .btnPlay').classList.add('hide');
-            }
+            reloadPlayButtons(view, item);
 
             if (item.CanDelete && !item.IsFolder) {
                 view.querySelector('.btnDeleteItem').classList.remove('hide');
@@ -427,6 +421,34 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                 birthPlaceElem.innerHTML = globalize.translate('BirthPlaceValue').replace('{0}', item.ProductionLocations[0]);
             } else {
                 birthPlaceElem.classList.add('hide');
+            }
+        }
+
+        function reloadPlayButtons(view, item) {
+            
+            if (playbackManager.canPlay(item)) {
+                view.querySelector('.itemPageFixedLeft .btnPlay').classList.remove('hide');
+
+                var btnPlay = view.querySelector('.mainSection .btnPlay');
+                btnPlay.classList.remove('hide');
+
+                var btnResume = view.querySelector('.btnResume');
+
+                if (item.UserData && item.UserData.PlaybackPositionTicks > 0) {
+                    btnResume.classList.remove('hide');
+                } else {
+
+                    var isFocused = document.activeElement === btnResume;
+                    btnResume.classList.add('hide');
+
+                    if (isFocused) {
+                        focusManager.focus(btnPlay);
+                    }
+                }
+
+            } else {
+                view.querySelector('.itemPageFixedLeft .btnPlay').classList.add('hide');
+                view.querySelector('.mainSection .btnPlay').classList.add('hide');
             }
         }
 
@@ -983,6 +1005,11 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                     section.classList.add('hide');
                     return;
                 }
+                
+                if (item.Type === "Episode" && result.Items.length < 2) {
+                    section.classList.add('hide');
+                    return;
+                }
 
                 section.classList.remove('hide');
                 
@@ -1305,6 +1332,10 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                         console.log(progressBarHtml);
                         detailImageContainer.insertAdjacentHTML('beforeend', progressBarHtml);
                     }
+
+                    currentItem.UserData = userData;
+
+                    reloadPlayButtons(view, currentItem);
                 }
             }
 
@@ -1477,9 +1508,9 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
 
                 if (!isRestored) {
 
-                    view.querySelector('.itemPageFixedLeft .btnPlay').addEventListener('click', play);
-                    view.querySelector('.mainSection .btnPlay').addEventListener('click', play);
-                    view.querySelector('.itemPageFixedLeft .btnPlay').addEventListener('click', play);
+                    view.querySelector('.itemPageFixedLeft .btnPlay').addEventListener('click', onPlayClick);
+                    view.querySelector('.mainSection .btnPlay').addEventListener('click', onPlayClick);
+                    view.querySelector('.mainSection .btnResume').addEventListener('click', onPlayClick);
                     view.querySelector('.mainSection .btnMore').addEventListener('click', showMoreMenu);
                     view.querySelector('.btnDeleteItem').addEventListener('click', deleteItem);
 
@@ -1537,14 +1568,19 @@ define(['itemContextMenu', 'loading', './../skininfo', 'datetime', 'scrollHelper
                 playbackManager.playTrailers(currentItem);
             }
 
-            function play() {
+            function play(mode) {
 
                 var item = currentItem;
 
                 playbackManager.play({
                     items: [item],
-                    startPositionTicks: item.UserData ? item.UserData.PlaybackPositionTicks : 0
+                    startPositionTicks: item.UserData && mode === 'resume' && item.UserData ? item.UserData.PlaybackPositionTicks : 0
                 });
+            }
+
+            function onPlayClick() {
+                var mode = this.getAttribute('data-mode');
+                play(mode);
             }
 
             function deleteItem() {

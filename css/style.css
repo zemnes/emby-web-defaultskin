@@ -356,35 +356,34 @@ h1 {
 }
 
 .loginSquareCard {
-    width: 54vw;
+    width: 54vw !important;
     flex-shrink: 0;
-    display: inline-block !important;
 }
 
 @media (orientation: landscape) {
     .loginSquareCard {
-        width: 40vh;
+        width: 40vh !important;
     }
 }
 
 @media (orientation: landscape) and (max-height: 600px) {
 
     .loginSquareCard {
-        width: 50vh;
+        width: 50vh !important;
     }
 }
 
 @media (orientation: landscape) and (min-width: 800px) {
 
     .loginSquareCard {
-        width: 26vw;
+        width: 26vw !important;
     }
 }
 
 @media (orientation: landscape) and (min-width: 1280px) {
 
     .loginSquareCard {
-        width: 18vw;
+        width: 18vw !important;
     }
 }
 
@@ -475,7 +474,7 @@ button.mini {
 }
 
 .xlargePaperIconButton {
-    font-size: 2em !important;
+    font-size: 1.9em !important;
 }
 
 .padded-left {

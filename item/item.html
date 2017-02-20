@@ -43,7 +43,11 @@
 
                     <div class="itemPageButtonsContainer">
                         <div class="itemPageButtons">
-                            <button is="emby-button" class="btnPlay hide raised">
+                            <button is="emby-button" class="btnResume hide raised" data-mode="resume">
+                                <span>${Resume}</span>
+                            </button>
+
+                            <button is="emby-button" class="btnPlay hide raised" data-mode="play">
                                 <span class="btnPlayText">${Play}</span>
                             </button>
 
