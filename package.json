@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "description": "Move 'Scenes' to display before and 'Cast and Crew'. Hides the overpowering coloured blank 'Cast and Crew' panels which detracts to much from an otherwise clean look.",
     "plugin": "plugin.js",
-    "homepage": "",
+    "homepage": "https://github.com/Aristarchus-BC/emby-web-defaultskin",
     "thumb": "",
     "backdrop": ""
 }
