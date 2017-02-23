@@ -1,341 +1,237 @@
-define(['connectionManager', 'loading', './../skininfo', 'alphaPicker', './../components/horizontallist', 'cardBuilder', './../components/focushandler', './../components/tabbedpage', 'backdrop', 'focusManager', 'emby-itemscontainer'], function (connectionManager, loading, skinInfo, alphaPicker, horizontalList, cardBuilder, focusHandler, tabbedPage, backdrop, focusManager) {
+define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'alphaPicker', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (loading, backdrop, connectionManager, scroller, globalize, alphaPicker, require, focusHandler) {
     'use strict';
+
+    function createVerticalScroller(instance, view) {
+
+        var scrollFrame = view.querySelector('.scrollFrame');
+
+        var options = {
+            horizontal: 0,
+            slidee: view.querySelector('.scrollSlider'),
+            scrollBy: 200,
+            speed: 270,
+            scrollWidth: 50000,
+            immediateSpeed: 160
+        };
+
+        instance.scroller = new scroller(scrollFrame, options);
+        instance.scroller.init();
+
+        instance.focusHandler = new focusHandler({
+            parent: view.querySelector('.scrollSlider'),
+            scroller: instance.scroller,
+            enableBackdrops: false
+        });
+    }
+
+    function trySelectValue(instance, view, value) {
+
+        var card;
+
+        // If it's the symbol just pick the first card
+        if (value === '#') {
+
+            card = view.querySelector('.card');
+
+            if (card) {
+                instance.scroller.toCenter(card, false);
+                return;
+            }
+        }
+
+        card = view.querySelector('.card[data-prefix^=\'' + value + '\']');
+
+        if (card) {
+            instance.scroller.toCenter(card, false);
+            return;
+        }
+
+        // go to the previous letter
+        var values = instance.alphaPicker.values();
+        var index = values.indexOf(value);
+
+        if (index < values.length - 2) {
+            trySelectValue(instance, view, values[index + 1]);
+        } else {
+            var all = view.querySelectorAll('.card');
+            card = all.length ? all[all.length - 1] : null;
+
+            if (card) {
+                instance.scroller.toCenter(card, false);
+            }
+        }
+    }
+
+    function initAlphaPicker(instance, view) {
+
+        var seriesItemsContainer = view.querySelector('.seriesItems');
+
+        instance.alphaPicker = new alphaPicker({
+            element: view.querySelector('.alphaPicker'),
+            itemsContainer: seriesItemsContainer,
+            itemClass: 'card'
+        });
+
+        instance.alphaPicker.on('alphavaluechanged', function () {
+            var value = instance.alphaPicker.value();
+            trySelectValue(instance, seriesItemsContainer, value);
+        });
+    }
 
     return function (view, params) {
 
         var self = this;
 
-        var apiClient = connectionManager.getApiClient(params.serverId);
+        var tabControllers = [];
+        var currentTabController;
+
+        function getTabController(page, index, callback) {
+
+            var depends = [];
+
+            switch (index) {
+
+                case 0:
+                    depends.push('./suggestions');
+                    break;
+                case 1:
+                    depends.push('./suggestions');
+                    break;
+                case 2:
+                    depends.push('./series');
+                    break;
+                case 3:
+                    depends.push('./upcoming');
+                    break;
+                case 4:
+                    depends.push('./favorites');
+                    break;
+                case 5:
+                    depends.push('./series');
+                    break;
+                case 6:
+                    depends.push('./series');
+                    break;
+                default:
+                    break;
+            }
+
+            require(depends, function (controllerFactory) {
+
+                var controller = tabControllers[index];
+                if (!controller) {
+                    var tabContent = view.querySelector('.tabContent[data-index=\'' + index + '\']');
+                    controller = new controllerFactory(tabContent, params, view);
+                    tabControllers[index] = controller;
+                }
+
+                callback(controller);
+            });
+        }
+
+        createVerticalScroller(self, view);
+
+        var alphaPickerContainer = view.querySelector('.alphaPickerContainer');
+        var viewTabs = view.querySelector('.viewTabs');
+        var initialTabIndex = parseInt(params.tab || '0');
+        var isViewRestored;
+
+        function preLoadTab(page, index) {
+
+            if (index === 2) {
+                alphaPickerContainer.classList.remove('hide');
+            } else {
+                alphaPickerContainer.classList.add('hide');
+            }
+
+            getTabController(page, index, function (controller) {
+                if (controller.onBeforeShow) {
+                    controller.onBeforeShow({
+                        refresh: isViewRestored !== true
+                    });
+                }
+            });
+        }
+
+        function loadTab(page, index) {
+
+            getTabController(page, index, function (controller) {
+
+                controller.onShow({
+                    autoFocus: initialTabIndex != null
+                });
+                initialTabIndex = null;
+                currentTabController = controller;
+            });
+        }
+
+        initAlphaPicker(this, view);
+
+        viewTabs.addEventListener('beforetabchange', function (e) {
+            preLoadTab(view, parseInt(e.detail.selectedTabIndex));
+        });
+
+        viewTabs.addEventListener('tabchange', function (e) {
+
+            var previousTabController = tabControllers[parseInt(e.detail.previousIndex)];
+            if (previousTabController && previousTabController.onHide) {
+                previousTabController.onHide();
+            }
+
+            loadTab(view, parseInt(e.detail.selectedTabIndex));
+        });
+
+        view.addEventListener('viewbeforehide', function (e) {
+
+            if (currentTabController && currentTabController.onHide) {
+                currentTabController.onHide();
+            }
+        });
+
+        view.addEventListener('viewbeforeshow', function (e) {
+            isViewRestored = e.detail.isRestored;
+
+            if (initialTabIndex == null) {
+                viewTabs.triggerBeforeTabChange();
+            }
+        });
 
         view.addEventListener('viewshow', function (e) {
 
-            if (!self.tabbedPage) {
-                loading.show();
-                renderTabs(view, params.tab, self, params);
-            }
+            isViewRestored = e.detail.isRestored;
 
             Emby.Page.setTitle('');
+
+            if (initialTabIndex != null) {
+                viewTabs.selectedIndex(initialTabIndex);
+            } else {
+                viewTabs.triggerTabChange();
+            }
         });
 
-        view.addEventListener('viewdestroy', function () {
+        view.addEventListener('viewdestroy', function (e) {
 
-            if (self.tabbedPage) {
-                self.tabbedPage.destroy();
-            }
+            tabControllers.forEach(function (t) {
+                if (t.destroy) {
+                    t.destroy();
+                }
+            });
+
             if (self.focusHandler) {
                 self.focusHandler.destroy();
+                self.focusHandler = null;
             }
+
+            if (self.scroller) {
+                self.scroller.destroy();
+                self.scroller = null;
+            }
+
             if (self.alphaPicker) {
                 self.alphaPicker.destroy();
-            }
-            if (self.listController) {
-                self.listController.destroy();
+                self.alphaPicker = null;
             }
         });
-
-        function renderTabs(view, initialTabId, pageInstance, params) {
-
-            self.alphaPicker = new alphaPicker({
-                element: view.querySelector('.alphaPicker'),
-                itemsContainer: view.querySelector('.contentScrollSlider'),
-                itemClass: 'card'
-            });
-
-            var tabs = [
-                {
-                    Name: Globalize.translate('Series'),
-                    Id: "series"
-                },
-                {
-                    Name: Globalize.translate('Upcoming'),
-                    Id: "upcoming"
-                },
-                {
-                    Name: Globalize.translate('Genres'),
-                    Id: "genres"
-                },
-                {
-                    Name: Globalize.translate('Favorites'),
-                    Id: "favorites"
-                }
-            ];
-
-            var tabbedPageInstance = new tabbedPage(view, {
-                alphaPicker: self.alphaPicker
-            });
-
-            tabbedPageInstance.loadViewContent = loadViewContent;
-            tabbedPageInstance.params = params;
-            tabbedPageInstance.renderTabs(tabs, initialTabId);
-            pageInstance.tabbedPage = tabbedPageInstance;
-        }
-
-        function loadViewContent(page, id, type) {
-
-            var tabbedPage = this;
-
-            return new Promise(function (resolve, reject) {
-
-                if (self.listController) {
-                    self.listController.destroy();
-                }
-                if (self.focusHandler) {
-                    self.focusHandler.destroy();
-                }
-
-                var pageParams = tabbedPage.params;
-
-                var autoFocus = false;
-
-                if (!tabbedPage.hasLoaded) {
-                    autoFocus = true;
-                    tabbedPage.hasLoaded = true;
-                }
-
-                var showAlphaPicker = false;
-                var showListNumbers = false;
-
-                switch (id) {
-
-                    case 'series':
-                        showAlphaPicker = true;
-                        showListNumbers = true;
-                        renderSeries(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
-                        break;
-                    case 'genres':
-                        renderGenres(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
-                        break;
-                    case 'upcoming':
-                        renderUpcoming(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
-                        break;
-                    case 'favorites':
-                        renderFavorites(page, pageParams, autoFocus, tabbedPage.bodyScroller, resolve);
-                        break;
-                    default:
-                        break;
-                }
-
-                if (showListNumbers) {
-                    page.querySelector('.listNumbers').classList.remove('hide');
-                } else {
-                    page.querySelector('.listNumbers').classList.add('hide');
-                }
-
-                if (self.alphaPicker) {
-                    self.alphaPicker.visible(showAlphaPicker);
-                    self.alphaPicker.enabled(showAlphaPicker);
-                }
-            });
-        }
-
-        function renderUpcoming(page, pageParams, autoFocus, scroller, resolve) {
-
-            self.listController = new horizontalList({
-                itemsContainer: page.querySelector('.contentScrollSlider'),
-                getItemsMethod: function (startIndex, limit) {
-                    return apiClient.getUpcomingEpisodes({
-                        EnableImageTypes: "Primary,Backdrop,Thumb",
-                        StartIndex: startIndex,
-                        Limit: Math.min(limit, 60),
-                        ParentId: pageParams.parentid,
-                        UserId: apiClient.getCurrentUserId(),
-                        ImageTypeLimit: 1,
-                        Fields: "PrimaryImageAspectRatio"
-                    });
-                },
-                autoFocus: autoFocus,
-                cardOptions: {
-                    shape: 'backdrop',
-                    rows: 3,
-                    preferThumb: true,
-                    indexBy: 'PremiereDate',
-                    scalable: false
-                },
-                selectedItemInfoElement: page.querySelector('.selectedItemInfo'),
-                scroller: scroller,
-                onRender: function () {
-                    if (resolve) {
-                        resolve();
-                        resolve = null;
-                    }
-                }
-            });
-
-            self.listController.render();
-        }
-
-        function renderSeries(page, pageParams, autoFocus, scroller, resolve) {
-
-            self.listController = new horizontalList({
-                itemsContainer: page.querySelector('.contentScrollSlider'),
-                getItemsMethod: function (startIndex, limit) {
-                    return apiClient.getItems(apiClient.getCurrentUserId(), {
-                        StartIndex: startIndex,
-                        Limit: limit,
-                        ParentId: pageParams.parentid,
-                        IncludeItemTypes: "Series",
-                        Recursive: true,
-                        SortBy: "SortName",
-                        ImageTypeLimit: 1,
-                        Fields: "PrimaryImageAspectRatio,SortName"
-                    });
-                },
-                listCountElement: page.querySelector('.listCount'),
-                listNumbersElement: page.querySelector('.listNumbers'),
-                autoFocus: autoFocus,
-                selectedItemInfoElement: page.querySelector('.selectedItemInfo'),
-                selectedIndexElement: page.querySelector('.selectedIndex'),
-                scroller: scroller,
-                onRender: function () {
-                    if (resolve) {
-                        resolve();
-                        resolve = null;
-                    }
-                },
-                cardOptions: {
-                    rows: 2,
-                    scalable: false
-                }
-            });
-
-            self.listController.render();
-        }
-
-        function renderGenres(page, pageParams, autoFocus, scroller, resolve) {
-
-            apiClient.getGenres(apiClient.getCurrentUserId(), {
-                ParentId: pageParams.parentid,
-                SortBy: "SortName",
-                Recursive: true,
-                ImageTypeLimit: 1,
-                Fields: "PrimaryImageAspectRatio"
-
-            }).then(function (genresResult) {
-
-                self.listController = new horizontalList({
-                    itemsContainer: page.querySelector('.contentScrollSlider'),
-                    getItemsMethod: function (startIndex, limit) {
-                        return apiClient.getItems(apiClient.getCurrentUserId(), {
-                            StartIndex: startIndex,
-                            Limit: limit,
-                            ParentId: pageParams.parentid,
-                            IncludeItemTypes: "Series",
-                            Recursive: true,
-                            SortBy: "SortName",
-                            ImageTypeLimit: 1,
-                            Fields: "Genres,PrimaryImageAspectRatio"
-                        });
-                    },
-                    autoFocus: autoFocus,
-                    scroller: scroller,
-                    onRender: function () {
-                        if (resolve) {
-                            resolve();
-                            resolve = null;
-                        }
-                    },
-                    cardOptions: {
-                        indexBy: 'Genres',
-                        genres: genresResult.Items,
-                        indexLimit: 4,
-                        parentId: pageParams.parentid,
-                        rows: 2,
-                        scalable: false
-                    }
-                });
-
-                self.listController.render();
-            });
-        }
-
-        function renderFavorites(page, pageParams, autoFocus, scroller, resolve) {
-
-            require(['text!' + Emby.PluginManager.mapPath(skinInfo.id, 'tv/views.favorites.html')], function (html) {
-                var parent = page.querySelector('.contentScrollSlider');
-                parent.innerHTML = Globalize.translateDocument(html, skinInfo.id);
-                loadFavoriteSeries(parent, pageParams, autoFocus, resolve);
-                loadFavoriteEpisodes(parent, pageParams);
-            });
-
-            self.focusHandler = new focusHandler({
-                parent: page.querySelector('.contentScrollSlider'),
-                scroller: scroller,
-                selectedItemInfoElement: page.querySelector('.selectedItemInfo')
-            });
-        }
-
-        function loadFavoriteSeries(parent, pageParams, autoFocus, resolve) {
-
-            apiClient.getItems(apiClient.getCurrentUserId(), {
-                ParentId: pageParams.parentid,
-                IncludeItemTypes: "Series",
-                Recursive: true,
-                Filters: "IsFavorite",
-                SortBy: "SortName",
-                ImageTypeLimit: 1,
-                Fields: "PrimaryImageAspectRatio"
-
-            }).then(function (result) {
-
-                var section = parent.querySelector('.favoriteSeriesSection');
-
-                if (result.Items.length) {
-                    section.classList.remove('hide');
-                } else {
-                    section.classList.add('hide');
-                }
-
-                cardBuilder.buildCards(result.Items, {
-                    itemsContainer: section.querySelector('.itemsContainer'),
-                    shape: 'auto',
-                    rows: 2,
-                    scalable: false
-                });
-
-                if (autoFocus) {
-                    setTimeout(function () {
-                        var firstCard = section.querySelector('.card');
-                        if (firstCard) {
-                            focusManager.focus(firstCard);
-                        }
-                    }, 400);
-                }
-                resolve();
-            });
-        }
-
-        function loadFavoriteEpisodes(parent, pageParams) {
-
-            apiClient.getItems(apiClient.getCurrentUserId(), {
-                ParentId: pageParams.parentid,
-                IncludeItemTypes: "Episode",
-                Recursive: true,
-                Filters: "IsFavorite",
-                SortBy: "SortName",
-                ImageTypeLimit: 1,
-                Fields: "PrimaryImageAspectRatio"
-
-            }).then(function (result) {
-
-                var section = parent.querySelector('.favoriteEpisodesSection');
-
-                if (result.Items.length) {
-                    section.classList.remove('hide');
-                } else {
-                    section.classList.add('hide');
-                }
-
-                cardBuilder.buildCards(result.Items, {
-                    itemsContainer: section.querySelector('.itemsContainer'),
-                    shape: 'auto',
-                    rows: 3,
-                    overlayText: true,
-                    //showTitle: true,
-                    showParentTitle: true,
-                    scalable: false
-                });
-            });
-        }
     };
 
 });

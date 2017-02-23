@@ -1,4 +1,4 @@
-﻿define(['cardBuilder', 'imageLoader', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'scrollHelper', 'emby-itemscontainer'], function (cardBuilder, imageLoader, loading, connectionManager, appHost, layoutManager, scrollHelper) {
+﻿define(['cardBuilder', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'scrollHelper', 'emby-itemscontainer', 'emby-scroller'], function (cardBuilder, loading, connectionManager, appHost, layoutManager, scrollHelper) {
     'use strict';
 
     function enableScrollX() {
@@ -15,38 +15,21 @@
 
     function initLayout(view) {
 
-        var containers = view.querySelectorAll('.verticalSection');
+        var containers = view.querySelectorAll('.autoScrollSection');
 
         for (var i = 0, length = containers.length; i < length; i++) {
 
             var section = containers[i];
 
-            var elem = section.querySelector('.itemsContainer');
+            var html;
 
             if (enableScrollX()) {
-                elem.classList.add('padded-left');
-                elem.classList.add('padded-right');
-
-                section.querySelector('.sectionTitle').classList.add('padded-left');
-
-                elem.classList.remove('vertical-wrap');
-
-                elem.classList.add('hiddenScrollX');
-
-                if (layoutManager.tv) {
-                    elem.classList.add('padded-top-focusscale');
-                    elem.classList.add('padded-bottom-focusscale');
-                    scrollHelper.centerFocus.on(elem, true);
-                }
-
+                html = '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-framesize="matchgrandparent" data-centerfocus="card"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right"></div></div>';
             } else {
-                elem.classList.add('vertical-wrap');
+                html = '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap"></div>';
             }
-        }
 
-        if (!enableScrollX()) {
-            view.classList.add('padded-left');
-            view.classList.add('padded-right');
+            section.insertAdjacentHTML('beforeend', html);
         }
     }
 
@@ -56,12 +39,18 @@
 
     function renderItems(view, items, sectionClass, overlayButton, cardOptions) {
 
+        var section = view.querySelector('.' + sectionClass);
+
+        var container = section.querySelector('.itemsContainer');
         var supportsImageAnalysis = appHost.supports('imageanalysis');
         var cardLayout = supportsImageAnalysis;
 
         cardOptions = cardOptions || {};
 
-        var html = cardBuilder.getCardsHtml(Object.assign({
+        cardBuilder.buildCards(items, Object.assign({
+
+            parentContainer: section,
+            itemsContainer: container,
             items: items,
             preferThumb: true,
             inheritThumb: false,
@@ -83,24 +72,20 @@
 
         }, cardOptions));
 
-        var section = view.querySelector('.' + sectionClass);
-
-        if (items.length) {
-            section.classList.remove('hide');
-        } else {
-            section.classList.add('hide');
+        if (enableScrollX()) {
+            section.querySelector('.emby-scroller').scrollToBeginning();
         }
-
-        var elem = section.querySelector('.itemsContainer');
-
-        elem.innerHTML = html;
-        imageLoader.lazyChildren(elem);
-        elem.scrollLeft = 0;
     }
 
-    LiveTvSuggestionsTab.prototype.onBeforeShow = function () {
+    LiveTvSuggestionsTab.prototype.onBeforeShow = function (options) {
 
         var apiClient = this.apiClient;
+
+        if (!options.refresh) {
+            this.promises = null;
+            return;
+        }
+
         var promises = [];
 
         var limit = enableScrollX() ? 18 : 12;
@@ -184,26 +169,14 @@
         this.promises = promises;
     };
 
-    function renderRecordings(elem, recordings, cardOptions) {
+    function renderRecordings(section, items, cardOptions) {
 
-        if (recordings.length) {
-            elem.classList.remove('hide');
-        } else {
-            elem.classList.add('hide');
-        }
+        var container = section.querySelector('.itemsContainer');
+        var supportsImageAnalysis = appHost.supports('imageanalysis');
 
-        var recordingItems = elem.querySelector('.itemsContainer');
-
-        if (enableScrollX()) {
-            recordingItems.classList.add('hiddenScrollX');
-            recordingItems.classList.remove('vertical-wrap');
-        } else {
-            recordingItems.classList.remove('hiddenScrollX');
-            recordingItems.classList.add('vertical-wrap');
-        }
-
-        recordingItems.innerHTML = cardBuilder.getCardsHtml(Object.assign({
-            items: recordings,
+        cardBuilder.buildCards(items, Object.assign({
+            parentContainer: section,
+            itemsContainer: container,
             shape: (enableScrollX() ? 'autooverflow' : 'auto'),
             showTitle: true,
             showParentTitle: true,
@@ -213,10 +186,11 @@
             vibrant: true,
             allowBottomPadding: !enableScrollX(),
             preferThumb: 'auto'
-
         }, cardOptions || {}));
 
-        imageLoader.lazyChildren(recordingItems);
+        if (enableScrollX()) {
+            section.querySelector('.emby-scroller').scrollToBeginning();
+        }
     }
 
     function getBackdropShape() {
@@ -246,6 +220,8 @@
         if (!promises) {
             return;
         }
+
+        this.promises = [];
 
         var view = this.view;
 

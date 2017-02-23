@@ -1,19 +1,78 @@
-<div class="pageContainer flex horizontalPageContent flex-direction-column">
+<div class="pageContainer fullWidth vertical flex flex-direction-column">
 
-    <div class="userViewNames">
+    <div class="flex align-items-center justify-content-center hide alphaPickerContainer" style="position: fixed; left: 1em; bottom: 1%; z-index: 1;">
+        <div class="alphaPicker alphaPicker-vertical flex-grow"></div>
     </div>
 
-    <div class="scrollFrame scrollFrameX itemScrollFrame topPadded" style="white-space: nowrap;">
-        <div is="emby-itemscontainer" class="scrollSlider contentScrollSlider">
+    <div class="scrollFrame scrollFrameY flex flex-grow focuscontainer-down">
+
+        <div class="scrollSlider flex-grow tabs-container">
+
+            <div is="emby-tabs" class="viewTabs">
+                <div class="emby-tabs-slider" style="text-align:center;">
+                    <button is="emby-button" class="emby-tab-button emby-tab-button-active" data-index="0">
+                        <div class="emby-button-foreground">${Suggestions}</div>
+                    </button>
+                    <button is="emby-button" class="emby-tab-button hide" data-index="1">
+                        <div class="emby-button-foreground">${Latest}</div>
+                    </button>
+                    <button is="emby-button" class="emby-tab-button" data-index="2">
+                        <div class="emby-button-foreground">${Series}</div>
+                    </button>
+                    <button is="emby-button" class="emby-tab-button" data-index="3">
+                        <div class="emby-button-foreground">${Upcoming}</div>
+                    </button>
+                    <button is="emby-button" class="emby-tab-button" data-index="4">
+                        <div class="emby-button-foreground">${Favorites}</div>
+                    </button>
+                    <button is="emby-button" class="emby-tab-button hide" data-index="5">
+                        <div class="emby-button-foreground">${Genres}</div>
+                    </button>
+                    <button is="emby-button" class="emby-tab-button hide" data-index="6">
+                        <div class="emby-button-foreground">${Networks}</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="tabContent padded-top" data-index="0">
+                <div class="resumeSection hide verticalSection autoScrollSection">
+                    <div>
+                        <h1 class="sectionTitle padded-left padded-right" style="display: inline-block; vertical-align: middle;">${ContinueWatching}</h1>
+                    </div>
+                </div>
+                <div class="nextUpSection hide verticalSection autoScrollSection">
+                    <div>
+                        <h1 class="sectionTitle padded-left padded-right" style="display: inline-block; vertical-align: middle;">${NextUp}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="tabContent" data-index="1" style="width: auto; padding-top: 0; padding-bottom: 0;">
+            </div>
+            <div class="tabContent padded-left padded-left-withalphapicker padded-right padded-top" data-index="2">
+                <div is="emby-itemscontainer" class="seriesItems itemsContainer vertical-wrap itemsContainer-withalphapicker"></div>
+            </div>
+            <div class="tabContent padded-left padded-right padded-top" data-index="3">
+                
+            </div>
+            <div class="tabContent padded-top padded-left padded-right" data-index="4">
+                <div class="favoriteSeriesSection hide verticalSection">
+                    <div>
+                        <h1 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${FavoriteSeries}</h1>
+                    </div>
+                    <div is="emby-itemscontainer" class="seriesItems itemsContainer vertical-wrap focuscontainer-x"></div>
+                </div>
+                <div class="favoriteEpisodesSection hide verticalSection">
+                    <div>
+                        <h1 class="sectionTitle" style="display: inline-block; vertical-align: middle;">${FavoriteEpisodes}</h1>
+                    </div>
+                    <div is="emby-itemscontainer" class="episodeItems itemsContainer vertical-wrap focuscontainer-x"></div>
+                </div>
+            </div>
+            <div class="tabContent padded-left padded-right padded-top" data-index="5">
+            </div>
+            <div class="tabContent padded-left padded-right padded-top" data-index="6">
+            </div>
         </div>
-    </div>
-    <div class="alphaPicker"></div>
-    <div class="selectedItemInfo">
-    </div>
-    <div class="listNumbers hide">
-        <span class="selectedIndex"></span>
-        <span class="listNumbersDivider">|</span>
-        <span class="listCount"></span>
     </div>
 
 </div>

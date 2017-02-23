@@ -1,4 +1,4 @@
-define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs'], function (loading, backdrop, connectionManager, scroller, globalize, require, focusHandler) {
+define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (loading, backdrop, connectionManager, scroller, globalize, require, focusHandler) {
     'use strict';
 
     function createVerticalScroller(instance, view) {
@@ -72,12 +72,19 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
             });
         }
 
+        createVerticalScroller(self, view);
+
+        var viewTabs = view.querySelector('.viewTabs');
+        var initialTabIndex = parseInt(params.tab || '0');
+        var isViewRestored;
 
         function preLoadTab(page, index) {
 
             getTabController(page, index, function (controller) {
                 if (controller.onBeforeShow) {
-                    controller.onBeforeShow();
+                    controller.onBeforeShow({
+                        refresh: isViewRestored !== true
+                    });
                 }
             });
         }
@@ -86,15 +93,13 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
 
             getTabController(page, index, function (controller) {
 
-                controller.onShow();
+                controller.onShow({
+                    autoFocus: initialTabIndex != null
+                });
+                initialTabIndex = null;
                 currentTabController = controller;
             });
         }
-
-        createVerticalScroller(self, view);
-
-        var viewTabs = view.querySelector('.viewTabs');
-        var initialTabIndex = parseInt(params.tab || '0');
 
         viewTabs.addEventListener('beforetabchange', function (e) {
             preLoadTab(view, parseInt(e.detail.selectedTabIndex));
@@ -117,7 +122,9 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
             }
         });
 
-        view.addEventListener('viewbeforeshow', function () {
+        view.addEventListener('viewbeforeshow', function (e) {
+            isViewRestored = e.detail.isRestored;
+
             if (initialTabIndex == null) {
                 viewTabs.triggerBeforeTabChange();
             }
@@ -125,12 +132,13 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
 
         view.addEventListener('viewshow', function (e) {
 
+            isViewRestored = e.detail.isRestored;
+
             Emby.Page.setTitle(globalize.translate('LiveTV'));
             backdrop.clear();
 
             if (initialTabIndex != null) {
                 viewTabs.selectedIndex(initialTabIndex);
-                initialTabIndex = null;
             } else {
                 viewTabs.triggerTabChange();
             }

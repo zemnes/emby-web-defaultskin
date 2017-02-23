@@ -36,9 +36,15 @@
         imageLoader.lazyChildren(elem);
     }
 
-    LiveTvSeriesTab.prototype.onBeforeShow = function () {
+    LiveTvSeriesTab.prototype.onBeforeShow = function (options) {
 
         var apiClient = this.apiClient;
+
+        if (!options.refresh) {
+            this.promises = null;
+            return;
+        }
+
         var promises = [];
 
         promises.push(apiClient.getLiveTvSeriesTimers({
@@ -56,6 +62,8 @@
         if (!promises) {
             return;
         }
+
+        this.promises = [];
 
         var view = this.view;
 

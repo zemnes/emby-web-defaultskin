@@ -100,13 +100,13 @@ h1 {
 }
 
 .pageContainer {
-    padding-top: 10vh;
+    padding-top: 9.6vh;
     overflow: hidden;
     contain: layout style;
 }
 
     .pageContainer.flex {
-        padding-top: 10vh;
+        padding-top: 9.6vh;
         overflow: hidden;
         display: flex;
         contain: strict;
@@ -481,6 +481,10 @@ button.mini {
     padding-left: .25em;
 }
 
+.padded-left-withalphapicker {
+    padding-left: 1em;
+}
+
 .padded-right {
     padding-right: .25em;
 }
@@ -509,6 +513,10 @@ button.mini {
         padding-left: 2%;
     }
 
+    .padded-left-withalphapicker {
+        padding-left: 4%;
+    }
+
     .padded-right {
         padding-right: 2%;
     }
@@ -518,6 +526,10 @@ button.mini {
 
     .padded-left {
         padding-left: 4%;
+    }
+
+    .padded-left-withalphapicker {
+        padding-left: 4.4%;
     }
 
     .padded-right {

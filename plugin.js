@@ -142,7 +142,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
                 controller: self.id + '/livetv/livetv',
                 dependencies: [
                     'cardStyle',
-                ]
+                ],
+                autoFocus: false
             });
 
             routes.push({
@@ -158,7 +159,8 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             routes.push({
                 path: 'tv/tv.html',
                 transition: 'slide',
-                controller: self.id + '/tv/tv'
+                controller: self.id + '/tv/tv',
+                autoFocus: false
             });
 
             routes.push({

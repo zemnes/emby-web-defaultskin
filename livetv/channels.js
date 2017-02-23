@@ -31,9 +31,15 @@
         imageLoader.lazyChildren(elem);
     }
 
-    LiveTvChannelsTab.prototype.onBeforeShow = function () {
+    LiveTvChannelsTab.prototype.onBeforeShow = function (options) {
 
         var apiClient = this.apiClient;
+
+        if (!options.refresh) {
+            this.promises = null;
+            return;
+        }
+
         var promises = [];
 
         promises.push(apiClient.getLiveTvChannels({
@@ -54,6 +60,8 @@
         if (!promises) {
             return;
         }
+
+        this.promises = [];
 
         var view = this.view;
 
