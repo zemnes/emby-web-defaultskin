@@ -19,7 +19,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
         self.name = 'Scenes before People Skin';
         self.type = 'skin';
-        self.id = 'Scenes-before-People.skin';
+        self.id = 'emby.Scenes-before-People.skin';
 
         var dependencyPrefix = self.id;
         var settingsObjectName = dependencyPrefix + '/skinsettings';
