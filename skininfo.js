@@ -2,7 +2,7 @@ define([], function () {
     'use strict';
 
     return {
-        id: 'defaultskin',
-        name: 'Default Skin'
+        id: 'Scenes-before-People.skin',
+        name: 'Scenes before People Skin'
     };
 });

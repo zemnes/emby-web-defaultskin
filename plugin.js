@@ -17,9 +17,9 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
         var self = this;
 
-        self.name = 'Default Skin';
+        self.name = 'Scenes before People Skin';
         self.type = 'skin';
-        self.id = 'defaultskin';
+        self.id = 'Scenes-before-People.skin';
 
         var dependencyPrefix = self.id;
         var settingsObjectName = dependencyPrefix + '/skinsettings';

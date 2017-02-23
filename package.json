@@ -1,10 +1,10 @@
 {
-    "name": "emby.defaultskin",
-    "displayName": "Default Skin",
+    "name": "emby.Scenes-before-People.skin",
+    "displayName": "Scenes before People Skin",
     "version": "1.0.0",
-    "description": "The default Emby skin.",
+    "description": "Move 'Scenes' to display before and 'Cast and Crew'. Hides the overpowering coloured blank 'Cast and Crew' panels which detracts to much from an otherwise clean look.",
     "plugin": "plugin.js",
-    "homepage": "https://github.com/MediaBrowser/emby-web-defaultskin",
+    "homepage": "",
     "thumb": "",
     "backdrop": ""
 }
