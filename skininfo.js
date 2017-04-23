@@ -2,7 +2,7 @@ define([], function () {
     'use strict';
 
     return {
-        id: 'aristarchus-bc',
+        id: 'aristarchusbc',
         name: 'Aristarchus-BC Skin'
     };
 });

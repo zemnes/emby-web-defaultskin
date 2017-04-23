@@ -19,7 +19,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
         self.name = 'Aristarchus-BC Skin';
         self.type = 'skin';
-        self.id = 'aristarchus-bc';
+        self.id = 'aristarchusbc';
 
         var dependencyPrefix = self.id;
         var settingsObjectName = dependencyPrefix + '/skinsettings';
