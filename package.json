@@ -1,10 +1,10 @@
 {
-    "name": "emby.testskin",
-    "displayName": "Scenes first Skin",
+    "name": "emby.aristarchus-bc",
+    "displayName": "Aristarchus-BC's Skin",
     "version": "1.0.0",
     "description": "The Changes the order of 'Scenes' and 'Cast and Crew' to hide the ugly blank Cast and Crew panels which are ridiculously coloured and detrace heavily form the clean aesthetics.",
     "plugin": "plugin.js",
-    "homepage": "https://Aristarchus-BC.github.io/emby-web-defaultskin",
+    "homepage": "https://github.com/Aristarchus-BC/emby-web-defaultskin",
     "thumb": "",
     "backdrop": ""
 }

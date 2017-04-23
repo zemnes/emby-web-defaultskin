@@ -17,9 +17,9 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
         var self = this;
 
-        self.name = 'Scenes first Skin';
+        self.name = 'Aristarchus-BC Skin';
         self.type = 'skin';
-        self.id = 'emby.testskin';
+        self.id = 'aristarchus-bc';
 
         var dependencyPrefix = self.id;
         var settingsObjectName = dependencyPrefix + '/skinsettings';
