@@ -1,10 +1,10 @@
 {
-    "name": "emby.defaultskin",
-    "displayName": "Default Skin",
+    "name": "emby.testskin",
+    "displayName": "Scenes first Skin",
     "version": "1.0.0",
-    "description": "The default Emby skin.",
+    "description": "The Changes the order of 'Scenes' and 'Cast and Crew' to hide the ugly blank Cast and Crew panels which are ridiculously coloured and detrace heavily form the clean aesthetics.",
     "plugin": "plugin.js",
-    "homepage": "https://github.com/MediaBrowser/emby-web-defaultskin",
+    "homepage": "https://Aristarchus-BC.github.io/emby-web-defaultskin",
     "thumb": "",
     "backdrop": ""
 }
