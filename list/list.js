@@ -1,23 +1,5 @@
-define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../components/itemslist', 'emby-itemscontainer'], function (loading, scroller, playbackManager, alphaPicker, itemsList) {
+define(['globalize', 'loading', 'scroller', 'playbackManager', 'alphaPicker', './../components/itemslist', 'emby-itemscontainer', 'emby-scroller'], function (globalize, loading, scroller, playbackManager, alphaPicker, itemsList) {
     'use strict';
-
-    function createVerticalScroller(instance, view, item, loading) {
-
-        var scrollFrame = view.querySelector('.scrollFrame');
-
-        var options = {
-            horizontal: 0,
-            slidee: view.querySelector('.scrollSlider'),
-            scrollBy: 200,
-            speed: 270,
-            scrollWidth: 50000,
-            immediateSpeed: 160
-        };
-
-        instance.scroller = new scroller(scrollFrame, options);
-        instance.scroller.init();
-        loadChildren(instance, view, item, loading);
-    }
 
     function getItems(params, item, startIndex, limit) {
 
@@ -28,6 +10,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 StartIndex: startIndex,
                 Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,SortName',
                 SortBy: 'SortName'
             });
         }
@@ -39,6 +22,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 StartIndex: startIndex,
                 Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,SortName',
                 SortBy: 'SortName',
                 IncludeItemTypes: 'Movie',
                 Recursive: true,
@@ -46,29 +30,50 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
             });
         }
 
-        if (params.genreId) {
+        if (item.Type === 'Genre' || item.Type === 'GameGenre' || item.Type === 'MusicGenre' || item.Type === 'Studio') {
 
-            return Emby.Models.items({
+            var query = {
                 StartIndex: startIndex,
                 Limit: limit,
+                Fields: 'PrimaryImageAspectRatio,SortName',
                 SortBy: 'SortName',
                 Recursive: true,
-                GenreIds: params.genreId,
-                ParentId: item.Id,
-                IncludeItemTypes: item.CollectionType === 'tvshows' ? 'Series' : (item.CollectionType === 'movies' ? 'Movie' : 'MusicAlbum')
-            });
+                parentId: params.parentId
+            };
 
+            if (item.Type === 'Studio') {
+                query.StudioIds = item.Id;
+            } else {
+                query.GenreIds = item.Id;
+            }
+
+            if (item.Type === 'MusicGenre') {
+                query.IncludeItemTypes = 'MusicAlbum';
+            }
+            else if (item.Type === 'GameGenre') {
+                query.IncludeItemTypes = 'Game';
+            }
+            else if (item.CollectionType === 'movies') {
+                query.IncludeItemTypes = 'Movie';
+            }
+            else if (item.CollectionType === 'tvshows') {
+                query.IncludeItemTypes = 'Series';
+            }
+            else if (item.Type === 'Genre') {
+                query.IncludeItemTypes = 'Movie,Series';
+            }
+
+            return Emby.Models.items(query);
         }
+
         return Emby.Models.children(item, {
             StartIndex: startIndex,
             Limit: limit,
-            Fields: 'SortName'
+            Fields: 'PrimaryImageAspectRatio,SortName'
         });
     }
 
     function loadChildren(instance, view, item, loading) {
-
-        var enableCardLayout = item.Type !== 'PhotoAlbum';
 
         instance.listController = new itemsList({
 
@@ -77,14 +82,12 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
 
                 return getItems(instance.params, item, startIndex, limit);
             },
-            scroller: instance.scroller,
             cardOptions: {
                 coverImage: true,
                 shape: 'autoVertical',
-                cardLayout: enableCardLayout,
-                showTitle: enableCardLayout,
-                showYear: enableCardLayout,
-                vibrant: enableCardLayout
+                showTitle: item.Type !== 'PhotoAlbum',
+                showYear: item.Type !== 'PhotoAlbum',
+                centerText: true
             }
         });
 
@@ -107,45 +110,31 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 loading.show();
             }
 
-            Emby.Models.item(params.parentid).then(function (item) {
+            Emby.Models.item((params.genreId || params.gameGenreId || params.musicGenreId || params.studioId || params.parentId)).then(function (item) {
 
-                if (!params.genreId) {
-                    setTitle(item);
-                }
+                setTitle(item);
                 currentItem = item;
 
                 if (!isRestored) {
-                    createVerticalScroller(self, view, item, loading);
+                    loadChildren(self, view, item, loading);
 
                     if (item.Type !== 'PhotoAlbum') {
                         initAlphaPicker();
                     }
                 }
 
-                if (!params.genreId) {
+                if (item.Type === 'MusicGenre') {
+                    view.querySelector('.listPageButtons').classList.remove('hide');
+                } else {
                     view.querySelector('.listPageButtons').classList.add('hide');
                 }
+
+                if (playbackManager.canQueue(item)) {
+                    view.querySelector('.btnQueue').classList.remove('hide');
+                } else {
+                    view.querySelector('.btnQueue').classList.add('hide');
+                }
             });
-
-            if (params.genreId) {
-                Emby.Models.item(params.genreId).then(function (item) {
-
-                    currentItem = item;
-                    Emby.Page.setTitle(item.Name);
-
-                    if (item.Type === 'MusicGenre') {
-                        view.querySelector('.listPageButtons').classList.remove('hide');
-                    } else {
-                        view.querySelector('.listPageButtons').classList.add('hide');
-                    }
-
-                    if (playbackManager.canQueue(item)) {
-                        view.querySelector('.btnQueue').classList.remove('hide');
-                    } else {
-                        view.querySelector('.btnQueue').classList.add('hide');
-                    }
-                });
-            }
 
             if (!isRestored) {
                 view.querySelector('.btnPlay').addEventListener('click', play);
@@ -157,6 +146,9 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
         });
 
         function initAlphaPicker() {
+
+            self.scroller = view.querySelector('.scrollFrameY');
+
             self.alphaPicker = new alphaPicker({
                 element: view.querySelector('.alphaPicker'),
                 itemsContainer: view.querySelector('.scrollSlider'),
@@ -183,7 +175,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 card = contentScrollSlider.querySelector('.card');
 
                 if (card) {
-                    self.scroller.toCenter(card, false);
+                    self.scroller.toStart(card, false);
                     return;
                 }
             }
@@ -191,7 +183,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
             card = contentScrollSlider.querySelector('.card[data-prefix^=\'' + value + '\']');
 
             if (card) {
-                self.scroller.toCenter(card, false);
+                self.scroller.toStart(card, false);
                 return;
             }
 
@@ -206,7 +198,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 card = all.length ? all[all.length - 1] : null;
 
                 if (card) {
-                    self.scroller.toCenter(card, false);
+                    self.scroller.toStart(card, false);
                 }
             }
         }
@@ -214,9 +206,9 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
         function setTitle(item) {
 
             if (params.type === 'collections') {
-                Emby.Page.setTitle(Globalize.translate('Collections'));
+                Emby.Page.setTitle(globalize.translate('Collections'));
             } else if (params.type === 'favoritemovies') {
-                Emby.Page.setTitle(Globalize.translate('FavoriteMovies'));
+                Emby.Page.setTitle(globalize.translate('FavoriteMovies'));
             } else {
                 Emby.Page.setTitle(item.Name);
             }
@@ -246,9 +238,6 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
 
         view.addEventListener('viewdestroy', function () {
 
-            if (self.scroller) {
-                self.scroller.destroy();
-            }
             if (self.listController) {
                 self.listController.destroy();
             }
@@ -256,6 +245,7 @@ define(['loading', 'scroller', 'playbackManager', 'alphaPicker', './../component
                 self.alphaPicker.off('alphavaluechanged', onAlphaPickerValueChanged);
                 self.alphaPicker.destroy();
             }
+            self.scroller = null;
         });
     };
 

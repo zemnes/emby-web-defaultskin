@@ -1,28 +1,5 @@
-define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (loading, backdrop, connectionManager, scroller, globalize, require, focusHandler) {
+define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs', 'emby-button', 'emby-scroller', 'cardStyle'], function (loading, backdrop, connectionManager, scroller, globalize, require, focusHandler) {
     'use strict';
-
-    function createVerticalScroller(instance, view) {
-
-        var scrollFrame = view.querySelector('.scrollFrame');
-
-        var options = {
-            horizontal: 0,
-            slidee: view.querySelector('.scrollSlider'),
-            scrollBy: 200,
-            speed: 270,
-            scrollWidth: 50000,
-            immediateSpeed: 160
-        };
-
-        instance.scroller = new scroller(scrollFrame, options);
-        instance.scroller.init();
-
-        instance.focusHandler = new focusHandler({
-            parent: view.querySelector('.scrollSlider'),
-            scroller: instance.scroller,
-            enableBackdrops: false
-        });
-    }
 
     return function (view, params) {
 
@@ -72,8 +49,6 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
             });
         }
 
-        createVerticalScroller(self, view);
-
         var viewTabs = view.querySelector('.viewTabs');
         var initialTabIndex = parseInt(params.tab || '0');
         var isViewRestored;
@@ -82,9 +57,14 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
 
             getTabController(page, index, function (controller) {
                 if (controller.onBeforeShow) {
+
+                    var refresh = isViewRestored !== true || !controller.refreshed;
+
                     controller.onBeforeShow({
-                        refresh: isViewRestored !== true
+                        refresh: refresh
                     });
+
+                    controller.refreshed = true;
                 }
             });
         }
@@ -134,7 +114,7 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
 
             isViewRestored = e.detail.isRestored;
 
-            Emby.Page.setTitle(globalize.translate('LiveTV'));
+            Emby.Page.setTitle('');
             backdrop.clear();
 
             if (initialTabIndex != null) {
@@ -155,11 +135,6 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 're
             if (self.focusHandler) {
                 self.focusHandler.destroy();
                 self.focusHandler = null;
-            }
-
-            if (self.scroller) {
-                self.scroller.destroy();
-                self.scroller = null;
             }
         });
     };

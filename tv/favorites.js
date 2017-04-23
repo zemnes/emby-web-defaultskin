@@ -26,12 +26,10 @@
             itemsContainer: view.querySelector('.episodeItems'),
             items: items,
             shape: "backdrop",
-            centerText: false,
             showTitle: true,
             showParentTitle: true,
             overlayText: false,
-            cardLayout: true,
-            vibrant: true,
+            centerText: true,
             coverImage: true,
             overlayMoreButton: !layoutManager.tv
         });
@@ -47,7 +45,7 @@
         }
 
         var promises = [];
-        var parentId = this.params.parentid;
+        var parentId = this.params.parentId;
 
         promises.push(apiClient.getItems(apiClient.getCurrentUserId(), {
 

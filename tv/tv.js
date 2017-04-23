@@ -1,28 +1,5 @@
-define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'alphaPicker', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs', 'emby-button'], function (loading, backdrop, connectionManager, scroller, globalize, alphaPicker, require, focusHandler) {
+define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'alphaPicker', 'userSettings', 'require', './../components/focushandler', 'emby-itemscontainer', 'emby-tabs', 'emby-button', 'emby-scroller'], function (loading, backdrop, connectionManager, scroller, globalize, alphaPicker, userSettings, require, focusHandler) {
     'use strict';
-
-    function createVerticalScroller(instance, view) {
-
-        var scrollFrame = view.querySelector('.scrollFrame');
-
-        var options = {
-            horizontal: 0,
-            slidee: view.querySelector('.scrollSlider'),
-            scrollBy: 200,
-            speed: 270,
-            scrollWidth: 50000,
-            immediateSpeed: 160
-        };
-
-        instance.scroller = new scroller(scrollFrame, options);
-        instance.scroller.init();
-
-        instance.focusHandler = new focusHandler({
-            parent: view.querySelector('.scrollSlider'),
-            scroller: instance.scroller,
-            enableBackdrops: false
-        });
-    }
 
     function trySelectValue(instance, view, value) {
 
@@ -34,7 +11,7 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
             card = view.querySelector('.card');
 
             if (card) {
-                instance.scroller.toCenter(card, false);
+                instance.scroller.toStart(card, false);
                 return;
             }
         }
@@ -42,7 +19,7 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
         card = view.querySelector('.card[data-prefix^=\'' + value + '\']');
 
         if (card) {
-            instance.scroller.toCenter(card, false);
+            instance.scroller.toStart(card, false);
             return;
         }
 
@@ -57,7 +34,7 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
             card = all.length ? all[all.length - 1] : null;
 
             if (card) {
-                instance.scroller.toCenter(card, false);
+                instance.scroller.toStart(card, false);
             }
         }
     }
@@ -78,6 +55,67 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
         });
     }
 
+    function getTabController(view, params, tabControllers, index, callback) {
+
+        var depends = [];
+
+        switch (index) {
+
+            case 0:
+                depends.push('./suggestions');
+                break;
+            case 1:
+                depends.push('./latest');
+                break;
+            case 2:
+                depends.push('./series');
+                break;
+            case 3:
+                depends.push('./upcoming');
+                break;
+            case 4:
+                depends.push('./favorites');
+                break;
+            case 5:
+                depends.push('./genres');
+                break;
+            case 6:
+                depends.push('./studios');
+                break;
+            default:
+                break;
+        }
+
+        require(depends, function (controllerFactory) {
+
+            var controller = tabControllers[index];
+            if (!controller) {
+                var tabContent = view.querySelector('.tabContent[data-index=\'' + index + '\']');
+                controller = new controllerFactory(tabContent, params, view);
+                tabControllers[index] = controller;
+            }
+
+            callback(controller);
+        });
+    }
+
+    function getDefaultTabIndex(folderId) {
+
+        switch (userSettings.get('landing-' + folderId)) {
+
+            case 'latest':
+                return 1;
+            case 'shows':
+                return 2;
+            case 'favorites':
+                return 4;
+            case 'genres':
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
     return function (view, params) {
 
         var self = this;
@@ -85,58 +123,14 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
         var tabControllers = [];
         var currentTabController;
 
-        function getTabController(page, index, callback) {
-
-            var depends = [];
-
-            switch (index) {
-
-                case 0:
-                    depends.push('./suggestions');
-                    break;
-                case 1:
-                    depends.push('./suggestions');
-                    break;
-                case 2:
-                    depends.push('./series');
-                    break;
-                case 3:
-                    depends.push('./upcoming');
-                    break;
-                case 4:
-                    depends.push('./favorites');
-                    break;
-                case 5:
-                    depends.push('./series');
-                    break;
-                case 6:
-                    depends.push('./series');
-                    break;
-                default:
-                    break;
-            }
-
-            require(depends, function (controllerFactory) {
-
-                var controller = tabControllers[index];
-                if (!controller) {
-                    var tabContent = view.querySelector('.tabContent[data-index=\'' + index + '\']');
-                    controller = new controllerFactory(tabContent, params, view);
-                    tabControllers[index] = controller;
-                }
-
-                callback(controller);
-            });
-        }
-
-        createVerticalScroller(self, view);
+        self.scroller = view.querySelector('.scrollFrameY');
 
         var alphaPickerContainer = view.querySelector('.alphaPickerContainer');
         var viewTabs = view.querySelector('.viewTabs');
-        var initialTabIndex = parseInt(params.tab || '0');
+        var initialTabIndex = parseInt(params.tab || getDefaultTabIndex(params.parentId));
         var isViewRestored;
 
-        function preLoadTab(page, index) {
+        function preLoadTab(index) {
 
             if (index === 2) {
                 alphaPickerContainer.classList.remove('hide');
@@ -144,18 +138,23 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
                 alphaPickerContainer.classList.add('hide');
             }
 
-            getTabController(page, index, function (controller) {
+            getTabController(view, params, tabControllers, index, function (controller) {
                 if (controller.onBeforeShow) {
+
+                    var refresh = isViewRestored !== true || !controller.refreshed;
+
                     controller.onBeforeShow({
-                        refresh: isViewRestored !== true
+                        refresh: refresh
                     });
+
+                    controller.refreshed = true;
                 }
             });
         }
 
-        function loadTab(page, index) {
+        function loadTab(index) {
 
-            getTabController(page, index, function (controller) {
+            getTabController(view, params, tabControllers, index, function (controller) {
 
                 controller.onShow({
                     autoFocus: initialTabIndex != null
@@ -168,17 +167,18 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
         initAlphaPicker(this, view);
 
         viewTabs.addEventListener('beforetabchange', function (e) {
-            preLoadTab(view, parseInt(e.detail.selectedTabIndex));
+            preLoadTab(parseInt(e.detail.selectedTabIndex));
         });
 
         viewTabs.addEventListener('tabchange', function (e) {
 
-            var previousTabController = tabControllers[parseInt(e.detail.previousIndex)];
+            var newIndex = parseInt(e.detail.selectedTabIndex);
+            var previousTabController = tabControllers[newIndex];
             if (previousTabController && previousTabController.onHide) {
                 previousTabController.onHide();
             }
 
-            loadTab(view, parseInt(e.detail.selectedTabIndex));
+            loadTab(newIndex);
         });
 
         view.addEventListener('viewbeforehide', function (e) {
@@ -201,6 +201,7 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
             isViewRestored = e.detail.isRestored;
 
             Emby.Page.setTitle('');
+            backdrop.clear();
 
             if (initialTabIndex != null) {
                 viewTabs.selectedIndex(initialTabIndex);
@@ -217,15 +218,7 @@ define(['loading', 'backdrop', 'connectionManager', 'scroller', 'globalize', 'al
                 }
             });
 
-            if (self.focusHandler) {
-                self.focusHandler.destroy();
-                self.focusHandler = null;
-            }
-
-            if (self.scroller) {
-                self.scroller.destroy();
-                self.scroller = null;
-            }
+            self.scroller = null;
 
             if (self.alphaPicker) {
                 self.alphaPicker.destroy();

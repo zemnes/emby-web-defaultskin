@@ -1,4 +1,4 @@
-define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'events', 'datetime', 'mouseManager', 'dom'], function (playbackManager, pluginManager, browser, connectionManager, events, datetime, mouseManager, dom) {
+define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'events', 'datetime', 'mouseManager', 'dom', 'layoutManager'], function (playbackManager, pluginManager, browser, connectionManager, events, datetime, mouseManager, dom, layoutManager) {
     'use strict';
 
     function updateClock() {
@@ -17,9 +17,9 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
         var self = this;
 
-        self.name = 'Scenes before People Skin';
+        self.name = 'Default Skin';
         self.type = 'skin';
-        self.id = 'emby.Scenes-before-People.skin';
+        self.id = 'defaultskin';
 
         var dependencyPrefix = self.id;
         var settingsObjectName = dependencyPrefix + '/skinsettings';
@@ -73,7 +73,7 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
 
             var files = [];
 
-            var languages = ['de', 'en-GB', 'en-US', 'fr', 'hr', 'it', 'nl', 'pl', 'pt-BR', 'pt-PT', 'ru', 'sv', 'zh-CN'];
+            var languages = ['cs', 'de', 'en-GB', 'en-US', 'fr', 'hr', 'it', 'lt-LT', 'nl', 'pl', 'pt-BR', 'pt-PT', 'ru', 'sv', 'zh-CN'];
 
             return languages.map(function (i) {
                 return {
@@ -90,13 +90,25 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             var icons = 'material-icons';
 
             routes.push({
-                path: 'home.html',
+                path: 'home/home.html',
                 transition: 'slide',
                 type: 'home',
                 controller: self.id + '/home/home',
                 dependencies: [
                     'cardStyle',
-                    'css!' + pluginManager.mapPath(self, 'home/home.css'),
+                    icons
+                ],
+                autoFocus: false
+            });
+
+            routes.push({
+                path: 'home_horiz/home.html',
+                transition: 'slide',
+                type: 'home',
+                controller: self.id + '/home_horiz/home',
+                dependencies: [
+                    'cardStyle',
+                    'css!' + pluginManager.mapPath(self, 'home_horiz/home.css'),
                     icons
                 ]
             });
@@ -127,22 +139,30 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             routes.push({
                 path: 'music/music.html',
                 transition: 'slide',
-                controller: self.id + '/music/music'
+                controller: self.id + '/music/music',
+                autoFocus: false
             });
 
             routes.push({
                 path: 'movies/movies.html',
                 transition: 'slide',
-                controller: self.id + '/movies/movies'
+                controller: self.id + '/movies/movies',
+                autoFocus: false
             });
 
             routes.push({
                 path: 'livetv/livetv.html',
                 transition: 'slide',
                 controller: self.id + '/livetv/livetv',
-                dependencies: [
-                    'cardStyle',
-                ],
+                dependencies: [],
+                autoFocus: false
+            });
+
+            routes.push({
+                path: 'livetv/livetvitems.html',
+                transition: 'slide',
+                controller: self.id + '/livetv/livetvitems',
+                dependencies: [],
                 autoFocus: false
             });
 
@@ -230,8 +250,12 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
         var clockInterval;
         self.load = function () {
 
-            updateClock();
-            setInterval(updateClock, 50000);
+            if (!layoutManager.mobile) {
+                document.querySelector('.headerClock').classList.remove('hide');
+                updateClock();
+                setInterval(updateClock, 50000);
+            }
+
             bindEvents();
         };
 
@@ -254,9 +278,83 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             });
         };
 
-        self.showItem = function (item) {
+        self.getHomeRoute = function () {
 
-            var showList = false;
+            if (!layoutManager.tv) {
+                return 'home/home.html';
+            }
+
+            if (browser.operaTv || browser.web0s || browser.tizen) {
+                return 'home_horiz/home.html';
+            }
+
+            return 'home_horiz/home.html';
+            //return 'home/home.html';
+        };
+
+        self.getRouteUrl = function (item, options) {
+
+            options = options || {};
+            var url;
+
+            if (item.Type === 'Genre') {
+
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?genreId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                return url;
+            }
+            if (item.Type === 'GameGenre') {
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?gameGenreId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                return url;
+            }
+            if (item.Type === 'MusicGenre') {
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                return url;
+            }
+            if (item.Type === 'Studio') {
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?studioId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                return url;
+            }
+            if (options.context !== 'folders') {
+                if (item.CollectionType === 'movies') {
+                    url = pluginManager.mapRoute(self, 'movies/movies.html') + '?serverId=' + item.ServerId + '&parentId=' + item.Id;
+                    if (options.parentId) {
+                        url += '&parentId=' + options.parentId;
+                    }
+                    return url;
+                }
+                if (item.CollectionType === 'tvshows') {
+                    url = pluginManager.mapRoute(self, 'tv/tv.html') + '?serverId=' + item.ServerId + '&parentId=' + item.Id;
+                    if (options.parentId) {
+                        url += '&parentId=' + options.parentId;
+                    }
+                    return url;
+                }
+                if (item.CollectionType === 'music') {
+                    url = pluginManager.mapRoute(self, 'music/music.html') + '?serverId=' + item.ServerId + '&parentId=' + item.Id;
+                    if (options.parentId) {
+                        url += '&parentId=' + options.parentId;
+                    }
+                    return url;
+                }
+            }
+            if (item.CollectionType === 'livetv') {
+                url = pluginManager.mapRoute(self, 'livetv/livetv.html') + '?serverId=' + item.ServerId;
+                return url;
+            }
+
+            var showList;
 
             if (item.IsFolder) {
 
@@ -266,14 +364,106 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             }
 
             if (showList) {
-                Emby.Page.show(pluginManager.mapRoute(self, 'list/list.html') + '?parentid=' + item.Id + '&serverId=' + item.ServerId, { item: item });
+                return pluginManager.mapRoute(self, 'list/list.html') + '?parentId=' + item.Id + '&serverId=' + item.ServerId;
+            }
+            else if (item.Type === 'SeriesTimer') {
+                return pluginManager.mapRoute(self, 'item/item.html') + '?seriesTimerId=' + item.Id + '&serverId=' + item.ServerId;
+            } else {
+                return pluginManager.mapRoute(self, 'item/item.html') + '?id=' + item.Id + '&serverId=' + item.ServerId;
+            }
+        };
+
+        self.showItem = function (item, options) {
+
+            options = options || {};
+            var url;
+
+            if (item.Type === 'Genre') {
+
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?genreId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                Emby.Page.show(url, { item: item });
+                return;
+            }
+            if (item.Type === 'GameGenre') {
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?gameGenreId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                Emby.Page.show(url, { item: item });
+                return;
+            }
+            if (item.Type === 'MusicGenre') {
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                Emby.Page.show(url, { item: item });
+                return;
+            }
+            if (item.Type === 'Studio') {
+                url = pluginManager.mapRoute(self, 'list/list.html') + '?studioId=' + item.Id + '&serverId=' + item.ServerId;
+                if (options.parentId) {
+                    url += '&parentId=' + options.parentId;
+                }
+                Emby.Page.show(url, { item: item });
+                return;
+            }
+            if (options.context !== 'folders') {
+                if (item.CollectionType === 'movies') {
+                    url = pluginManager.mapRoute(self, 'movies/movies.html') + '?serverId=' + item.ServerId + '&parentId=' + item.Id;
+                    if (options.parentId) {
+                        url += '&parentId=' + options.parentId;
+                    }
+                    Emby.Page.show(url, { item: item });
+                    return;
+                }
+                if (item.CollectionType === 'tvshows') {
+                    url = pluginManager.mapRoute(self, 'tv/tv.html') + '?serverId=' + item.ServerId + '&parentId=' + item.Id;
+                    if (options.parentId) {
+                        url += '&parentId=' + options.parentId;
+                    }
+                    Emby.Page.show(url, { item: item });
+                    return;
+                }
+                if (item.CollectionType === 'music') {
+                    url = pluginManager.mapRoute(self, 'music/music.html') + '?serverId=' + item.ServerId + '&parentId=' + item.Id;
+                    if (options.parentId) {
+                        url += '&parentId=' + options.parentId;
+                    }
+                    Emby.Page.show(url, { item: item });
+                    return;
+                }
+            }
+            if (item.CollectionType === 'livetv') {
+                url = pluginManager.mapRoute(self, 'livetv/livetv.html') + '?serverId=' + item.ServerId;
+                Emby.Page.show(url, { item: item });
+                return;
+            }
+
+            var showList;
+
+            if (item.IsFolder) {
+
+                if (item.Type !== 'Series' && item.Type !== 'Season' && item.Type !== 'MusicAlbum' && item.Type !== 'MusicArtist' && item.Type !== 'Playlist' && item.Type !== 'BoxSet') {
+                    showList = true;
+                }
+            }
+
+            if (showList) {
+                Emby.Page.show(pluginManager.mapRoute(self, 'list/list.html') + '?parentId=' + item.Id + '&serverId=' + item.ServerId, { item: item });
+            }
+            else if (item.Type === 'SeriesTimer') {
+                Emby.Page.show(pluginManager.mapRoute(self, 'item/item.html') + '?seriesTimerId=' + item.Id + '&serverId=' + item.ServerId, { item: item });
             } else {
                 Emby.Page.show(pluginManager.mapRoute(self, 'item/item.html') + '?id=' + item.Id + '&serverId=' + item.ServerId, { item: item });
             }
         };
 
         self.showGenre = function (options) {
-            Emby.Page.show(pluginManager.mapRoute(self.id, 'list/list.html') + '?parentid=' + options.ParentId + '&genreId=' + options.Id);
+            Emby.Page.show(pluginManager.mapRoute(self.id, 'list/list.html') + '?parentId=' + options.ParentId + '&genreId=' + options.Id);
         };
 
         self.setTitle = function (title) {
@@ -468,6 +658,18 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             document.querySelector('.headerUserButton').classList.add('hide');
         }
 
+        function viewSupportsHeadroom(e) {
+
+            var path = e.detail.state.path;
+
+            return path.indexOf('tv.html') !== -1 ||
+                path.indexOf('movies.html') !== -1 ||
+                path.indexOf('livetv.html') !== -1 ||
+                path.indexOf('music.html') !== -1 ||
+                path.indexOf('list.html') !== -1 ||
+                path.indexOf('livetvitems.html') !== -1;
+        }
+
         function onViewShow(e) {
 
             if (Emby.Page.canGoBack()) {
@@ -475,33 +677,14 @@ define(['playbackManager', 'pluginManager', 'browser', 'connectionManager', 'eve
             } else {
                 getBackButton().classList.add('hide');
             }
-            var path = e.detail.state.path;
 
-            var isDetailBackdrop = path.indexOf('item.html') !== -1 || -1 && path.indexOf('guide.html') !== -1 || path.indexOf('nowplaying') !== -1;
-            var isStaticBackdrop = !isDetailBackdrop && (path.indexOf('login.html') !== -1 || path.indexOf('selectserver.html') !== -1);
-            setBackdropStyle(isDetailBackdrop, isStaticBackdrop);
-        }
+            var skinHeader = document.querySelector('.skinHeader');
+            skinHeader.classList.remove('headroom--unpinned');
 
-        var backgroundContainer;
-
-        function setBackdropStyle(isDetailBackdrop, isStaticBackdrop) {
-
-            backgroundContainer = backgroundContainer || document.querySelector('.backgroundContainer');
-
-            if (isDetailBackdrop) {
-
-                backgroundContainer.classList.add('detailBackdrop');
-
+            if (viewSupportsHeadroom(e)) {
+                skinHeader.classList.add('skinHeader-withBackground');
             } else {
-                backgroundContainer.classList.remove('detailBackdrop');
-            }
-
-            if (isStaticBackdrop) {
-
-                backgroundContainer.classList.add('staticBackdrop');
-
-            } else {
-                backgroundContainer.classList.remove('staticBackdrop');
+                skinHeader.classList.remove('skinHeader-withBackground');
             }
         }
     };

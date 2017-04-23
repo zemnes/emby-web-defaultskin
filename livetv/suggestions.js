@@ -1,4 +1,4 @@
-﻿define(['cardBuilder', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'scrollHelper', 'emby-itemscontainer', 'emby-scroller'], function (cardBuilder, loading, connectionManager, appHost, layoutManager, scrollHelper) {
+﻿define(['embyRouter', 'cardBuilder', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'focusManager', 'scrollHelper', 'pluginManager', './../skininfo', 'globalize', 'dom', 'emby-itemscontainer', 'emby-scroller'], function (embyRouter, cardBuilder, loading, connectionManager, appHost, layoutManager, focusManager, scrollHelper, pluginManager, skinInfo, globalize, dom) {
     'use strict';
 
     function enableScrollX() {
@@ -11,6 +11,21 @@
         this.apiClient = connectionManager.getApiClient(params.serverId);
 
         initLayout(view);
+        initMoreButtons(view, params);
+
+        view.addEventListener('click', onViewClick);
+    }
+
+    function onViewClick(e) {
+        var textButtonCard = dom.parentWithClass(e.target, 'textButtonCard');
+
+        if (textButtonCard) {
+            var verticalSection = dom.parentWithClass(textButtonCard, 'verticalSection');
+
+            var btnMore = verticalSection.querySelector('.btnMore');
+
+            btnMore.click();
+        }
     }
 
     function initLayout(view) {
@@ -24,12 +39,31 @@
             var html;
 
             if (enableScrollX()) {
-                html = '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-framesize="matchgrandparent" data-centerfocus="card"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right"></div></div>';
+                html = '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-framesize="matchgrandparent" data-centerfocus="card"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right align-items-flex-start"></div></div>';
             } else {
                 html = '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap"></div>';
             }
 
             section.insertAdjacentHTML('beforeend', html);
+        }
+    }
+
+    function onMoreButtonClick() {
+
+        var url = 'livetv/' + this.getAttribute('data-href');
+
+        url += '&serverId=' + this.getAttribute('data-serverid');
+
+        embyRouter.show(pluginManager.mapRoute(skinInfo.id, url));
+    }
+
+    function initMoreButtons(view, params) {
+
+        var elems = view.querySelectorAll('.btnMore');
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].setAttribute('data-serverid', params.serverId);
+            elems[i].addEventListener('click', onMoreButtonClick);
         }
     }
 
@@ -42,10 +76,18 @@
         var section = view.querySelector('.' + sectionClass);
 
         var container = section.querySelector('.itemsContainer');
-        var supportsImageAnalysis = appHost.supports('imageanalysis');
-        var cardLayout = supportsImageAnalysis;
+        var cardLayout = false;
 
         cardOptions = cardOptions || {};
+
+        var enableCardMoreButton = layoutManager.tv;
+
+        var trailingButtons = enableCardMoreButton && section.classList.contains('withMoreButton') ? [
+            {
+                name: globalize.translate('More'),
+                id: 'more'
+            }
+        ] : null;
 
         cardBuilder.buildCards(items, Object.assign({
 
@@ -67,13 +109,22 @@
             showAirTime: true,
             showAirDateTime: true,
             showChannelName: true,
-            vibrant: true,
-            cardLayout: cardLayout
+            cardLayout: cardLayout,
+            trailingButtons: trailingButtons
 
         }, cardOptions));
 
         if (enableScrollX()) {
             section.querySelector('.emby-scroller').scrollToBeginning();
+        }
+
+        var moreButton = section.querySelector('.btnMore');
+        if (moreButton) {
+            if (enableCardMoreButton) {
+                moreButton.classList.add('hide');
+            } else {
+                moreButton.classList.remove('hide');
+            }
         }
     }
 
@@ -88,7 +139,7 @@
 
         var promises = [];
 
-        var limit = enableScrollX() ? 18 : 12;
+        var limit = enableScrollX() ? 24 : 12;
 
         promises.push(apiClient.getLiveTvRecordings({
             UserId: apiClient.getCurrentUserId(),
@@ -111,7 +162,7 @@
 
         }));
 
-        // upcoming programs
+        // upcoming episodes
         promises.push(apiClient.getLiveTvRecommendedPrograms({
 
             UserId: apiClient.getCurrentUserId(),
@@ -121,6 +172,7 @@
             IsMovie: false,
             IsSports: false,
             IsKids: false,
+            IsNews: false,
             IsSeries: true,
             EnableTotalRecordCount: false,
             Fields: "ChannelInfo,PrimaryImageAspectRatio",
@@ -166,13 +218,29 @@
 
         }));
 
+        // upcoming programs
+        promises.push(apiClient.getLiveTvRecommendedPrograms({
+
+            UserId: apiClient.getCurrentUserId(),
+            IsAiring: false,
+            HasAired: false,
+            Limit: limit,
+            IsMovie: false,
+            IsSports: false,
+            IsKids: false,
+            IsSeries: false,
+            EnableTotalRecordCount: false,
+            Fields: "ChannelInfo,PrimaryImageAspectRatio",
+            EnableImageTypes: "Primary,Thumb"
+        }));
+
         this.promises = promises;
     };
 
     function renderRecordings(section, items, cardOptions) {
 
         var container = section.querySelector('.itemsContainer');
-        var supportsImageAnalysis = appHost.supports('imageanalysis');
+        var cardLayout = false;
 
         cardBuilder.buildCards(items, Object.assign({
             parentContainer: section,
@@ -182,10 +250,12 @@
             showParentTitle: true,
             coverImage: true,
             lazy: true,
-            cardLayout: true,
-            vibrant: true,
+            cardLayout: cardLayout,
             allowBottomPadding: !enableScrollX(),
-            preferThumb: 'auto'
+            preferThumb: 'auto',
+            centerText: !cardLayout,
+            overlayText: false
+
         }, cardOptions || {}));
 
         if (enableScrollX()) {
@@ -202,19 +272,18 @@
         renderRecordings(context.querySelector('.activeRecordings'), items, {
             shape: getBackdropShape(),
             showParentTitle: false,
-            showTitle: true,
+            showParentTitleOrTitle: true,
+            showTitle: false,
             showAirTime: true,
             showAirEndTime: true,
             showChannelName: true,
-            cardLayout: true,
-            vibrant: true,
             preferThumb: true,
             coverImage: true,
             overlayText: false
         });
     }
 
-    LiveTvSuggestionsTab.prototype.onShow = function () {
+    LiveTvSuggestionsTab.prototype.onShow = function (options) {
 
         var promises = this.promises;
         if (!promises) {
@@ -227,14 +296,17 @@
 
         promises[0].then(function (result) {
             renderActiveRecordings(view, result.Items);
+            return Promise.resolve();
         });
 
         promises[1].then(function (result) {
             renderItems(view, result.Items, 'activePrograms');
+            return Promise.resolve();
         });
 
         promises[2].then(function (result) {
-            renderItems(view, result.Items, 'upcomingPrograms');
+            renderItems(view, result.Items, 'upcomingEpisodes');
+            return Promise.resolve();
         });
 
         promises[3].then(function (result) {
@@ -242,16 +314,29 @@
                 shape: getPortraitShape(),
                 preferThumb: null
             });
+            return Promise.resolve();
         });
 
         promises[4].then(function (result) {
             renderItems(view, result.Items, 'upcomingSports');
+            return Promise.resolve();
         });
 
         promises[5].then(function (result) {
             renderItems(view, result.Items, 'upcomingKids');
+            return Promise.resolve();
         });
 
+        promises[6].then(function (result) {
+            renderItems(view, result.Items, 'upcomingPrograms');
+            return Promise.resolve();
+        });
+
+        Promise.all(promises).then(function () {
+            if (options.autoFocus) {
+                focusManager.autoFocus(view);
+            }
+        });
     };
 
     LiveTvSuggestionsTab.prototype.onHide = function () {

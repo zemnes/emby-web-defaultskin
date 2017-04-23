@@ -1,8 +1,13 @@
 ﻿define(['cardBuilder', 'loading', 'connectionManager', 'apphost', 'layoutManager', 'scrollHelper', 'focusManager', 'emby-itemscontainer', 'emby-scroller'], function (cardBuilder, loading, connectionManager, appHost, layoutManager, scrollHelper, focusManager) {
     'use strict';
 
-    function enableScrollX() {
-        return !layoutManager.desktop;
+    function enableScrollX(section) {
+
+        if (section === 'resume') {
+            return !layoutManager.desktop;
+        }
+
+        return false;
     }
 
     function TvSuggestionsTab(view, params) {
@@ -21,18 +26,18 @@
 
             var html;
 
-            if (enableScrollX()) {
-                html = '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-framesize="matchgrandparent" data-centerfocus="card"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right"></div></div>';
+            if (enableScrollX(section.getAttribute('data-section'))) {
+                html = '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-framesize="matchgrandparent" data-centerfocus="card"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right"></div></div>';
             } else {
-                html = '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap"></div>';
+                html = '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x"></div>';
             }
 
             section.insertAdjacentHTML('beforeend', html);
         }
     }
 
-    function getThumbShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
+    function getThumbShape(section) {
+        return enableScrollX(section) ? 'overflowBackdrop' : 'backdrop';
     }
 
     function renderResume(view, items) {
@@ -40,15 +45,15 @@
         var section = view.querySelector('.resumeSection');
         var container = section.querySelector('.itemsContainer');
         var supportsImageAnalysis = appHost.supports('imageanalysis');
-        var cardLayout = supportsImageAnalysis;
+        var cardLayout = false;
 
-        var allowBottomPadding = !enableScrollX();
+        var allowBottomPadding = !enableScrollX('resume');
 
         cardBuilder.buildCards(items, {
             parentContainer: section,
             itemsContainer: container,
             preferThumb: true,
-            shape: getThumbShape(),
+            shape: getThumbShape('resume'),
             scalable: true,
             showTitle: true,
             showParentTitle: true,
@@ -57,35 +62,37 @@
             overlayPlayButton: true,
             allowBottomPadding: allowBottomPadding,
             cardLayout: cardLayout,
-            vibrant: supportsImageAnalysis
+            vibrant: cardLayout && supportsImageAnalysis
         });
 
-        if (enableScrollX()) {
+        if (enableScrollX('resume')) {
             section.querySelector('.emby-scroller').scrollToBeginning();
         }
     }
+
     function renderNextUp(view, items) {
 
         var section = view.querySelector('.nextUpSection');
         var container = section.querySelector('.itemsContainer');
         var supportsImageAnalysis = appHost.supports('imageanalysis');
+        var cardLayout = false;
 
         cardBuilder.buildCards(items, {
             parentContainer: section,
             itemsContainer: container,
             preferThumb: true,
-            shape: getThumbShape(),
+            shape: getThumbShape('nextup'),
             scalable: true,
             showTitle: true,
             showParentTitle: true,
             overlayText: false,
-            centerText: !supportsImageAnalysis,
+            centerText: !cardLayout,
             overlayPlayButton: true,
-            cardLayout: supportsImageAnalysis,
-            vibrant: supportsImageAnalysis
+            cardLayout: cardLayout,
+            vibrant: cardLayout && supportsImageAnalysis
         });
 
-        if (enableScrollX()) {
+        if (enableScrollX('nextup')) {
             section.querySelector('.emby-scroller').scrollToBeginning();
         }
     }
@@ -100,8 +107,8 @@
         }
 
         var promises = [];
-        var parentId = this.params.parentid;
-        var limit = enableScrollX() ? 18 : 12;
+        var parentId = this.params.parentId;
+        var limit = enableScrollX('resume') ? 18 : 12;
 
         promises.push(apiClient.getItems(apiClient.getCurrentUserId(), {
 
@@ -111,7 +118,7 @@
             Filters: "IsResumable",
             Limit: limit,
             Recursive: true,
-            Fields: "PrimaryImageAspectRatio,SeriesInfo,UserData,BasicSyncInfo",
+            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             ExcludeLocationTypes: "Virtual",
             ParentId: parentId,
             ImageTypeLimit: 1,
@@ -119,22 +126,19 @@
             EnableTotalRecordCount: false
         }));
 
-        // on now
         promises.push(apiClient.getNextUpEpisodes({
 
             ParentId: parentId,
-            Limit: 24,
-            Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
+            Limit: 48,
+            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             UserId: apiClient.getCurrentUserId(),
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Thumb"
+            EnableImageTypes: "Primary,Backdrop,Thumb",
+            EnableTotalRecordCount: false
         }));
+
         this.promises = promises;
     };
-
-    function getBackdropShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
-    }
 
     TvSuggestionsTab.prototype.onShow = function (options) {
 
